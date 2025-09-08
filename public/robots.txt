@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://bluta.io/sitemap-index.xml

@@ -1,0 +1,211 @@
+---
+/* If you're using global.css, import it so styles match your other pages. */
+import "../styles/global.css";
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BLUTA — Hardware</title>
+    <meta name="description" content="Privacy-first devices and gateways that stream trustworthy signals into BLUTA." />
+    <!-- If you *didn't* set up global.css, you can copy the same <style> block from your index page <head> here. -->
+  </head>
+  <body>
+    <!-- NAV (Hardware active) -->
+    <div class="nav">
+      <div class="container nav-inner">
+        <a href="/" class="brand" aria-label="bluta home">
+          <span class="wordmark"><span class="blu">blu</span><span class="ta">ta</span></span>
+        </a>
+        <div class="nav-links">
+          <a href="/#home" data-nav="home">Home</a>
+          <a href="/solutions" data-nav="solutions">Solutions</a>
+          <a href="/hardware" data-nav="hardware" class="active">Hardware</a>
+          <a href="/projects" data-nav="projects">Projects</a>
+          <a href="/#contact" data-nav="contact">Contact</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE HEADER -->
+    <section>
+      <div class="container">
+        <div class="h2">BLUTA Hardware</div>
+        <p class="muted">Privacy-first sensors and gateways that unify signals for building automation and insights.</p>
+      </div>
+    </section>
+
+    <!-- PRODUCT LIST -->
+    <section>
+      <div class="container grid col-2" style="align-items:start">
+        <!-- IAQ Sensor -->
+        <article class="card" style="overflow:hidden">
+          <div class="image" style="height:200px">
+            <img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1600&auto=format&fit=crop" alt="IAQ Sensor" />
+          </div>
+          <div class="p-6">
+            <div class="pill">Sensor</div>
+            <h2 class="h2" style="margin-top:6px">IAQ Sensor</h2>
+            <p class="muted">Continuous IAQ for healthier, efficient buildings. Enables DCV and ESG reporting.</p>
+            <table class="specs"><tbody>
+              <tr><td>Parameters</td><td>CO₂, PM₂.₅/PM₁₀, TVOC, temperature, humidity</td></tr>
+              <tr><td>Connectivity</td><td>LoRaWAN / Wi-Fi / Ethernet</td></tr>
+              <tr><td>Power</td><td>PoE or 12–24V DC</td></tr>
+              <tr><td>Mounting</td><td>Wall / ceiling</td></tr>
+              <tr><td>Data</td><td>MQTT / HTTPS (BACnet via gateway)</td></tr>
+            </tbody></table>
+          </div>
+        </article>
+
+        <!-- Heatmap Fusion -->
+        <article class="card" style="overflow:hidden">
+          <div class="image" style="height:200px">
+            <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=1600&auto=format&fit=crop" alt="Heatmap Fusion" />
+          </div>
+          <div class="p-6">
+            <div class="pill">People-flow</div>
+            <h2 class="h2" style="margin-top:6px">Heatmap Fusion</h2>
+            <p class="muted">Occupancy, queue and dwell analytics using privacy-safe thermal/mmWave or anonymised edge vision.</p>
+            <table class="specs"><tbody>
+              <tr><td>Coverage</td><td>50–120 m² per unit (scene-dependent)</td></tr>
+              <tr><td>Outputs</td><td>Occupancy, dwell time, flow, crowding alerts</td></tr>
+              <tr><td>Comms</td><td>Ethernet/PoE; optional Wi-Fi</td></tr>
+              <tr><td>Privacy</td><td>No PII; on-device anonymisation</td></tr>
+            </tbody></table>
+          </div>
+        </article>
+
+        <!-- Heatmap Pro -->
+        <article class="card" style="overflow:hidden">
+          <div class="image" style="height:200px">
+            <img src="https://images.unsplash.com/photo-1557838923-2985c318be48?q=80&w=1600&auto=format&fit=crop" alt="Heatmap Pro" />
+          </div>
+          <div class="p-6">
+            <div class="pill">People-flow</div>
+            <h2 class="h2" style="margin-top:6px">Heatmap Pro</h2>
+            <p class="muted">Higher-fidelity spatial analytics for large atriums, transit halls and malls.</p>
+            <table class="specs"><tbody>
+              <tr><td>Coverage</td><td>Up to 200 m² (mount height dependent)</td></tr>
+              <tr><td>Outputs</td><td>Fine-grained density, flow vectors, alert zones</td></tr>
+              <tr><td>Comms</td><td>GigE PoE • RTSP/MQTT/HTTPS</td></tr>
+              <tr><td>Integrations</td><td>Streams to BLUTA MCP</td></tr>
+            </tbody></table>
+          </div>
+        </article>
+
+        <!-- BLUTA Edge Gateway -->
+        <article class="card" style="overflow:hidden">
+          <div class="image" style="height:200px">
+            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1600&auto=format&fit=crop" alt="BLUTA Edge Gateway" />
+          </div>
+          <div class="p-6">
+            <div class="pill">Gateway</div>
+            <h2 class="h2" style="margin-top:6px">BLUTA Edge Gateway</h2>
+            <p class="muted">Secures, normalises and bridges legacy protocols into the Multi-Control Protocol (MCP).</p>
+            <table class="specs"><tbody>
+              <tr><td>Protocols</td><td>BACnet/IP, Modbus TCP, OPC-UA, MQTT</td></tr>
+              <tr><td>Security</td><td>TLS, signed configs, local RBAC</td></tr>
+              <tr><td>I/O</td><td>Dual LAN, USB, RS-485</td></tr>
+              <tr><td>Runtime</td><td>Dockerised MCP services</td></tr>
+            </tbody></table>
+          </div>
+        </article>
+
+        <!-- BLUTA Agent Box -->
+        <article class="card" style="overflow:hidden">
+          <div class="image" style="height:200px">
+            <img src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=1600&auto=format&fit=crop" alt="BLUTA Agent Box" />
+          </div>
+          <div class="p-6">
+            <div class="pill">Edge AI</div>
+            <h2 class="h2" style="margin-top:6px">BLUTA Agent Box</h2>
+            <p class="muted">Runs the local LLM and automation policies on-prem for low-latency, privacy-first decisions.</p>
+            <table class="specs"><tbody>
+              <tr><td>Compute</td><td>x86/ARM (GPU optional)</td></tr>
+              <tr><td>Functions</td><td>Local LLM, function calling, guardrails</td></tr>
+              <tr><td>Storage</td><td>NVMe, encrypted at rest</td></tr>
+              <tr><td>Networking</td><td>Dual LAN; optional LTE</td></tr>
+            </tbody></table>
+          </div>
+        </article>
+
+        <!-- Smart Meter Kit -->
+        <article class="card" style="overflow:hidden">
+          <div class="image" style="height:200px">
+            <img src="https://images.unsplash.com/photo-1487700160041-babef9c3cb55?q=80&w=1600&auto=format&fit=crop" alt="Smart Meter Kit" />
+          </div>
+          <div class="p-6">
+            <div class="pill">Energy</div>
+            <h2 class="h2" style="margin-top:6px">Smart Meter Kit</h2>
+            <p class="muted">Drop-in meters for main/sub-circuits with pulse or Modbus readout into BLUTA.</p>
+            <table class="specs"><tbody>
+              <tr><td>Inputs</td><td>kWh/kVAh, current, power factor</td></tr>
+              <tr><td>Interface</td><td>Pulse / Modbus RTU/TCP</td></tr>
+              <tr><td>Accuracy</td><td>Class 1 (typ.)</td></tr>
+              <tr><td>Mount</td><td>DIN rail</td></tr>
+            </tbody></table>
+          </div>
+        </article>
+
+        <!-- LoRaWAN Gateway -->
+        <article class="card" style="overflow:hidden">
+          <div class="image" style="height:200px">
+            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1600&auto=format&fit=crop" alt="LoRaWAN Gateway" />
+          </div>
+          <div class="p-6">
+            <div class="pill">Connectivity</div>
+            <h2 class="h2" style="margin-top:6px">LoRaWAN Gateway</h2>
+            <p class="muted">Reliable on-prem LoRa coverage for IAQ and utility sensors across floors.</p>
+            <table class="specs"><tbody>
+              <tr><td>Backhaul</td><td>Ethernet/PoE (LTE optional)</td></tr>
+              <tr><td>Bands</td><td>Regional ISM (e.g., EU868 / AS923 / US915)</td></tr>
+              <tr><td>Integration</td><td>Streams to BLUTA MCP via MQTT</td></tr>
+              <tr><td>Mount</td><td>Wall/ceiling</td></tr>
+            </tbody></table>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- CTA + FOOTER (reuse your site’s footer block) -->
+    <section id="contact">
+      <div class="container">
+        <div class="card p-6" style="background:linear-gradient(135deg,rgba(167,139,250,.15),rgba(0,195,216,.15))">
+          <div class="grid col-2" style="align-items:center">
+            <div>
+              <div class="h2">Bring your building online with BLUTA hardware</div>
+              <p class="muted">Request a demo and we’ll recommend a bill-of-materials tailored to your site.</p>
+            </div>
+            <div style="text-align:right"><a class="btn primary" href="mailto:sales@blutech.io?subject=BLUTA hardware demo">Request a demo</a></div>
+          </div>
+        </div>
+
+        <div class="footer">
+          <div class="grid col-3">
+            <div>
+              <div class="brand"><span class="wordmark"><span class="blu">blu</span><span class="ta">ta</span></span> <span class="muted" style="margin-left:8px">by Blutech.io</span></div>
+              <p class="muted" style="font-size:14px;margin-top:8px">Physical AI for smart buildings. Privacy-first sensors and gateways that unify data for action.</p>
+            </div>
+            <div>
+              <div style="font-weight:800">Explore</div>
+              <div><a href="/solutions" class="muted">Solutions</a></div>
+              <div><a href="/hardware" class="muted">Hardware</a></div>
+              <div><a href="/#feature-matrix" class="muted">Feature Matrix</a></div>
+            </div>
+            <div>
+              <div style="font-weight:800">Contact</div>
+              <div><a href="mailto:sales@blutech.io" class="muted">sales@blutech.io</a></div>
+              <div class="muted">© <span id="y"></span> Blutech IoT Limited</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      (function(){var y=document.getElementById('y'); if(y){ y.textContent=String(new Date().getFullYear()); }})();
+    </script>
+  </body>
+</html>
