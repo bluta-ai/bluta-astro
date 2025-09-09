@@ -1,6 +1,17 @@
 ---
 import "../styles/global.css";
+import { Image } from "astro:assets";
+
+// Local images (put these .webp files in src/assets/)
+import hero from "../assets/bluta-hero-city.webp";
+import integrations from "../assets/bluta-integrations-collage.webp";
+import indOffice from "../assets/bluta-industry-office.webp";
+import indMall from "../assets/bluta-industry-mall.webp";
+import indHospital from "../assets/bluta-industry-hospital.webp";
+import iaqSensor from "../assets/bluta-iaq-sensor.webp";
+import heatmapFusion from "../assets/bluta-heatmap-fusion-sensor.webp";
 ---
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -11,16 +22,20 @@ import "../styles/global.css";
   <meta name="theme-color" content="#0b1020" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700;800&display=swap" rel="stylesheet">
+
   <style>
+
+/* LOGO Font */
+  .wordmark {
+  font-family: 'Bauhaus 93', sans-serif;
+  font-weight: 800;
+  font-size: 24px;
+  letter-spacing: .2px;
+  text-transform: lowercase;
+}
     :root{
-      --bg:#0b1020;
-      --panel:#121a2e;
-      --ink:#e5e7eb;
-      --muted:#9aa3b2;
-      --line:#1f2a44;
-      --brand:#00C3D8;
-      --brand2:#a78bfa;
-      --nav-h:68px;
+      --bg:#0b1020; --panel:#121a2e; --ink:#e5e7eb; --muted:#9aa3b2;
+      --line:#1f2a44; --brand:#00C3D8; --brand2:#a78bfa; --nav-h:68px;
     }
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
@@ -49,34 +64,68 @@ import "../styles/global.css";
     .p-6{padding:18px}
     .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 16px;border-radius:12px;font-weight:800;border:1px solid var(--line);background:rgba(255,255,255,.04);cursor:pointer}
     .btn.primary{background:linear-gradient(120deg,var(--brand),var(--brand2));color:#0b1020;border-color:transparent}
-    .subtitle{color:var(--muted);font-size:18px}
-    .h1{font-size:clamp(28px,3.6vw,48px);line-height:1.1;margin:10px 0}
+    .subtitle{color:var(--muted);font-size:18px;text-align:center;max-width:900px;margin:0px auto 0}
+    .h1{font-size:clamp(28px,3.6vw,48px);line-height:1.1;margin:10px 0;text-align:center}
     .h2{font-size:30px;margin:0 0 8px}
     .pill{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:rgba(96,165,250,.12);color:#c7d2fe;font-weight:800;font-size:12px;border:1px solid var(--line)}
     .muted{color:var(--muted)}
+
     .image{overflow:hidden;border-radius:16px;border:1px solid var(--line);background:#050814}
-    .image img{display:block;width:100%;height:100%;object-fit:cover}
+    .image img, .image picture{display:block;width:100%;height:100%;object-fit:cover}
+
     .specs{width:100%;border-collapse:collapse;font-size:14px;margin-top:8px}
     .specs td{padding:12px;border-bottom:1px solid var(--line)}
     .specs td:first-child{width:220px;font-weight:700;color:#bfd1ff}
+
+    /* Old stat cards kept for other sections if needed */
     .stat{display:flex;gap:12px;align-items:center;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.02));padding:10px}
     .stat .thumb{width:64px;height:64px;flex:0 0 64px;background:#091126;border-radius:12px}
+
     .footer{border-top:1px solid var(--line);padding:40px 0;color:var(--muted)}
 
-    /* HERO (only used on index) */
+    /* HERO (index) */
     .hero{position:relative;padding:0;min-height:calc(68vh + var(--nav-h));}
     .hero-media{position:absolute;inset:0;overflow:hidden}
-    .hero-media img{width:100%;height:100%;object-fit:cover;transform:scale(1.02)}
-    .hero-overlay{position:relative;z-index:1;display:flex;align-items:flex-end;min-height:calc(68vh + var(--nav-h));background:linear-gradient(180deg,rgba(5,8,20,.15) 0%, rgba(11,16,32,.55) 40%, rgba(11,16,32,.80) 100%)}
+    .hero-overlay{position:relative;z-index:1;display:flex;align-items:center;justify-content: center;min-height:calc(68vh + var(--nav-h));background:linear-gradient(180deg,rgba(5,8,20,.15) 0%, rgba(11,16,32,.55) 40%, rgba(11,16,32,.80) 100%)}
     .hero-overlay .content{padding:64px 0}
 
-    /* Solutions extras */
     .lead{font-size:18px;line-height:1.55;color:var(--muted)}
     .eyebrow{font-size:12px;color:#c7d2fe;letter-spacing:.08em;text-transform:uppercase;font-weight:800;margin-bottom:6px}
     .icon{font-size:28px;margin-bottom:10px;display:inline-block}
-  </style>
 
+    /* NEW: text-first, responsive stats (4x1 → 2x2 → 1x4) */
+    /* Left-align the text inside the list */
+.stats-words{
+  display:grid;
+  row-gap: 18px;      /* vertical spacing between rows */
+  column-gap: 40px;
+  grid-template-columns:repeat(4,1fr);
+  margin-top:18px;
+  text-align:left;              /* <-- add this */
+}
+    @media(max-width:1280px){.stats-words{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:640px){.stats-words{grid-template-columns:1fr}}
+    .stats-words li{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  justify-content:flex-start;   /* <-- change from center to flex-start */
+}
+    .stats-words .iconbox{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);background:#121a2e}
+    .stats-words .label{font-weight:800}
+    .stats-words .sub{color:var(--muted);font-size:13px}
+
+  /* Hero content vertical spacing */
+.hero-overlay .content > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;   /* keep centered horizontally */
+  gap: 24px;             /* equal spacing between heading, subtitle, button, stats */
+}
+  
+  </style>
 </head>
+
 <body>
   <!-- NAV -->
   <div class="nav">
@@ -97,24 +146,77 @@ import "../styles/global.css";
   <!-- HOME HERO -->
   <section id="home" class="hero" aria-label="Home">
     <div class="hero-media">
-      <img src="https://images.unsplash.com/photo-1524758870432-af57e54afa6f?q=80&w=1600&auto=format&fit=crop" alt="City skyline hero" />
+      <Image
+        src={hero}
+        alt="City skyline hero"
+        widths={[960, 1280, 1600, 1920]}
+        sizes="100vw"
+        format="webp"
+        style="width:100%;height:100%;object-fit:cover;transform:scale(1.02)"
+        loading="eager"
+        decoding="async"
+      />
     </div>
     <div class="hero-overlay">
       <div class="container content">
-        <div style="max-width:800px">
+        <div style="max-width:900px;margin:0 auto;text-align:center">
           <span class="pill"><span class="wordmark"><span class="blu">blu</span><span class="ta">ta</span></span> • building os</span>
-          <h1 class="h1">Cut Building Operations Costs by 30–50%.<br/>Automate Facility Management with AI.</h1>
-          <p class="subtitle">Reduce manual checks • Optimize HVAC & energy • Centralize alerts & workflows • Track KPIs across your portfolio</p>
-          <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
-            <a class="btn primary" href="/solutions">See Solutions →</a>
-            <a class="btn" href="#contact">Request a demo</a>
+
+          <!-- Two-line hero -->
+          <h1 class="h1">
+            <span style="display:block">The AI Building OS</span>
+            <!-- Comment out for design <span style="display:block;opacity:.85">that reduces OPEX</span> -->
+          </h1>
+
+          <!-- Single-sentence subtitle -->
+          <p class="subtitle">
+            BLUTA intergrate different systems to automates decisions and reduce operating costs.
+          </p>
+
+          <!-- Centered primary button (no "Request a demo") -->
+          <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
+            <a class="btn primary" href="/solutions">Explore Solutions</a>
           </div>
-          <div class="grid col-2" style="margin-top:20px">
-            <div class="stat"><div class="thumb"></div><div><div style="font-size:22px;font-weight:900">30–50%</div><div class="muted" style="font-size:13px">Labour efficiency</div></div></div>
-            <div class="stat"><div class="thumb"></div><div><div style="font-size:22px;font-weight:900">15–20%</div><div class="muted" style="font-size:13px">Energy savings</div></div></div>
-            <div class="stat"><div class="thumb"></div><div><div style="font-size:22px;font-weight:900">&gt;100</div><div class="muted" style="font-size:13px">Deployments across APAC</div></div></div>
-            <div class="stat"><div class="thumb"></div><div><div style="font-size:22px;font-weight:900">Privacy-first</div><div class="muted" style="font-size:13px">No personal identifiers</div></div></div>
-          </div>
+
+          <!-- Text-first stats with small icons -->
+          <ul class="stats-words" aria-label="Key outcomes">
+            <li>
+              <div class="iconbox">
+                <img alt="" width="24" height="24"
+                  src="data:image/svg+xml;utf8,<?xml version='1.0' encoding='UTF-8'?><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e5e7eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M3 17h18'/><path d='M6 14l4-5 4 3 4-7'/></svg>" />
+              </div>
+              <div>
+                <div class="label">Improve 30% labour efficiency</div>
+              </div>
+            </li>
+            <li>
+              <div class="iconbox">
+                <img alt="" width="24" height="24"
+                  src="data:image/svg+xml;utf8,<?xml version='1.0' encoding='UTF-8'?><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e5e7eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M13 2L6 14h6l-2 8 7-12h-6z'/></svg>" />
+              </div>
+              <div>
+                <div class="label">10&ndash;25% energy saved</div>
+              </div>
+            </li>
+            <li>
+              <div class="iconbox">
+                <img alt="" width="24" height="24"
+                  src="data:image/svg+xml;utf8,<?xml version='1.0' encoding='UTF-8'?><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e5e7eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='8'/><path d='M12 7v6l4 4'/></svg>" />
+              </div>
+              <div>
+                <div class="label">Faster incident response</div>
+              </div>
+            </li>
+            <li>
+              <div class="iconbox">
+                <img alt="" width="24" height="24"
+                  src="data:image/svg+xml;utf8,<?xml version='1.0' encoding='UTF-8'?><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23e5e7eb'><path d='M4 16c4-.8 6.4-4 7.2-8 .8 3.2 3.2 5.6 7.2 6.4l-1.2 2.4C13.6 16 10 14 8 10c-.4 2-1.2 3.6-4 6z'/></svg>" />
+              </div>
+              <div>
+                <div class="label">ROI &lt; 12 months</div>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -143,7 +245,16 @@ import "../styles/global.css";
             <div class="card p-6" style="padding:12px;text-align:center">IoT/LoRa/IP</div>
           </div>
           <div class="image" style="height:160px;margin-top:12px">
-            <img src="https://images.unsplash.com/photo-1509395176047-4a66953fd231?q=80&w=1600&auto=format&fit=crop" alt="Integrations" />
+            <Image
+              src={integrations}
+              alt="Integrations collage"
+              widths={[640, 960, 1200]}
+              sizes="(max-width: 980px) 100vw, 1200px"
+              format="webp"
+              style="width:100%;height:100%;object-fit:cover"
+              loading="lazy"
+              decoding="async"
+            />
           </div>
         </div>
       </div>
@@ -157,16 +268,63 @@ import "../styles/global.css";
       <p class="muted">Templates, KPIs and automations tailored to your environment.</p>
       <div class="grid col-3" style="margin-top:16px">
         <div class="card" style="overflow:hidden">
-          <div class="image" style="height:160px"><img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200&auto=format&fit=crop" alt="Commercial Real Estate" /></div>
-          <div class="p-6"><div style="font-weight:700">Commercial Real Estate</div><ul class="muted" style="margin:8px 0 0 18px;line-height:1.6"><li>Portfolio-wide energy optimization</li><li>Tenant comfort & IAQ monitoring</li><li>Unified alarms and SLA workflows</li></ul></div>
+          <div class="image" style="height:160px">
+            <Image
+              src={indOffice}
+              alt="Commercial real estate"
+              widths={[480, 800, 1200]}
+              sizes="(max-width: 980px) 100vw, 380px"
+              format="webp"
+              style="width:100%;height:100%;object-fit:cover"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="p-6"><div style="font-weight:700">Commercial Real Estate</div>
+            <ul class="muted" style="margin:8px 0 0 18px;line-height:1.6">
+              <li>Portfolio-wide energy optimization</li><li>Tenant comfort & IAQ monitoring</li><li>Unified alarms and SLA workflows</li>
+            </ul>
+          </div>
         </div>
+
         <div class="card" style="overflow:hidden">
-          <div class="image" style="height:160px"><img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1200&auto=format&fit=crop" alt="Shopping Malls" /></div>
-          <div class="p-6"><div style="font-weight:700">Shopping Malls</div><ul class="muted" style="margin:8px 0 0 18px;line-height:1.6"><li>People-flow & queue analytics</li><li>Smart washroom staffing</li><li>HVAC scheduling by occupancy</li></ul></div>
+          <div class="image" style="height:160px">
+            <Image
+              src={indMall}
+              alt="Shopping malls"
+              widths={[480, 800, 1200]}
+              sizes="(max-width: 980px) 100vw, 380px"
+              format="webp"
+              style="width:100%;height:100%;object-fit:cover"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="p-6"><div style="font-weight:700">Shopping Malls</div>
+            <ul class="muted" style="margin:8px 0 0 18px;line-height:1.6">
+              <li>People-flow & queue analytics</li><li>Smart washroom staffing</li><li>HVAC scheduling by occupancy</li>
+            </ul>
+          </div>
         </div>
+
         <div class="card" style="overflow:hidden">
-          <div class="image" style="height:160px"><img src="https://images.unsplash.com/photo-1587351020703-4c1d6f95b00b?q=80&w=1200&auto=format&fit=crop" alt="Healthcare" /></div>
-          <div class="p-6"><div style="font-weight:700">Hospitals & Elderly Care</div><ul class="muted" style="margin:8px 0 0 18px;line-height:1.6"><li>Privacy-safe occupancy signals</li><li>Cleaning & disinfection workflows</li><li>Alarm fatigue reduction</li></ul></div>
+          <div class="image" style="height:160px">
+            <Image
+              src={indHospital}
+              alt="Hospitals and elderly care"
+              widths={[480, 800, 1200]}
+              sizes="(max-width: 980px) 100vw, 380px"
+              format="webp"
+              style="width:100%;height:100%;object-fit:cover"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="p-6"><div style="font-weight:700">Hospitals & Elderly Care</div>
+            <ul class="muted" style="margin:8px 0 0 18px;line-height:1.6">
+              <li>Privacy-safe occupancy signals</li><li>Cleaning & disinfection workflows</li><li>Alarm fatigue reduction</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -177,31 +335,55 @@ import "../styles/global.css";
     <div class="container">
       <div class="h2">Hardware</div>
       <p class="muted">Privacy-first devices that stream trustworthy signals into BLUTA.</p>
+
       <div class="grid col-2" style="margin-top:16px">
         <div class="card" style="overflow:hidden;position:relative">
-          <div class="image" style="height:160px"><img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1200&auto=format&fit=crop" alt="IAQ Sensor" /></div>
+          <div class="image" style="height:160px">
+            <Image
+              src={iaqSensor}
+              alt="IAQ Sensor"
+              widths={[640, 960, 1200]}
+              sizes="(max-width: 980px) 100vw, 580px"
+              format="webp"
+              style="width:100%;height:100%;object-fit:cover"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
           <div class="p-6">
             <div style="font-weight:800">IAQ Sensor</div>
             <div class="muted" style="margin-top:6px">Continuous IAQ for healthier, efficient buildings. Enables DCV and ESG reporting.</div>
             <table class="specs"><tbody>
               <tr><td>Parameters</td><td>CO₂, PM₂.₅/PM₁₀, TVOC, temperature, humidity</td></tr>
-              <tr><td>Connectivity</td><td>LoRaWAN / Wi‑Fi / Ethernet</td></tr>
+              <tr><td>Connectivity</td><td>LoRaWAN / Wi-Fi / Ethernet</td></tr>
               <tr><td>Power</td><td>PoE or 12–24V DC</td></tr>
               <tr><td>Mounting</td><td>Wall/ceiling</td></tr>
               <tr><td>Data</td><td>MQTT/HTTPS; BACnet via gateway</td></tr>
             </tbody></table>
           </div>
         </div>
+
         <div class="card" style="overflow:hidden;position:relative">
-          <div class="image" style="height:160px"><img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=1200&auto=format&fit=crop" alt="Heatmap Fusion & Pro" /></div>
+          <div class="image" style="height:160px">
+            <Image
+              src={heatmapFusion}
+              alt="Heatmap Fusion & Pro"
+              widths={[640, 960, 1200]}
+              sizes="(max-width: 980px) 100vw, 580px"
+              format="webp"
+              style="width:100%;height:100%;object-fit:cover"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
           <div class="p-6">
             <div style="font-weight:800">Heatmap Fusion & Pro</div>
             <div class="muted" style="margin-top:6px">Space utilisation, queue monitoring, fall detection without cameras in sensitive areas.</div>
             <table class="specs"><tbody>
               <tr><td>Privacy</td><td>Thermal/mmWave or anonymised edge analytics</td></tr>
-              <tr><td>Coverage</td><td>50–120 m² per unit (scene‑dependent)</td></tr>
+              <tr><td>Coverage</td><td>50–120 m² per unit (scene-dependent)</td></tr>
               <tr><td>Outputs</td><td>Occupancy, dwell, flow, crowding alerts</td></tr>
-              <tr><td>Comms</td><td>Ethernet/PoE; optional Wi‑Fi</td></tr>
+              <tr><td>Comms</td><td>Ethernet/PoE; optional Wi-Fi</td></tr>
             </tbody></table>
           </div>
         </div>
@@ -209,17 +391,18 @@ import "../styles/global.css";
     </div>
   </section>
 
-  <!-- FEATURE MATRIX (immediately after Hardware) -->
+  <!-- FEATURE MATRIX -->
   <section id="feature-matrix">
     <div class="container">
       <div class="h2">Feature Matrix</div>
       <div class="card p-6" style="overflow-x:auto">
+        <!-- (matrix unchanged) -->
         <table class="specs" style="width:100%">
           <thead>
             <tr style="background:rgba(255,255,255,.06)"><td style="font-weight:700">Capability</td><td>Real Estate</td><td>Malls</td><td>Healthcare</td><td>Hospitality</td><td>Public</td><td>Mfg/Logistics</td></tr>
           </thead>
           <tbody>
-            <tr style="background:rgba(255,255,255,.02)"><td style="font-weight:600">Occupancy & People‑flow</td><td style="text-align:center">✓</td><td style="text-align:center">✓</td><td style="text-align:center">✓</td><td style="text-align:center">✓</td><td style="text-align:center">✓</td><td style="text-align:center">•</td></tr>
+            <tr style="background:rgba(255,255,255,.02)"><td style="font-weight:600">Occupancy & People-flow</td><td style="text-align:center">✓</td><td style="text-align:center">✓</td><td style="text-align:center">✓</td><td style="text-align:center">✓</td><td style="text-align:center">✓</td><td style="text-align:center">•</td></tr>
             <tr><td style="font-weight:600">HVAC Energy Optimization</td><td style="text-align:center">✓</td><td style="text-align:center">✓</td><td style="text-align:center">✓</td><td style="text-align:center">✓</td><td style="text-align:center">✓</td><td style="text-align:center">✓</td></tr>
             <tr style="background:rgba(255,255,255,.02)"><td style="font-weight:600">Smart Washroom</td><td style="text-align:center">•</td><td style="text-align:center">✓</td><td style="text-align:center">•</td><td style="text-align:center">•</td><td style="text-align:center">•</td><td style="text-align:center">•</td></tr>
             <tr><td style="font-weight:600">Alarm Unification</td><td style="text-align:center">✓</td><td style="text-align:center">✓</td><td style="text-align:center">✓</td><td style="text-align:center">✓</td><td style="text-align:center">✓</td><td style="text-align:center">✓</td></tr>
@@ -239,10 +422,10 @@ import "../styles/global.css";
       <div class="card p-6" style="background:linear-gradient(135deg,rgba(167,139,250,.15),rgba(0,195,216,.15))">
         <div class="grid col-2" style="align-items:center">
           <div>
-            <div class="h2">Turn your building into a smart, self‑managing space</div>
-            <p class="muted">Request a demo today and see how BLUTA can reduce costs and improve operations from day one.</p>
+            <div class="h2">Turn your building into a smart, self-managing space</div>
+            <p class="muted">Talk to us today and see how BLUTA can reduce costs and improve operations from day one.</p>
           </div>
-          <div style="text-align:right"><a class="btn primary" href="mailto:sales@blutech.io?subject=BLUTA demo request">Request a demo</a></div>
+          <div style="text-align:right"><a class="btn primary" href="mailto:sales@blutech.io?subject=BLUTA%20contact">Contact sales</a></div>
         </div>
       </div>
       <div class="footer">
