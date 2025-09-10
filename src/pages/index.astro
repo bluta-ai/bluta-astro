@@ -178,45 +178,49 @@ import heatmapFusion from "../assets/bluta-heatmap-fusion-sensor.webp";
             <a class="btn primary" href="/solutions">Explore Solutions</a>
           </div>
 
-          <!-- Text-first stats with small icons -->
-          <ul class="stats-words" aria-label="Key outcomes">
-            <li>
-              <div class="iconbox">
-                <img alt="" width="24" height="24"
-                  src="data:image/svg+xml;utf8,<?xml version='1.0' encoding='UTF-8'?><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e5e7eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M3 17h18'/><path d='M6 14l4-5 4 3 4-7'/></svg>" />
-              </div>
-              <div>
-                <div class="label">Improve 30% labour efficiency</div>
-              </div>
-            </li>
-            <li>
-              <div class="iconbox">
-                <img alt="" width="24" height="24"
-                  src="data:image/svg+xml;utf8,<?xml version='1.0' encoding='UTF-8'?><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e5e7eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M13 2L6 14h6l-2 8 7-12h-6z'/></svg>" />
-              </div>
-              <div>
-                <div class="label">10&ndash;25% energy saved</div>
-              </div>
-            </li>
-            <li>
-              <div class="iconbox">
-                <img alt="" width="24" height="24"
-                  src="data:image/svg+xml;utf8,<?xml version='1.0' encoding='UTF-8'?><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e5e7eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='8'/><path d='M12 7v6l4 4'/></svg>" />
-              </div>
-              <div>
-                <div class="label">Faster incident response</div>
-              </div>
-            </li>
-            <li>
-              <div class="iconbox">
-                <img alt="" width="24" height="24"
-                  src="data:image/svg+xml;utf8,<?xml version='1.0' encoding='UTF-8'?><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23e5e7eb'><path d='M4 16c4-.8 6.4-4 7.2-8 .8 3.2 3.2 5.6 7.2 6.4l-1.2 2.4C13.6 16 10 14 8 10c-.4 2-1.2 3.6-4 6z'/></svg>" />
-              </div>
-              <div>
-                <div class="label">ROI &lt; 12 months</div>
-              </div>
-            </li>
-          </ul>
+          <!-- Hero cards: tight image + text, no extra spacing -->
+<div class="hero-cards-tight">
+  <div class="hc-card">
+    <div class="hc-thumb">
+      <img src="https://images.unsplash.com/photo-1566245024852-04fbf7842ce9?q=80&w=480&auto=format&fit=crop" alt="">
+    </div>
+    <div>
+      <div class="hc-value">30–50%</div>
+      <div class="hc-label">Labour efficiency</div>
+    </div>
+  </div>
+
+  <div class="hc-card">
+    <div class="hc-thumb">
+      <img src="https://images.unsplash.com/photo-1529310399831-ed472b81d589?&q=80&w=480&auto=format&fit=crop" alt="">
+    </div>
+    <div>
+      <div class="hc-value">15–20%</div>
+      <div class="hc-label">Energy savings</div>
+    </div>
+  </div>
+
+  <div class="hc-card">
+    <div class="hc-thumb">
+      <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=480&auto=format&fit=crop" alt="">
+    </div>
+    <div>
+      <div class="hc-value">&gt;100</div>
+      <div class="hc-label">Deployments across APAC</div>
+    </div>
+  </div>
+
+  <div class="hc-card">
+    <div class="hc-thumb">
+      <img src="https://images.unsplash.com/photo-1528312635006-8ea0bc49ec63?q=80&w=480&auto=format&fit=crop" alt="">
+    </div>
+    <div>
+      <div class="hc-value">Privacy-first</div>
+      <div class="hc-label">No personal identifiers</div>
+    </div>
+  </div>
+</div>
+
         </div>
       </div>
     </div>
@@ -227,7 +231,7 @@ import heatmapFusion from "../assets/bluta-heatmap-fusion-sensor.webp";
     <div class="container">
       <div class="h2">BLUTA — One Platform. Total Control.</div>
       <p class="muted">Connect, analyze and automate ops across your portfolio. Break silos between BMS, CCTV, HVAC, access control, lifts and IoT.</p>
-      <div class="grid col-2" style="margin-top:16px">
+      <div class="grid col-2" style="margin-top:160pxpx">
         <div class="grid col-2">
           <div class="card p-6"><strong>Reduce Labour Cost</strong><div class="muted" style="margin-top:6px">Automate patrols, checks, reporting and alerts. Free your team from repetitive tasks.</div></div>
           <div class="card p-6"><strong>Cut Operating Cost</strong><div class="muted" style="margin-top:6px">Unify data and workflows in one OS. Eliminate duplicated systems and licenses.</div></div>
