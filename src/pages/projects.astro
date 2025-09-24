@@ -1,7 +1,6 @@
 ---
 import "../styles/global.css";
 ---
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -163,7 +162,8 @@ import "../styles/global.css";
               <p class="muted">Send us your floor area, number of AHUs, and systems used. We’ll reply with a proposed scope and ROI estimate.</p>
             </div>
             <div style="text-align:right">
-              <a class="btn primary" href="mailto:sales@blutech.io?subject=BLUTA projects enquiry">Talk to us</a>
+              <!-- changed to modal trigger (no mailto) -->
+              <a href="#demo" class="btn primary js-request-demo">Request a Demo</a>
             </div>
           </div>
         </div>
@@ -182,7 +182,7 @@ import "../styles/global.css";
             </div>
             <div>
               <div style="font-weight:800">Contact</div>
-              <div><a href="mailto:sales@blutech.io" class="muted">sales@blutech.io</a></div>
+              <div><a href="mailto:enquiry@blutech.io" class="muted">enquiry@blutech.io</a></div>
               <div class="muted">© <span id="y"></span> Blutech IoT Limited</div>
             </div>
           </div>
@@ -190,103 +190,90 @@ import "../styles/global.css";
       </div>
     </section>
 
+    <!-- Year -->
+    <script>(function(){var y=document.getElementById('y'); if(y){ y.textContent=String(new Date().getFullYear()); }})();</script>
+
+    <!-- Demo Modal (same as index; page hidden field set to /projects) -->
+    <div id="demo-modal" class="modal hidden" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="demo-title">
+      <div class="modal-backdrop js-close-demo" aria-hidden="true"></div>
+
+      <div class="modal-panel" role="document">
+        <button class="modal-close js-close-demo" aria-label="Close">✕</button>
+
+        <h3 id="demo-title" class="modal-title">Request a demo</h3>
+        <p class="modal-sub">Leave your details and questions—we’ll reach out shortly.</p>
+
+        <form id="demo-form" class="demo-form" action="https://formspree.io/f/xyznyolp" method="POST" novalidate>
+          <input type="text" name="_gotcha" style="display:none">
+          <div class="field">
+            <label for="demo-name">Name</label>
+            <input id="demo-name" name="name" type="text" required placeholder="Your name">
+          </div>
+          <div class="field">
+            <label for="demo-email">Email</label>
+            <input id="demo-email" name="email" type="email" required placeholder="you@example.com">
+          </div>
+          <div class="field">
+            <label for="demo-company">Company (optional)</label>
+            <input id="demo-company" name="company" type="text" placeholder="Company">
+          </div>
+          <div class="field">
+            <label for="demo-msg">Your question</label>
+            <textarea id="demo-msg" name="message" rows="4" required placeholder="Tell us about your building and goals…"></textarea>
+          </div>
+
+          <input type="hidden" name="_subject" value="BLUTA — Demo request">
+          <input type="hidden" name="page" value="/projects">
+
+          <button type="submit" class="btn primary" style="width:100%">Send request</button>
+          <p class="form-hint">We’ll reply within 1–2 business days.</p>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal JS (after modal HTML) -->
     <script>
-      (function(){var y=document.getElementById('y'); if(y){ y.textContent=String(new Date().getFullYear()); }})();
-    </script>
+    (function(){
+      const modal  = document.getElementById('demo-modal');
+      if (!modal) return;
 
-<!-- CONTACT POPUP -->
-<div id="contactModal" class="modal">
-  <div class="modal-content card p-6" style="max-width:480px;margin:auto">
-    <span id="closeModal" class="close">&times;</span>
-    <h2 class="h2">Contact Us</h2>
-    <p class="muted">Send us your enquiry and we’ll get back to you shortly.</p>
+      const openers = document.querySelectorAll('.js-request-demo');
+      const closers = modal.querySelectorAll('.js-close-demo');
+      const panel   = modal.querySelector('.modal-panel');
+      const form    = modal.querySelector('#demo-form');
 
-    <form id="contactForm" method="POST" action="/api/contact">
-      <!-- Honeypot (hidden) -->
-      <input type="text" name="company" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0">
+      function open(e){ if(e) e.preventDefault(); modal.classList.remove('hidden'); document.body.classList.add('modal-open'); (modal.querySelector('input,textarea,button')||{}).focus?.(); }
+      function close(){ modal.classList.add('hidden'); document.body.classList.remove('modal-open'); }
 
-      <label for="name">Name</label><br />
-      <input type="text" id="name" name="name" required style="width:100%;margin:6px 0 12px;padding:8px;border-radius:6px;border:1px solid var(--line)" />
+      openers.forEach(b => b.addEventListener('click', open));
+      closers.forEach(b => b.addEventListener('click', close));
+      modal.addEventListener('click', e => { if (!panel.contains(e.target)) close(); });
+      document.addEventListener('keydown', e => { if (e.key === 'Escape' && !modal.classList.contains('hidden')) close(); });
 
-      <label for="email">Email</label><br />
-      <input type="email" id="email" name="email" required style="width:100%;margin:6px 0 12px;padding:8px;border-radius:6px;border:1px solid var(--line)" />
-
-      <label for="message">Message</label><br />
-      <textarea id="message" name="message" rows="4" required style="width:100%;margin:6px 0 12px;padding:8px;border-radius:6px;border:1px solid var(--line)"></textarea>
-
-      <button type="submit" class="btn primary" style="width:100%">Send</button>
-      <div id="contactStatus" class="muted" style="margin-top:8px"></div>
-    </form>
-  </div>
-</div>
-
-
-<script>
-  (function () {
-    const form = document.getElementById('contactForm');
-    const statusEl = document.getElementById('contactStatus');
-    if (!form) return;
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      statusEl.textContent = 'Sending...';
-      const data = {
-        name: document.getElementById('name').value,
-        email: document.getElementById('email').value,
-        message: document.getElementById('message').value,
-        company: form.querySelector('input[name="company"]').value || ''
-      };
-
-      try {
-        const res = await fetch('/api/contact', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        });
-        const json = await res.json();
-        if (json.ok) {
-          statusEl.textContent = 'Thanks! Your message has been sent.';
-          form.reset();
-          setTimeout(() => {
-            document.getElementById('contactModal').style.display = 'none';
-          }, 1200);
-        } else {
-          statusEl.textContent = 'Sorry, something went wrong. Please try again.';
+      form?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = form.querySelector('button[type="submit"]');
+        btn && (btn.disabled = true);
+        try {
+          const res = await fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: { 'Accept': 'application/json' }
+          });
+          if (res.ok) {
+            form.reset();
+            close();
+            alert('Thanks! We’ll contact you shortly.');
+          } else {
+            alert('Sorry, something went wrong. Please try again.');
+          }
+        } catch (err) {
+          alert('Network error. Please try again.');
+        } finally {
+          btn && (btn.disabled = false);
         }
-      } catch (err) {
-        statusEl.textContent = 'Network error — please try again.';
-      }
-    });
-  })();
-</script>
-
-<script>
-  // Open modal when any nav "Contact" is clicked
-  document.querySelectorAll('[data-nav="contact"]').forEach((el) => {
-    el.addEventListener('click', (e) => {
-      e.preventDefault(); // stop jumping to /#contact
-      const modal = document.getElementById('contactModal');
-      if (modal) modal.style.display = 'block';
-    });
-  });
-
-  // Close modal when the × is clicked
-  const closeBtn = document.getElementById('closeModal');
-  if (closeBtn) {
-    closeBtn.addEventListener('click', () => {
-      const modal = document.getElementById('contactModal');
-      if (modal) modal.style.display = 'none';
-    });
-  }
-
-  // Close modal when clicking outside the card
-  window.addEventListener('click', (ev) => {
-    const modal = document.getElementById('contactModal');
-    if (ev.target === modal) {
-      modal.style.display = 'none';
-    }
-  });
-</script>
-
+      });
+    })();
+    </script>
   </body>
 </html>

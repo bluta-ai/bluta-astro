@@ -21,7 +21,7 @@ body{
   font-family: ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial;
 }
 a{color:var(--ink);text-decoration:none}
-.container{max-width:1200px;margin:0 auto;padding:0 20px}
+.container{max-width:1680px;margin:0 auto;padding:0 20px}
 
 /* ==== Top Nav ==== */
 .nav{position:sticky;top:0;z-index:50;height:var(--nav-h);
@@ -31,9 +31,15 @@ a{color:var(--ink);text-decoration:none}
 }
 .nav-inner{display:flex;gap:16px;align-items:center;justify-content:space-between;height:100%}
 .brand{display:flex;gap:10px;align-items:center;font-weight:800}
-.brand .wordmark{font-family:'Bauhaus93', ui-sans-serif, system-ui; font-weight:normal; letter-spacing:.2px}
-.wordmark .blu{color:var(--brand)}
-.wordmark .ta{color:#fff}
+.wordmark {
+  font-family: 'Bauhaus 93', sans-serif;
+  font-weight: 800;
+  font-size: 24px;
+  letter-spacing: .2px;
+  text-transform: lowercase;
+}
+.wordmark .blu { color: var(--brand); }
+.wordmark .ta { color: #fff; }
 .nav-links a{display:inline-block;padding:10px 12px;border-radius:10px;font-weight:700;color:#dbe3f3}
 .nav-links a:hover{background:rgba(255,255,255,.06)}
 .nav-links a.active{background:rgba(255,255,255,.1)}
@@ -70,30 +76,6 @@ section{padding:64px 0}
 
 /* ==== Footer ==== */
 .footer{border-top:1px solid var(--line);padding:40px 0;color:var(--muted)}
-
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  left: 0; top: 0;
-  width: 100%; height: 100%;
-  overflow: auto;
-  background-color: rgba(0,0,0,0.7);
-  padding-top: 80px;
-}
-.modal-content {
-  background: var(--panel);
-  border-radius: 16px;
-  padding: 20px;
-}
-.close {
-  color: var(--muted);
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-  cursor: pointer;
-}
-.close:hover { color: #fff; }
 
 .subtitle-list{
   list-style:none; padding:0; margin:12px auto 0;
@@ -139,7 +121,7 @@ section{padding:64px 0}
   }
 }
 
-/* ===== Hero tight card grid (scoped) ===== */
+/* ===== Hero tight card grid in Index Page Hero ===== */
 .hero-cards-tight{
   display:grid;
   grid-template-columns:repeat(4,1fr);
@@ -172,3 +154,106 @@ section{padding:64px 0}
 
 .hc-value{ font-weight:800; font-size:20px; line-height:1.1; }
 .hc-label{ font-size:13px; opacity:.75; margin-top:2px; line-height:1.2; }
+
+/* Make the hardware hero compact */
+.hero-small,
+.hero-small .hero-overlay {
+  min-height: auto;              /* don't force 68vh */
+}
+
+/* Reduce the big inner padding only for small hero */
+.hero-small .hero-overlay .content {
+  padding: 8px 0;               /* was 64px 0 */
+}
+
+/* Trim the gap between the hero and the next section */
+.hero-small { margin-bottom: 0px; }   /* if your sections use margins */
+.hero-small + section { margin-top: 0; padding-top: 0; }
+
+
+
+/* For the request a demo popup */
+/* Modal base */
+.modal.hidden { display: none; }
+.modal { position: fixed; inset: 0; z-index: 100; }
+.modal-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.48); backdrop-filter: blur(3px); }
+
+.modal-panel {
+  position: relative; z-index: 1;
+  width: min(560px, 92vw);
+  margin: 6vh auto 0; padding: 22px 22px 18px;
+  border-radius: 16px; border: 1px solid var(--line, rgba(255,255,255,.12));
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+  box-shadow: 0 30px 80px rgba(0,0,0,.45);
+  color: var(--ink, #e5e7eb);
+}
+@media (max-width:640px){ .modal-panel { margin-top: 4vh; padding: 18px; } }
+
+.modal-close {
+  position: absolute; top: 10px; right: 12px;
+  border: 1px solid var(--line, rgba(255,255,255,.12));
+  background: rgba(255,255,255,.06);
+  border-radius: 10px; padding: 6px 10px; cursor: pointer;
+}
+.modal-title { font-size: 20px; font-weight: 800; margin: 0 0 4px; }
+.modal-sub { margin: 0 0 14px; color: var(--muted, #9aa3b2); }
+
+.demo-form .field { margin-bottom: 12px; }
+.demo-form label { display:block; font-weight:700; font-size:13px; margin: 0 0 6px; color:#bfd1ff; }
+.demo-form input, .demo-form textarea {
+  width:100%; color: var(--ink,#e5e7eb); background:#0b1020;
+  border:1px solid var(--line, #1f2a44); border-radius: 10px; padding: 10px 12px; outline:none;
+}
+.demo-form input:focus, .demo-form textarea:focus {
+  border-color: rgba(0,195,216,.7); box-shadow: 0 0 0 3px rgba(0,195,216,.2);
+}
+.form-hint { color: var(--muted,#9aa3b2); font-size: 12px; margin-top: 10px; }
+
+/* Prevent page scroll when modal open */
+body.modal-open { overflow: hidden; }
+
+/* Header row for product cards */
+.card-head{
+  display:flex;
+  align-items:center;              /* vertical centering */
+  justify-content:space-between;   /* left content vs right logo */
+  gap:12px;
+}
+.card-head-left{ min-width:0; }    /* allows the left block to wrap nicely */
+.pill-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+/* iF mark on the right */
+.if-mark{
+  width:50px; height:50px;         /* make it visible */
+  border-radius:0px;
+  flex:0 0 auto;
+  opacity:.95;
+}
+@media (max-width:640px){
+  .if-mark{ width:28px; height:28px; }
+}
+
+/* Pills (shared) */
+.pill{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:4px 10px;
+  border-radius:999px;
+  font-size:13px;
+  font-weight:600;
+  line-height:1;
+  vertical-align:middle;
+}
+/* Award pill color */
+.award-if{
+  background:rgba(255,59,48,.12);
+  border:1px solid rgba(255,59,48,.35);
+}
+
+
