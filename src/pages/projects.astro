@@ -1,11 +1,16 @@
 ---
 import "../styles/global.css";
 
-// Image assets (demo placeholders using IAQ sensor)
-// Replace iaqSensor with real project images later, e.g.:
-// import metro01 from "../assets/projects/metroplaza/01.webp";
-// import metro02 from "../assets/projects/metroplaza/02.webp";
-import iaqSensor from "../assets/bluta-iaq-sensor.webp";
+import garden1 from "../assets/bluta-project-3-Garden-Road-1.webp";
+import airport1 from "../assets/bluta-project-Hongkong-airport-1.webp";
+import ifc1 from "../assets/bluta-project-IFC-mall-1.webp";
+import immd1 from "../assets/bluta-project-Immigration-department-1.webp";
+import immd2 from "../assets/bluta-project-Immigration-department-2.webp";
+import emsd1 from "../assets/bluta-project-EMSD-1.webp";
+import goodman1  from "../assets/bluta-project-goodman-global-gateway-1.webp";
+import metro1 from "../assets/bluta-project-metroplaza-1.webp";
+import oc1  from "../assets/bluta-project-Olympian-city-1.webp";
+import pmh1 from "../assets/bluta-project-Princess-Margaret-Hospital-1.webp";
 
 // Helper
 const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
@@ -33,7 +38,7 @@ const projects = [
       "Unified ESG dashboard: leakage + IAQ",
     ],
     productsUsed: ["Heatmap Fusion", "Heatmap Pro", "Air Quality Sensor", "Water Leakage Sensor", "BLUTA I/O Box"],
-    images: [iaqSensor.src, iaqSensor.src, iaqSensor.src],
+    images: [garden1.src],
   },
   {
     title: "IFC Mall",
@@ -46,7 +51,7 @@ const projects = [
       "Safety and utensil management automation",
     ],
     productsUsed: ["Heatmap Pro", "Air Quality Sensor", "Info Station", "BLUTA I/O Box"],
-    images: [iaqSensor.src, iaqSensor.src],
+    images: [ifc1.src],
   },
   {
     title: "Metroplaza",
@@ -59,7 +64,7 @@ const projects = [
       "App + e-directory integration",
     ],
     productsUsed: ["Info Station", "Heatmap Pro", "BLUTA I/O Box"],
-    images: [iaqSensor.src, iaqSensor.src, iaqSensor.src, iaqSensor.src],
+    images: [metro1.src],
   },
   {
     title: "Hong Kong Airport",
@@ -71,7 +76,7 @@ const projects = [
       "Dual radio: LoRaWAN + Bluetooth",
     ],
     productsUsed: ["Heatmap Fusion", "BLUTA I/O Box"],
-    images: [iaqSensor.src, iaqSensor.src],
+    images: [airport1.src],
   },
   {
     title: "Princess Margaret Hospital",
@@ -83,7 +88,7 @@ const projects = [
       "Instant alerts to nurses/security",
     ],
     productsUsed: ["Heatmap Pro", "BLUTA I/O Box"],
-    images: [iaqSensor.src],
+    images: [pmh1.src],
   },
   {
     title: "Immigration Department Headquarters",
@@ -95,7 +100,7 @@ const projects = [
       "Booking system integration",
     ],
     productsUsed: ["Heatmap Pro", "Info Station", "BLUTA I/O Box"],
-    images: [iaqSensor.src, iaqSensor.src],
+    images: [immd1.src,immd2.src],
   },
   {
     title: "Olympian City",
@@ -107,7 +112,7 @@ const projects = [
       "Work-order automation",
     ],
     productsUsed: ["Heatmap Fusion", "Air Quality Sensor", "Water Leakage Sensor", "BLUTA I/O Box"],
-    images: [iaqSensor.src, iaqSensor.src, iaqSensor.src],
+    images: [oc1.src],
   },
   {
     title: "EMSD Headquarters",
@@ -119,7 +124,7 @@ const projects = [
       "Deployed in internal navigation software",
     ],
     productsUsed: ["Heatmap Pro"],
-    images: [iaqSensor.src],
+    images: [emsd1.src],
   },
   {
     title: "Goodman Global Gateway",
@@ -131,7 +136,7 @@ const projects = [
       "Real-time alerting to protect goods",
     ],
     productsUsed: ["Water Leakage Sensor", "BLUTA I/O Box"],
-    images: [iaqSensor.src, iaqSensor.src],
+    images: [goodman1.src],
   },
 ];
 
