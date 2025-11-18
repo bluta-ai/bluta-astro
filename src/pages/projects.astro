@@ -1,370 +1,294 @@
+astro
 ---
 import "../styles/global.css";
+import { Image } from "astro:assets";
 
-import garden1 from "../assets/bluta-project-3-Garden-Road-1.webp";
-import airport1 from "../assets/bluta-project-Hongkong-airport-1.webp";
-import ifc1 from "../assets/bluta-project-IFC-mall-1.webp";
-import immd1 from "../assets/bluta-project-Immigration-department-1.webp";
-import immd2 from "../assets/bluta-project-Immigration-department-2.webp";
-import emsd1 from "../assets/bluta-project-EMSD-1.webp";
-import goodman1  from "../assets/bluta-project-goodman-global-gateway-1.webp";
-import metro1 from "../assets/bluta-project-metroplaza-1.webp";
-import oc1  from "../assets/bluta-project-Olympian-city-1.webp";
-import pmh1 from "../assets/bluta-project-Princess-Margaret-Hospital-1.webp";
-
-// Helper
-const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
-
-// Product pill labels (mirror /hardware)
-const PRODUCT_LABELS = [
-  "Heatmap Fusion",
-  "Heatmap Pro",
-  "Air Quality Sensor",
-  "Water Leakage Sensor",
-  "BLUTA I/O Box",
-  "Info Station",
-];
-
-// PROJECT DATA (with descriptions + concise bullets)
-const projects = [
-  {
-    title: "3 Garden Road",
-    sector: "Commercial • Hong Kong",
-    description:
-      "Iconic Central tower modernised with data-driven operations. Tenants enjoy a safer, more comfortable workplace while management cuts energy and maintenance overhead.",
-    bullets: [
-      "Energy optimisation with predictive people-flow",
-      "Non-camera safety coverage for shared spaces",
-      "Unified ESG dashboard: leakage + IAQ",
-    ],
-    productsUsed: ["Heatmap Fusion", "Heatmap Pro", "Air Quality Sensor", "Water Leakage Sensor", "BLUTA I/O Box"],
-    images: [garden1.src],
-  },
-  {
-    title: "IFC Mall",
-    sector: "Retail • Hong Kong",
-    description:
-      "Premium retail now runs on live data: cleaner air, quicker facilities, safer spaces. Visitors move smoothly while operators save time and cost.",
-    bullets: [
-      "Shopper-flow insights for events/promos",
-      "IAQ and washroom availability displays",
-      "Safety and utensil management automation",
-    ],
-    productsUsed: ["Heatmap Pro", "Air Quality Sensor", "Info Station", "BLUTA I/O Box"],
-    images: [ifc1.src],
-  },
-  {
-    title: "Metroplaza",
-    sector: "Retail • Hong Kong",
-    description:
-      "Mall-wide smart washrooms reduce queues and guide visitors to under-used floors—improving satisfaction and boosting tenant sales.",
-    bullets: [
-      "Live occupancy and hygiene signals",
-      "Traffic steering to upper floors",
-      "App + e-directory integration",
-    ],
-    productsUsed: ["Info Station", "Heatmap Pro", "BLUTA I/O Box"],
-    images: [metro1.src],
-  },
-  {
-    title: "Hong Kong Airport",
-    sector: "Aviation • Hong Kong",
-    description:
-      "Mission-critical safety in restricted zones. Incidents surface early, and dual-path radios keep alerts reliable—even during network issues.",
-    bullets: [
-      "Incident detection in low-traffic areas",
-      "Dual radio: LoRaWAN + Bluetooth",
-    ],
-    productsUsed: ["Heatmap Fusion", "BLUTA I/O Box"],
-    images: [airport1.src],
-  },
-  {
-    title: "Princess Margaret Hospital",
-    sector: "Healthcare • Hong Kong",
-    description:
-      "Automated accessible-toilet monitoring protects patients and frees staff from routine patrols—enabling faster, targeted response.",
-    bullets: [
-      "Detects fainting, no-motion, long-stay",
-      "Instant alerts to nurses/security",
-    ],
-    productsUsed: ["Heatmap Pro", "BLUTA I/O Box"],
-    images: [pmh1.src],
-  },
-  {
-    title: "Immigration Department Headquarters",
-    sector: "Government • Hong Kong",
-    description:
-      "Real-time kiosk availability and booking integration shorten queues and improve service for the public.",
-    bullets: [
-      "30+ kiosks with live occupancy",
-      "Booking system integration",
-    ],
-    productsUsed: ["Heatmap Pro", "Info Station", "BLUTA I/O Box"],
-    images: [immd1.src,immd2.src],
-  },
-  {
-    title: "Olympian City",
-    sector: "Retail • Hong Kong",
-    description:
-      "End-to-end IoT at scale: centralised data and automation cut manual tasks and speed up responses across operations.",
-    bullets: [
-      "Heatmap, noise, IAQ, leakage coverage",
-      "Work-order automation",
-    ],
-    productsUsed: ["Heatmap Fusion", "Air Quality Sensor", "Water Leakage Sensor", "BLUTA I/O Box"],
-    images: [oc1.src],
-  },
-  {
-    title: "EMSD Headquarters",
-    sector: "Government • Hong Kong",
-    description:
-      "EMSD benchmarked the market and selected our sensors for accuracy—now powering their internal staff navigation tools.",
-    bullets: [
-      "Highest-accuracy occupancy data",
-      "Deployed in internal navigation software",
-    ],
-    productsUsed: ["Heatmap Pro"],
-    images: [emsd1.src],
-  },
-  {
-    title: "Goodman Global Gateway",
-    sector: "Logistics • Hong Kong",
-    description:
-      "Warehouse inventory stays protected with site-wide leakage detection and instant alerts—reducing costly damage risk.",
-    bullets: [
-      "Site-wide leakage monitoring",
-      "Real-time alerting to protect goods",
-    ],
-    productsUsed: ["Water Leakage Sensor", "BLUTA I/O Box"],
-    images: [goodman1.src],
-  },
-];
-
+// Import images
+import project1 from "../assets/bluta-project1.webp";
+import project2 from "../assets/bluta-project2.webp";
 ---
-<!DOCTYPE html>
+
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>BLUTA — Projects</title>
-    <meta name="description" content="Selected BLUTA deployments and outcomes across real estate, retail, aviation, government and healthcare." />
-  </head>
-  <body>
-    <!-- NAV (match Home/Solutions) -->
-    <div class="nav">
-      <div class="container nav-inner">
-        <a href="index.html#home" class="brand" aria-label="bluta home">
-          <span class="wordmark"><span class="blu">blu</span><span class="ta">ta</span></span>
-        </a>
-        <nav class="nav-links">
-          <a href="index.html#home">Home</a>
-          <a href="/solutions">Solutions</a>
-          <a href="/hardware">Hardware</a>
-          <a href="/projects" class="active">Projects</a>
-          <a href="#contact">Contact</a>
-        </nav>
+<head>
+  <title>Our Projects | BLUTA</title>
+  <meta name="description" content="Successful BLUTA projects across Qatar and GCC - building automation and smart energy control case studies." />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b1020" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#0b1020; --panel:#121a2e; --ink:#e5e7eb; --muted:#9aa3b2;
+      --line:#1f2a44; --brand:#00C3D8; --brand2:#a78bfa; --nav-h:68px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:linear-gradient(180deg,#0a0f1f 0%,#0b1020 18%,#0b1020 100%);color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
+    a{color:var(--ink);text-decoration:none}
+    .container{max-width:1200px;margin:0 auto;padding:0 20px}
+
+    /* NAV */
+    .nav{position:sticky;top:0;z-index:50;height:var(--nav-h);backdrop-filter:saturate(1.2) blur(8px);background:rgba(10,14,28,.7);border-bottom:1px solid var(--line)}
+    .nav-inner{display:flex;gap:16px;align-items:center;justify-content:space-between;height:100%}
+    .brand{display:flex;gap:10px;align-items:center;font-weight:800;font-family:'Comfortaa', ui-sans-serif, system-ui}
+    .wordmark{font-weight:800;font-size:24px;letter-spacing:.2px;text-transform:lowercase}
+    .wordmark .blu{color:var(--brand)}
+    .wordmark .ta{color:#fff}
+    .nav-links{display:flex;align-items:center;gap:10px}
+    .nav-links a{display:inline-block;padding:10px 12px;border-radius:10px;font-weight:700;color:#dbe3f3}
+    .nav-links a:hover{background:rgba(255,255,255,.06)}
+    .nav-links a.active{background:rgba(255,255,255,.1)}
+
+    /* Language Switcher */
+    .language-switcher {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-left: 20px;
+      padding-left: 20px;
+      border-left: 1px solid var(--line);
+    }
+    .language-switcher a {
+      text-decoration: none;
+      color: #9aa3b2;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+    .language-switcher a:hover {
+      color: #00C3D8;
+      background: rgba(255,255,255,0.05);
+    }
+
+    /* LAYOUT */
+    section{padding:80px 0}
+    .grid{display:grid;gap:30px}
+    .col-2{grid-template-columns:1fr 1fr}
+    .col-3{grid-template-columns:repeat(3,1fr)}
+    @media(max-width:980px){.col-2,.col-3{grid-template-columns:1fr}}
+    .card{background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.015));border:1px solid var(--line);border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,.25);transition:transform 0.3s ease}
+    .card:hover{transform:translateY(-5px)}
+    .p-6{padding:24px}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:12px;font-weight:800;border:1px solid var(--line);background:rgba(255,255,255,.04);cursor:pointer;transition:all 0.3s ease}
+    .btn.primary{background:linear-gradient(120deg,var(--brand),var(--brand2));color:#0b1020;border-color:transparent}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(0,195,216,0.3)}
+    .subtitle{color:var(--muted);font-size:20px;text-align:center;max-width:900px;margin:0px auto 0;line-height:1.6}
+    .h1{font-size:clamp(32px,4vw,56px);line-height:1.1;margin:10px 0;text-align:center;font-weight:900}
+    .h2{font-size:36px;margin:0 0 16px;font-weight:800}
+    .h3{font-size:24px;margin:0 0 12px;font-weight:700}
+    .pill{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:999px;background:rgba(96,165,250,.12);color:#c7d2fe;font-weight:800;font-size:14px;border:1px solid var(--line)}
+    .muted{color:var(--muted);line-height:1.6}
+
+    .image{overflow:hidden;border-radius:16px;border:1px solid var(--line);background:#050814}
+    .image img, .image picture{display:block;width:100%;height:100%;object-fit:cover;transition:transform 0.3s ease}
+    .image:hover img{transform:scale(1.05)}
+
+    .project-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin:40px 0}
+    @media(max-width:768px){.project-stats{grid-template-columns:repeat(2,1fr)}}
+    .stat-box{text-align:center;padding:20px}
+    .stat-number{font-size:36px;font-weight:900;color:var(--brand);margin-bottom:8px}
+    .stat-label{color:var(--muted);font-size:14px;font-weight:600}
+  </style>
+</head>
+
+<body>
+  <!-- NAV -->
+  <div class="nav">
+    <div class="container nav-inner">
+      <a href="/" class="brand" aria-label="bluta home">
+        <span class="wordmark"><span class="blu">blu</span><span class="ta">ta</span></span>
+      </a>
+      <div class="nav-links">
+        <a href="/" data-nav="home">Home</a>
+        <a href="/solutions" data-nav="solutions">Solutions</a>
+        <a href="/hardware" data-nav="hardware">Hardware</a>
+        <a href="/projects" data-nav="projects" class="active">Projects</a>
+        <a href="/#contact" data-nav="contact">Contact</a>
+        <div class="language-switcher">
+          <a href="/">EN</a>
+          <span>|</span>
+          <a href="/ar/projects">AR</a>
+        </div>
       </div>
     </div>
-
-    <!-- HERO -->
-    <header class="container" style="padding:56px 0 24px">
-      <h1 class="h1" style="margin:0">Projects</h1>
-      <p class="subtitle" style="max-width:900px">Selected deployments across real estate, malls, aviation, government and healthcare. Each card includes a gallery, product pills, and scannable bullet highlights.</p>
-    </header>
-
-    <!-- PROJECT GRID (no per-card CTA) -->
-    <section class="container">
-      <div class="grid col-2">
-        {projects.map((p) => (
-          <article class="card project" id={slug(p.title)}>
-            {/* Gallery with hover arrows */}
-            <div class="gallery" data-images={JSON.stringify(p.images || [])}>
-              {p.images?.length ? (
-                <div class="cover" data-index="0">
-                  <img src={p.images[0]} alt={`${p.title} cover`} loading="lazy" />
-                  {p.images.length > 1 && (
-                    <>
-                      <button class="nav prev" aria-label="Previous image">‹</button>
-                      <button class="nav next" aria-label="Next image">›</button>
-                      <div class="hint">{p.images.length} images</div>
-                    </>
-                  )}
-                </div>
-              ) : (
-                <div class="cover placeholder"><div>No images yet</div></div>
-              )}
-            </div>
-
-            {/* Text */}
-         <div class="pad">
-  <div class="flex-row">
-    <h2 class="h2" style="margin:0">{p.title}</h2>
-    <div class="badge">{p.sector}</div>
   </div>
 
-  {p.description && <p class="desc">{p.description}</p>}
-
-  <ul class="bullets">
-    {p.bullets.map((b) => (<li>{b}</li>))}
-  </ul>
-
-  {p.productsUsed?.length && (
-    <div class="pills" aria-label="Products used">
-      {p.productsUsed.map((name) => (
-        <a class="pill" href="/hardware" title={`View ${name} on hardware page`}>{name}</a>
-      ))}
-    </div>
-  )}
-</div>
-
-          </article>
-        ))}
-      </div>
-    </section>
-
-    <!-- CONTACT / FOOTER (single demo entry point) -->
-    <section id="contact">
-      <div class="container">
-        <div class="card p-6" style="background:linear-gradient(135deg,rgba(167,139,250,.15),rgba(0,195,216,.15))">
-          <div class="grid col-2" style="align-items:center">
-            <div>
-              <div class="h2">Plan a pilot for your site</div>
-              <p class="muted">Tell us your goals (energy, comfort, safety). We’ll suggest a path with budget and timeline.</p>
-            </div>
-            <div style="text-align:right"><a href="#demo" class="btn primary js-request-demo">Request a Demo</a></div>
-          </div>
-        </div>
-        <div class="footer">
-          <div class="grid col-3">
-            <div>
-              <div class="brand"><span class="wordmark"><span class="blu">blu</span><span class="ta">ta</span></span> <span class="muted" style="margin-left:8px">by Blutech.io</span></div>
-              <p class="muted" style="font-size:14px;margin-top:8px">Physical AI for smart buildings. BLUTA unifies data and automates operations to cut labour, OPEX and energy.</p>
-            </div>
-            <div>
-              <div style="font-weight:800">Explore</div>
-              <div><a href="/solutions" class="muted">Solutions</a></div>
-              <div><a href="/hardware" class="muted">Hardware</a></div>
-              <div><a href="index.html#feature-matrix" class="muted">Feature Matrix</a></div>
-            </div>
-            <div>
-              <div style="font-weight:800">Contact</div>
-              <div><a href="mailto:enquiry@blutech.io" class="muted">enquiry@blutech.io</a></div>
-              <div class="muted">© <span id="y"></span> Blutech IoT Limited</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Shared Demo Modal (same as other pages) -->
-    <div id="demo-modal" class="modal hidden" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="demo-title">
-      <div class="modal-backdrop js-close-demo" aria-hidden="true"></div>
-      <div class="modal-panel" role="document">
-        <button class="modal-close js-close-demo" aria-label="Close">✕</button>
-        <h3 id="demo-title" class="modal-title">Request a demo</h3>
-        <p class="modal-sub">Leave your details and questions—we’ll reach out shortly.</p>
-        <form id="demo-form" class="demo-form" action="https://formspree.io/f/xyznyolp" method="POST" novalidate>
-          <input type="text" name="_gotcha" style="display:none">
-          <div class="field"><label for="demo-name">Name</label><input id="demo-name" name="name" type="text" required placeholder="Your name"></div>
-          <div class="field"><label for="demo-email">Email</label><input id="demo-email" name="email" type="email" required placeholder="you@example.com"></div>
-          <div class="field"><label for="demo-company">Company (optional)</label><input id="demo-company" name="company" type="text" placeholder="Company"></div>
-          <div class="field"><label for="demo-msg">Your question</label><textarea id="demo-msg" name="message" rows="4" required placeholder="Tell us about your building and goals…"></textarea></div>
-          <input type="hidden" name="_subject" value="BLUTA — Demo request (Projects)">
-          <input type="hidden" name="page" value="/projects">
-          <button type="submit" class="btn primary" style="width:100%">Send request</button>
-          <p class="form-hint">We’ll reply within 1–2 business days.</p>
-        </form>
+  <!-- HERO SECTION -->
+  <section>
+    <div class="container">
+      <div style="text-align:center">
+        <span class="pill">Our Success in the Gulf Region</span>
+        <h1 class="h1">BLUTA Success Stories<br>Across the Region</h1>
+        <p class="subtitle">
+          Discover how BLUTA solutions have transformed building operations and achieved significant cost savings across the GCC
+        </p>
       </div>
     </div>
+  </section>
 
-    <script>
-      // year
-      document.getElementById('y')?.appendChild(document.createTextNode(new Date().getFullYear()));
+  <!-- PROJECT STATS -->
+  <section>
+    <div class="container">
+      <div class="project-stats">
+        <div class="stat-box">
+          <div class="stat-number">50+</div>
+          <div class="stat-label">Projects Completed</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">35%</div>
+          <div class="stat-label">Average Energy Savings</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">98%</div>
+          <div class="stat-label">Client Satisfaction</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">24/7</div>
+          <div class="stat-label">Arabic Technical Support</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-      (function(){
-        // demo modal controls
-        const modal  = document.getElementById('demo-modal');
-        if (modal){
-          const openers = document.querySelectorAll('.js-request-demo');
-          const closers = modal.querySelectorAll('.js-close-demo');
-          const panel   = modal.querySelector('.modal-panel');
-          const form    = modal.querySelector('#demo-form');
-          function open(e){ if(e) e.preventDefault(); modal.classList.remove('hidden'); document.body.classList.add('modal-open'); (modal.querySelector('input,textarea,button')||{}).focus?.(); }
-          function close(){ modal.classList.add('hidden'); document.body.classList.remove('modal-open'); }
-          openers.forEach(b => b.addEventListener('click', open));
-          closers.forEach(b => b.addEventListener('click', close));
-          modal.addEventListener('click', e => { if (!panel.contains(e.target)) close(); });
-          document.addEventListener('keydown', e => { if (e.key === 'Escape' && !modal.classList.contains('hidden')) close(); });
-          form?.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = form.querySelector('button[type="submit"]');
-            btn && (btn.disabled = true);
-            try {
-              const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } });
-              if (res.ok) { form.reset(); close(); alert('Thanks! We’ll contact you shortly.'); }
-              else { alert('Sorry, something went wrong. Please try again.'); }
-            } catch(err) { alert('Network error. Please try again.'); }
-            finally { btn && (btn.disabled = false); }
-          });
-        }
+  <!-- FEATURED PROJECTS -->
+  <section>
+    <div class="container">
+      <div class="h2" style="text-align:center">Featured Projects</div>
+      
+      <div class="grid col-2" style="margin-top:40px">
+        <!-- Project 1 -->
+        <div class="card" style="overflow:hidden">
+          <div class="image" style="height:300px">
+            <div style="display:flex;align-items:center;justify-content:center;height:100%;background:linear-gradient(135deg,#121a2e,#1f2a44);color:var(--muted);font-size:18px">
+              Doha Shopping Mall Project
+            </div>
+          </div>
+          <div class="p-6">
+            <span class="pill">Shopping Mall - Doha</span>
+            <h3>Modern Shopping Complex</h3>
+            <p class="muted">Comprehensive automation for an 85,000 sqm shopping mall in the heart of Doha.</p>
+            <div style="margin-top:20px">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:15px">
+                <div><strong>Achieved Savings:</strong></div>
+                <div>28% in energy consumption</div>
+                <div><strong>Implementation Time:</strong></div>
+                <div>6 weeks</div>
+                <div><strong>Integrations:</strong></div>
+                <div>HVAC systems, CCTV, parking</div>
+              </div>
+              <p class="muted">Installed 120 sensors for air quality and occupancy monitoring, improving shopper experience and reducing operational costs.</p>
+            </div>
+          </div>
+        </div>
 
-        // gallery next/prev
-        document.querySelectorAll('.project .gallery').forEach((g) => {
-          const cover = g.querySelector('.cover');
-          const img   = cover?.querySelector('img');
-          const list  = JSON.parse(g.getAttribute('data-images') || '[]');
-          let idx = parseInt(cover?.getAttribute('data-index') || '0', 10) || 0;
-          const show = (i) => {
-            if (!img || !list.length) return;
-            idx = (i + list.length) % list.length;
-            img.src = list[idx];
-            cover?.setAttribute('data-index', String(idx));
-          };
-          g.querySelector('.nav.next')?.addEventListener('click', () => show(idx + 1));
-          g.querySelector('.nav.prev')?.addEventListener('click', () => show(idx - 1));
-        });
-      })();
-    </script>
+        <!-- Project 2 -->
+        <div class="card" style="overflow:hidden">
+          <div class="image" style="height:300px">
+            <div style="display:flex;align-items:center;justify-content:center;height:100%;background:linear-gradient(135deg,#1f2a44,#121a2e);color:var(--muted);font-size:18px">
+              Abu Dhabi Office Tower Project
+            </div>
+          </div>
+          <div class="p-6">
+            <span class="pill">Office Tower - Abu Dhabi</span>
+            <h3>International Business Tower</h3>
+            <p class="muted">Smart building management system for a 40-story office tower in Abu Dhabi.</p>
+            <div style="margin-top:20px">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:15px">
+                <div><strong>Achieved Savings:</strong></div>
+                <div>32% in operational costs</div>
+                <div><strong>Implementation Time:</strong></div>
+                <div>8 weeks</div>
+                <div><strong>Integrations:</strong></div>
+                <div>Elevators, access control, energy</div>
+              </div>
+              <p class="muted">Improved energy efficiency and tenant experience through smart control of HVAC and lighting based on occupancy patterns.</p>
+            </div>
+          </div>
+        </div>
+      </div>
 
-    <style>
-      /* bullets like hardware specs (compact, scannable) */
-      .bullets{margin:10px 0 12px;padding-left:18px;list-style:disc;color:var(--ink)}
-      .bullets li{margin:4px 0;line-height:1.5}
-      .bullets strong{font-weight:800}
+      <!-- MORE PROJECTS -->
+      <div class="grid col-3" style="margin-top:40px">
+        <div class="card p-6">
+          <span class="pill">Hospital - Riyadh</span>
+          <h4>Specialized Medical Complex</h4>
+          <p class="muted">Air quality and occupancy monitoring system for critical areas in the hospital.</p>
+          <div style="margin-top:15px">
+            <div style="color:var(--brand);font-weight:700">22% energy savings</div>
+            <div class="muted" style="font-size:12px;margin-top:5px">Improved air quality in operating rooms and ICUs</div>
+          </div>
+        </div>
 
-      /* gallery */
-      .project .pad{padding:16px}
-      .flex-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
-      .badge{font-size:12px;padding:6px 10px;border:1px solid var(--line);border-radius:999px;color:var(--muted)}
-      .gallery{display:flex;flex-direction:column;gap:10px}
-      .cover{position:relative;border-bottom:1px solid var(--line)}
-      .cover img{width:100%;height:360px;object-fit:cover;border-top-left-radius:16px;border-top-right-radius:16px}
-      .cover.placeholder{display:flex;align-items:center;justify-content:center;height:220px;background:rgba(255,255,255,.03)}
-      .cover.placeholder>div{color:var(--muted)}
-      .cover .nav{position:absolute;top:50%;transform:translateY(-50%);border:1px solid var(--line);background:rgba(0,0,0,.35);backdrop-filter:blur(6px);padding:8px 12px;border-radius:10px;color:var(--ink);opacity:0;transition:opacity .2s;cursor:pointer}
-      .cover .nav.prev{left:10px}
-      .cover .nav.next{right:10px}
-      .cover:hover .nav{opacity:1}
-      .cover .hint{position:absolute;right:12px;bottom:12px;font-size:12px;color:var(--muted);background:rgba(0,0,0,.35);padding:4px 8px;border-radius:999px;border:1px solid var(--line)}
-      .pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
-      .pill{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border:1px solid var(--line);border-radius:999px;text-decoration:none;color:var(--ink)}
-      .pill::before{content:"";width:6px;height:6px;border-radius:999px;background:var(--brand)}
-      .cta-row{display:flex;gap:10px;margin-top:16px}
-      @media (max-width:980px){.cover img{height:220px}}
+        <div class="card p-6">
+          <span class="pill">Hotel - Dubai</span>
+          <h4>Five-Star Resort</h4>
+          <p class="muted">Room and public area automation to enhance guest experience and reduce waste.</p>
+          <div style="margin-top:15px">
+            <div style="color:var(--brand);font-weight:700">40% labor reduction</div>
+            <div class="muted" style="font-size:12px;margin-top:5px">Automated maintenance and cleaning operations</div>
+          </div>
+        </div>
 
-      /* Project description (match hardware tone/spacing) */
-.desc{
-  margin:12px 0 10px;
-  font-size:16px;
-  line-height:1.6;
-  color:var(--ink);
-  opacity:.95;
-}
+        <div class="card p-6">
+          <span class="pill">University - Muscat</span>
+          <h4>Smart Campus</h4>
+          <p class="muted">Energy and occupancy management across 15 buildings in the university campus.</p>
+          <div style="margin-top:15px">
+            <div style="color:var(--brand);font-weight:700">25% energy savings</div>
+            <div class="muted" style="font-size:12px;margin-top:5px">Improved comfort for students and staff</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-/* Bullets = compact “specs” feel */
-.bullets{margin:6px 0 12px; padding-left:18px; list-style:disc; color:var(--ink)}
-.bullets li{margin:4px 0; line-height:1.5}
+  <!-- SUCCESS STORIES -->
+  <section style="background:linear-gradient(135deg,rgba(0,195,216,0.05),rgba(167,139,250,0.05))">
+    <div class="container">
+      <div class="h2" style="text-align:center">Client Success Stories</div>
+      <div class="grid col-2" style="margin-top:40px">
+        <div class="card p-6">
+          <div style="display:flex;align-items:center;gap:15px;margin-bottom:20px">
+            <div style="width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--brand),var(--brand2));display:flex;align-items:center;justify-content:center;color:white;font-weight:800">A.S</div>
+            <div>
+              <div style="font-weight:800">Engineer Ahmed Al-Sayed</div>
+              <div class="muted">Facilities Manager - Real Estate Group</div>
+            </div>
+          </div>
+          <p class="muted">"BLUTA transformed how we manage buildings. It saved us over 30% in energy costs and reduced tenant complaints by 60%. The Arabic support was crucial for our team."</p>
+        </div>
 
-    </style>
-  </body>
+        <div class="card p-6">
+          <div style="display:flex;align-items:center;gap:15px;margin-bottom:20px">
+            <div style="width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--brand2),var(--brand));display:flex;align-items:center;justify-content:center;color:white;font-weight:800">M.K</div>
+            <div>
+              <div style="font-weight:800">Dr. Mona Al-Khalifi</div>
+              <div class="muted">Hospital Director - Healthcare Sector</div>
+            </div>
+          </div>
+          <p class="muted">"The solution maintained patient and staff privacy while providing accurate data that helped us improve resource allocation. The Arabic interface made training quick and effective."</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA SECTION -->
+  <section>
+    <div class="container">
+      <div class="card p-6" style="background:linear-gradient(135deg,rgba(167,139,250,.15),rgba(0,195,216,.15));text-align:center">
+        <h2>Make Your Next Project a Success Story</h2>
+        <p class="muted" style="max-width:600px;margin:20px auto">Join our list of satisfied clients in the GCC region. Let's discuss how BLUTA can transform your building.</p>
+        <div style="margin-top:30px;display:flex;gap:15px;flex-wrap:wrap;justify-content:center">
+          <a class="btn primary" href="/#contact">Start Your Project</a>
+          <a class="btn" href="/solutions">Explore Solutions</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</body>
 </html>

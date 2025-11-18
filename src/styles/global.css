@@ -1,4 +1,6 @@
 /* ==== Webfont: Bauhaus 93 (drop Bauhaus93.woff2 in public/fonts) ==== */
+/* ==== Arabic Font ==== */
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap');
 @font-face {
   font-family: 'Bauhaus93';
   src: url('/fonts/Bauhaus93.woff2') format('woff2');
@@ -19,6 +21,11 @@ body{
   background:linear-gradient(180deg,#0a0f1f 0%,#0b1020 18%,#0b1020 100%);
   color:var(--ink);
   font-family: ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial;
+}
+
+/* Arabic language support */
+:root[lang="ar"] body {
+  font-family: 'Tajawal', ui-sans-serif, system-ui, sans-serif;
 }
 a{color:var(--ink);text-decoration:none}
 .container{max-width:1680px;margin:0 auto;padding:0 20px}
@@ -145,10 +152,10 @@ section{padding:64px 0}
 }
 
 .hc-thumb{
-  width:64px; height:64px;  /* compact image */
+  width:64px; height:64px;
   border-radius:12px; overflow:hidden;
-  margin-right:10px; flex:0 0 64px;
-  background:#091126;       /* fallback bg while image loads */
+  margin-inline-end:10px; flex:0 0 64px;  /* ← CHANGED to margin-inline-end */
+  background:#091126;
 }
 .hc-thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
 
@@ -190,7 +197,7 @@ section{padding:64px 0}
 @media (max-width:640px){ .modal-panel { margin-top: 4vh; padding: 18px; } }
 
 .modal-close {
-  position: absolute; top: 10px; right: 12px;
+  position: absolute; top: 10px; inset-inline-end: 12px;  /* ← CHANGED to inset-inline-end */
   border: 1px solid var(--line, rgba(255,255,255,.12));
   background: rgba(255,255,255,.06);
   border-radius: 10px; padding: 6px 10px; cursor: pointer;
@@ -254,6 +261,35 @@ body.modal-open { overflow: hidden; }
 .award-if{
   background:rgba(255,59,48,.12);
   border:1px solid rgba(255,59,48,.35);
+}
+/* ==== RTL Support for Arabic ==== */
+:root[dir="rtl"] {
+  direction: rtl;
+}
+
+:root[dir="rtl"] .nav-links {
+  margin-right: auto;
+  margin-left: 0;
+}
+
+:root[dir="rtl"] .hc-thumb {
+  margin-right: 0;
+  margin-left: 10px;
+}
+
+:root[dir="rtl"] .card-head {
+  direction: rtl;
+}
+
+:root[dir="rtl"] .modal-close {
+  right: auto;
+  left: 12px;
+}
+
+/* Ensure text alignment works for both directions */
+:root[dir="rtl"] .subtitle-list,
+:root[dir="rtl"] .stats-grid {
+  text-align: right;
 }
 
 

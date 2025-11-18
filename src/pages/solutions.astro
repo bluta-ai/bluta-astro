@@ -1,26 +1,30 @@
+astro
 ---
 import "../styles/global.css";
+import { Image } from "astro:assets";
+
+// Import images
+import solutionsHero from "../assets/bluta-solutions-hero.webp";
+import aiDashboard from "../assets/bluta-ai-dashboard.webp";
+import energyManagement from "../assets/bluta-energy-management.webp";
+import commandCenter from "../assets/bluta-command-center.webp";
 ---
+
 <!doctype html>
 <html lang="en">
 <head>
-  <title>BLUTA — Solutions</title>
-  <meta name="description" content="BLUTA Solutions: MCP + local LLM, Connect, Understand, Automate, Outcomes, Case Study." />
+  <title>AI Building Solutions for GCC & Qatar | BLUTA</title>
+  <meta name="description" content="Smart AI solutions tailored for Qatar and GCC region. Energy optimization, Arabic language support, and privacy-first building automation." />
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#0b1020" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700;800&display=swap" rel="stylesheet">
+
   <style>
     :root{
-      --bg:#0b1020;
-      --panel:#121a2e;
-      --ink:#e5e7eb;
-      --muted:#9aa3b2;
-      --line:#1f2a44;
-      --brand:#00C3D8;
-      --brand2:#a78bfa;
-      --nav-h:68px;
+      --bg:#0b1020; --panel:#121a2e; --ink:#e5e7eb; --muted:#9aa3b2;
+      --line:#1f2a44; --brand:#00C3D8; --brand2:#a78bfa; --nav-h:68px;
     }
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
@@ -35,305 +39,394 @@ import "../styles/global.css";
     .wordmark{font-weight:800;font-size:24px;letter-spacing:.2px;text-transform:lowercase}
     .wordmark .blu{color:var(--brand)}
     .wordmark .ta{color:#fff}
+    .nav-links{display:flex;align-items:center;gap:10px}
     .nav-links a{display:inline-block;padding:10px 12px;border-radius:10px;font-weight:700;color:#dbe3f3}
     .nav-links a:hover{background:rgba(255,255,255,.06)}
     .nav-links a.active{background:rgba(255,255,255,.1)}
 
+    /* Language Switcher */
+    .language-switcher {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-left: 20px;
+      padding-left: 20px;
+      border-left: 1px solid var(--line);
+    }
+    .language-switcher a {
+      text-decoration: none;
+      color: #9aa3b2;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+    .language-switcher a:hover {
+      color: #00C3D8;
+      background: rgba(255,255,255,0.05);
+    }
+
     /* LAYOUT */
-    section{padding:64px 0}
-    .grid{display:grid;gap:20px}
+    section{padding:80px 0}
+    .grid{display:grid;gap:30px}
     .col-2{grid-template-columns:1fr 1fr}
     .col-3{grid-template-columns:repeat(3,1fr)}
     @media(max-width:980px){.col-2,.col-3{grid-template-columns:1fr}}
-    .card{background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.015));border:1px solid var(--line);border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.25)}
-    .p-6{padding:18px}
-    .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 16px;border-radius:12px;font-weight:800;border:1px solid var(--line);background:rgba(255,255,255,.04);cursor:pointer}
+    .card{background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.015));border:1px solid var(--line);border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,.25);transition:transform 0.3s ease}
+    .card:hover{transform:translateY(-5px)}
+    .p-6{padding:24px}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:12px;font-weight:800;border:1px solid var(--line);background:rgba(255,255,255,.04);cursor:pointer;transition:all 0.3s ease}
     .btn.primary{background:linear-gradient(120deg,var(--brand),var(--brand2));color:#0b1020;border-color:transparent}
-    .subtitle{color:var(--muted);font-size:18px}
-    .h1{font-size:clamp(28px,3.6vw,48px);line-height:1.1;margin:10px 0}
-    .h2{font-size:30px;margin:0 0 8px}
-    .pill{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:rgba(96,165,250,.12);color:#c7d2fe;font-weight:800;font-size:12px;border:1px solid var(--line)}
-    .muted{color:var(--muted)}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(0,195,216,0.3)}
+    .subtitle{color:var(--muted);font-size:20px;text-align:center;max-width:900px;margin:0px auto 0;line-height:1.6}
+    .h1{font-size:clamp(32px,4vw,56px);line-height:1.1;margin:10px 0;text-align:center;font-weight:900}
+    .h2{font-size:36px;margin:0 0 16px;font-weight:800}
+    .h3{font-size:24px;margin:0 0 12px;font-weight:700}
+    .pill{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:999px;background:rgba(96,165,250,.12);color:#c7d2fe;font-weight:800;font-size:14px;border:1px solid var(--line)}
+    .muted{color:var(--muted);line-height:1.6}
+
     .image{overflow:hidden;border-radius:16px;border:1px solid var(--line);background:#050814}
-    .image img{display:block;width:100%;height:100%;object-fit:cover}
-    .specs{width:100%;border-collapse:collapse;font-size:14px;margin-top:8px}
-    .specs td{padding:12px;border-bottom:1px solid var(--line)}
-    .specs td:first-child{width:220px;font-weight:700;color:#bfd1ff}
-    .stat{display:flex;gap:12px;align-items:center;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.02));padding:10px}
-    .stat .thumb{width:64px;height:64px;flex:0 0 64px;background:#091126;border-radius:12px}
-    .footer{border-top:1px solid var(--line);padding:40px 0;color:var(--muted)}
+    .image img, .image picture{display:block;width:100%;height:100%;object-fit:cover;transition:transform 0.3s ease}
+    .image:hover img{transform:scale(1.05)}
 
-    /* HERO (only used on index) */
-    .hero{position:relative;padding:0;min-height:calc(68vh + var(--nav-h));}
-    .hero-media{position:absolute;inset:0;overflow:hidden}
-    .hero-media img{width:100%;height:100%;object-fit:cover;transform:scale(1.02)}
-    .hero-overlay{position:relative;z-index:1;display:flex;align-items:flex-end;min-height:calc(68vh + var(--nav-h));background:linear-gradient(180deg,rgba(5,8,20,.15) 0%, rgba(11,16,32,.55) 40%, rgba(11,16,32,.80) 100%)}
-    .hero-overlay .content{padding:64px 0}
-
-    /* Solutions extras */
-    .lead{font-size:18px;line-height:1.55;color:var(--muted)}
-    .eyebrow{font-size:12px;color:#c7d2fe;letter-spacing:.08em;text-transform:uppercase;font-weight:800;margin-bottom:6px}
-    .icon{font-size:28px;margin-bottom:10px;display:inline-block}
+    /* Solutions Specific Styles */
+    .solution-hero{position:relative;padding:120px 0 80px;text-align:center}
+    .solution-hero-bg{position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,rgba(0,195,216,0.1),rgba(167,139,250,0.1))}
+    
+    .feature-grid{display:grid;gap:24px;margin-top:40px}
+    .feature-card{text-align:center;padding:30px}
+    .feature-icon{width:80px;height:80px;margin:0 auto 20px;background:linear-gradient(135deg,var(--brand),var(--brand2));border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:32px}
+    
+    .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin:40px 0}
+    @media(max-width:768px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:480px){.stats-grid{grid-template-columns:1fr}}
+    .stat-card{text-align:center;padding:20px}
+    .stat-number{font-size:36px;font-weight:900;color:var(--brand);margin-bottom:8px}
+    .stat-label{color:var(--muted);font-size:14px;font-weight:600}
+    
+    .use-case{background:rgba(255,255,255,.02);border-radius:16px;padding:30px;margin:20px 0}
+    .use-case h4{color:var(--brand);margin-bottom:12px}
+    
+    .integration-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;background:rgba(255,255,255,.05);border-radius:8px;font-size:12px;font-weight:600;margin:4px}
   </style>
-
 </head>
+
 <body>
-  <!-- NAV (Solutions active) -->
+  <!-- NAV -->
   <div class="nav">
     <div class="container nav-inner">
-      <a href="index.html#home" class="brand" aria-label="bluta home">
+      <a href="/" class="brand" aria-label="bluta home">
         <span class="wordmark"><span class="blu">blu</span><span class="ta">ta</span></span>
       </a>
       <div class="nav-links">
-        <a href="index.html#home" data-nav="home">Home</a>
+        <a href="/" data-nav="home">Home</a>
         <a href="/solutions" data-nav="solutions" class="active">Solutions</a>
         <a href="/hardware" data-nav="hardware">Hardware</a>
         <a href="/projects" data-nav="projects">Projects</a>
-        <a href="#contact" data-nav="contact">Contact</a>
+        <a href="/#contact" data-nav="contact">Contact</a>
+        <div class="language-switcher">
+          <a href="/">EN</a>
+          <span>|</span>
+          <a href="/ar/solutions">AR</a>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- SOLUTIONS CONTENT (NO HERO) -->
+  <!-- SOLUTIONS HERO -->
+  <section class="solution-hero">
+    <div class="solution-hero-bg"></div>
+    <div class="container">
+      <div style="position:relative;z-index:2">
+        <span class="pill">Tailored for Qatar & GCC Region</span>
+        <h1 class="h1">AI Solutions for Smarter<br>Buildings in the Middle East</h1>
+        <p class="subtitle">
+          BLUTA delivers intelligent building automation with Arabic language support, 
+          designed specifically for the climate and operational needs of GCC countries.
+        </p>
+        <div style="margin-top:30px;display:flex;gap:15px;flex-wrap:wrap;justify-content:center">
+          <a class="btn primary" href="#demo">Request GCC Demo</a>
+          <a class="btn" href="#solutions">Explore Solutions</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUICK STATS -->
+  <section>
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number">30-50%</div>
+          <div class="stat-label">Labour Cost Reduction</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">15-25%</div>
+          <div class="stat-label">Energy Savings</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">24/7</div>
+          <div class="stat-label">Arabic Language Support</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">100%</div>
+          <div class="stat-label">Privacy Compliant</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CORE SOLUTIONS -->
   <section id="solutions">
     <div class="container">
-      <div class="h2">MCP + local LLM: AI that acts like a building operator</div>
-      <p class="lead">The Multi‑Control Protocol (MCP) makes AI safe and practical in real buildings. It standardises every system and equips the AI with four safeguards:</p>
-      <div class="grid col-2" style="margin-top:20px;gap:24px">
-        <div class="card p-6"><span class="icon" aria-hidden="true">🕒</span> <strong>History you can rely on</strong><p class="muted">Every system writes into one timeline, so the AI sees context, not fragments.</p></div>
-        <div class="card p-6"><span class="icon" aria-hidden="true">⚙️</span> <strong>Safe functions</strong><p class="muted">AI actions (like adjusting HVAC or generating a report) only run through verified, approved functions.</p></div>
-        <div class="card p-6"><span class="icon" aria-hidden="true">🛡️</span> <strong>Clear instructions</strong><p class="muted">Guardrails and role‑based prompts keep the AI focused on specific jobs.</p></div>
-        <div class="card p-6"><span class="icon" aria-hidden="true">✅</span> <strong>Proof before action</strong><p class="muted">Every AI suggestion cites its source; every action can require confirmation.</p></div>
-      </div>
-      <div class="card p-6" style="margin-top:20px">
-        <div class="grid" style="gap:14px">
-          <div class="grid col-3" style="gap:10px">
-            <span class="pill">CCTV</span>
-            <span class="pill">HVAC / BMS</span>
-            <span class="pill">Lifts</span>
-            <span class="pill">Access</span>
-            <span class="pill">IAQ</span>
-            <span class="pill">Meters</span>
-            <span class="pill">IoT</span>
+      <div class="h2" style="text-align:center">Comprehensive AI Building Solutions</div>
+      <p class="subtitle">End-to-end automation platform designed for Middle Eastern building requirements</p>
+      
+      <div class="grid col-3" style="margin-top:50px">
+        <!-- Solution 1 -->
+        <div class="card p-6">
+          <div class="feature-icon">🌡️</div>
+          <h3>Smart Energy & HVAC</h3>
+          <p class="muted">AI-powered climate control optimized for extreme Gulf temperatures. Reduce cooling costs while maintaining perfect comfort levels.</p>
+          <div style="margin-top:20px">
+            <span class="integration-badge">HVAC Systems</span>
+            <span class="integration-badge">Energy Meters</span>
+            <span class="integration-badge">Weather Data</span>
           </div>
-          <div class="muted" style="text-align:center">↓</div>
-          <div class="card p-6" style="text-align:center">
-            <div style="font-weight:900">Multi‑Control Protocol (MCP)</div>
-            <div class="muted">Standardise • normalise • secure stream</div>
-            <div class="grid col-3" style="gap:8px;margin-top:12px">
-              <span class="pill">Historical data</span>
-              <span class="pill">Function calling</span>
-              <span class="pill">Guardrails</span>
-              <span class="pill">Proof & verification</span>
-            </div>
+          <div class="use-case">
+            <h4>Qatar Use Case</h4>
+            <p class="muted">Automatically adjust cooling based on prayer times and occupancy patterns in mosques and public buildings.</p>
           </div>
-          <div class="muted" style="text-align:center">↓</div>
-          <div class="card p-6" style="text-align:center;background:linear-gradient(120deg,var(--brand),var(--brand2));color:#0b1020">
-            <div style="font-weight:900">Local large language model (LLM)</div>
-            <div style="opacity:.95">Understands • reasons • decides</div>
+        </div>
+
+        <!-- Solution 2 -->
+        <div class="card p-6">
+          <div class="feature-icon">👥</div>
+          <h3>People & Space Analytics</h3>
+          <p class="muted">Privacy-first occupancy tracking and crowd management. Optimize space utilization without compromising personal data.</p>
+          <div style="margin-top:20px">
+            <span class="integration-badge">People Counting</span>
+            <span class="integration-badge">Queue Management</span>
+            <span class="integration-badge">Space Utilization</span>
           </div>
-          <div class="muted" style="text-align:center">↓</div>
-          <div class="grid col-2" style="gap:10px">
-            <div class="card p-6"><div style="font-weight:900">Optimisation</div><div class="muted">HVAC, lights, cleaning, schedules</div></div>
-            <div class="card p-6"><div style="font-weight:900">Natural‑language Q&A</div><div class="muted">Ask status, energy, incidents</div></div>
-            <div class="card p-6"><div style="font-weight:900">Reports & compliance</div><div class="muted">ESG, safety, audits</div></div>
-            <div class="card p-6"><div style="font-weight:900">Operator chat/voice</div><div class="muted">Hands‑free help</div></div>
+          <div class="use-case">
+            <h4>Mall & Retail</h4>
+            <p class="muted">Manage peak shopping hours and optimize food court operations during weekend rushes.</p>
+          </div>
+        </div>
+
+        <!-- Solution 3 -->
+        <div class="card p-6">
+          <div class="feature-icon">🛡️</div>
+          <h3>Unified Operations Center</h3>
+          <p class="muted">Centralized control for all building systems with Arabic interface. One platform for maintenance, security, and facilities teams.</p>
+          <div style="margin-top:20px">
+            <span class="integration-badge">BMS Integration</span>
+            <span class="integration-badge">CCTV Systems</span>
+            <span class="integration-badge">Access Control</span>
+          </div>
+          <div class="use-case">
+            <h4>Government Buildings</h4>
+            <p class="muted">Unified security and maintenance operations for ministry buildings and public facilities.</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- CONNECT / UNDERSTAND / AUTOMATE -->
-  <section>
-    <div class="container grid col-2" style="align-items:center">
-      <div>
-        <div class="eyebrow">Connect</div>
-        <h2 class="h2">Connect all your building systems</h2>
-        <p class="lead">BLUTA speaks every language — CCTV, HVAC, lifts, meters, and IoT devices. Once connected, everything runs through MCP so your AI agent sees a single, unified view.</p>
-      </div>
-      <div class="card" style="min-height:180px;text-align:center">🔌 Systems image placeholder</div>
-    </div>
-  </section>
-  <section>
-    <div class="container grid col-2" style="align-items:center">
-      <div>
-        <div class="eyebrow">Understand</div>
-        <h2 class="h2">See the full picture, not just scattered data</h2>
-        <p class="lead">The AI turns raw building data into insights: energy spikes, unusual access patterns, equipment wear. With historical context, it doesn’t just tell you what’s happening — it explains why.</p>
-      </div>
-      <div class="card" style="min-height:180px;text-align:center">📊 Insights image placeholder</div>
-    </div>
-  </section>
-  <section>
-    <div class="container grid col-2" style="align-items:center">
-      <div>
-        <div class="eyebrow">Automate</div>
-        <h2 class="h2">From monitoring to action, automatically</h2>
-        <p class="lead">BLUTA’s local AI agent doesn’t just raise alerts. It can adjust HVAC, issue work orders, or escalate to your staff — all under your rules and approvals.</p>
-      </div>
-      <div class="card" style="min-height:180px;text-align:center">⚙️ Automation image placeholder</div>
-    </div>
-  </section>
-
-  <!-- OUTCOMES -->
-  <section>
-    <div class="container">
-      <div class="h2">Cut costs without cutting quality</div>
-      <div class="grid col-2" style="margin-top:20px;gap:20px">
-        <div class="card p-6"><span class="icon">👥</span> <strong>Labour efficiency (30–50%)</strong><p class="muted">Reduce repetitive monitoring and reporting tasks.</p></div>
-        <div class="card p-6"><span class="icon">⚡</span> <strong>Energy savings (15–20%)</strong><p class="muted">Optimised HVAC, lighting, and schedules.</p></div>
-        <div class="card p-6"><span class="icon">💰</span> <strong>Lower operating costs</strong><p class="muted">Fewer incidents missed, less downtime, more proactive maintenance.</p></div>
-        <div class="card p-6"><span class="icon">🔒</span> <strong>Privacy‑first</strong><p class="muted">All processing stays local. No cloud lock‑in.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CASE STUDY -->
-  <section>
+  <!-- ARABIC LANGUAGE SUPPORT -->
+  <section style="background:linear-gradient(135deg,rgba(0,195,216,0.05),rgba(167,139,250,0.05))">
     <div class="container">
       <div class="grid col-2" style="align-items:center">
         <div>
-          <div class="eyebrow">Case study</div>
-          <h2 class="h2">From manual checks to AI‑assisted operations</h2>
-          <p class="lead">A Grade‑A commercial building in <strong>Central, Hong Kong</strong> deployed BLUTA to unify security, safety, and energy systems. Within months, the facility team reported smoother workflows, safer spaces, and measurable savings.</p>
-          <ul class="muted" style="margin:10px 0 0 18px;line-height:1.6">
-            <li><strong>Workflow efficiency</strong> — Routine monitoring shifted from manual rounds to sensors and AI alerts, reducing repetitive tasks.</li>
-            <li><strong>Tenant safety</strong> — Heatmap sensors highlighted overcrowding and unusual patterns in real time, improving readiness and response.</li>
-            <li><strong>Energy savings</strong> — HVAC and lighting adjusted to real‑time human traffic, cutting waste while keeping comfort high.</li>
+          <span class="pill">Arabic First Design</span>
+          <h2>Built for the Middle East Market</h2>
+          <p class="muted">Full Arabic language support with understanding of regional dialects and cultural context.</p>
+          <ul class="muted" style="line-height:2;margin-top:20px">
+            <li>✓ Modern Standard Arabic interface</li>
+            <li>✓ Gulf dialect understanding in AI models</li>
+            <li>✓ Right-to-left layout support</li>
+            <li>✓ Local compliance and data sovereignty</li>
+            <li>✓ Arabic documentation and support</li>
           </ul>
-          <p class="muted" style="margin-top:12px">Result: a safer, more efficient building — and a team freed from constant firefighting.</p>
         </div>
-        <div class="card" style="min-height:220px;text-align:center">🏢 Building photo placeholder</div>
+        <div class="image" style="height:400px">
+          <div style="display:flex;align-items:center;justify-content:center;height:100%;background:linear-gradient(135deg,#121a2e,#1f2a44);color:var(--muted);font-size:18px">
+            Arabic AI Dashboard Visualization
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- CONTACT / FOOTER -->
-  <section id="contact">
+  <!-- INDUSTRY SOLUTIONS -->
+  <section>
     <div class="container">
-      <div class="card p-6" style="background:linear-gradient(135deg,rgba(167,139,250,.15),rgba(0,195,216,.15))">
-        <div class="grid col-2" style="align-items:center">
-          <div>
-            <div class="h2">Deploy the Lastest AI to your properties</div>
-            <p class="muted">Request a demo today and see how BLUTA can reduce costs and improve operations from day one.</p>
+      <div class="h2" style="text-align:center">Industry-Specific Solutions</div>
+      <p class="subtitle">Tailored automation for Qatar's key sectors</p>
+      
+      <div class="grid col-3" style="margin-top:40px">
+        <div class="card p-6">
+          <h3>🏢 Commercial Real Estate</h3>
+          <p class="muted">Portfolio-wide energy management and tenant comfort optimization for office towers and business districts.</p>
+          <div style="margin-top:20px">
+            <span class="integration-badge">Tenant Billing</span>
+            <span class="integration-badge">ESG Reporting</span>
+            <span class="integration-badge">Preventive Maintenance</span>
           </div>
-          <div style="text-align:right"><a href="#demo" class="btn primary js-request-demo">Request a Demo</a></div>
         </div>
-      </div>
-      <div class="footer">
-        <div class="grid col-3">
-          <div>
-            <div class="brand"><span class="wordmark"><span class="blu">blu</span><span class="ta">ta</span></span> <span class="muted" style="margin-left:8px">by Blutech.io</span></div>
-            <p class="muted" style="font-size:14px;margin-top:8px">Physical AI for smart buildings. BLUTA unifies data and automates operations to cut labour, OPEX and energy.</p>
+
+        <div class="card p-6">
+          <h3>🛍️ Retail & Shopping Malls</h3>
+          <p class="muted">Customer experience enhancement and operational efficiency for malls and retail centers.</p>
+          <div style="margin-top:20px">
+            <span class="integration-badge">Footfall Analytics</span>
+            <span class="integration-badge">Smart Parking</span>
+            <span class="integration-badge">Retail Heatmaps</span>
           </div>
-          <div>
-            <div style="font-weight:800">Explore</div>
-            <div><a href="/solutions" class="muted">Solutions</a></div>
-            <div><a href="index.html#hardware" class="muted">Hardware</a></div>
-            <div><a href="index.html#feature-matrix" class="muted">Feature Matrix</a></div>
-          </div>
-          <div>
-            <div style="font-weight:800">Contact</div>
-            <div><a href="mailto:enquiry@blutech.io" class="muted">enquiry@blutech.io</a></div>
-            <div class="muted">© <span id="y"></span> Blutech IoT Limited</div>
+        </div>
+
+        <div class="card p-6">
+          <h3>🏥 Healthcare Facilities</h3>
+          <p class="muted">Patient comfort and operational excellence for hospitals and medical centers.</p>
+          <div style="margin-top:20px">
+            <span class="integration-badge">IAQ Monitoring</span>
+            <span class="integration-badge">Equipment Tracking</span>
+            <span class="integration-badge">Compliance Reporting</span>
           </div>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- TECHNOLOGY STACK -->
+  <section>
+    <div class="container">
+      <div class="h2" style="text-align:center">Advanced Technology Stack</div>
+      <div class="grid col-2" style="margin-top:40px">
+        <div class="card p-6">
+          <h3>AI & Machine Learning</h3>
+          <ul class="muted" style="line-height:2;margin-top:15px">
+            <li>• Predictive maintenance algorithms</li>
+            <li>• Anomaly detection in building systems</li>
+            <li>• Arabic NLP for voice commands</li>
+            <li>• Computer vision for space analytics</li>
+            <li>• Energy consumption forecasting</li>
+          </ul>
+        </div>
+        <div class="card p-6">
+          <h3>Privacy & Security</h3>
+          <ul class="muted" style="line-height:2;margin-top:15px">
+            <li>• On-premise deployment options</li>
+            <li>• GDPR and local compliance</li>
+            <li>• End-to-end encryption</li>
+            <li>• No personal data collection</li>
+            <li>• Regular security audits</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA SECTION -->
+  <section id="demo">
+    <div class="container">
+      <div class="card p-6" style="background:linear-gradient(135deg,rgba(167,139,250,.15),rgba(0,195,216,.15));text-align:center">
+        <h2>Ready to Transform Your Building Operations?</h2>
+        <p class="muted" style="max-width:600px;margin:20px auto">See how BLUTA can reduce costs and improve efficiency in your Qatari or GCC facility.</p>
+        <div style="margin-top:30px;display:flex;gap:15px;flex-wrap:wrap;justify-content:center">
+          <a class="btn primary js-request-demo" href="#demo-modal">Request GCC Demo</a>
+          <a class="btn" href="/contact">Contact Qatar Team</a>
+        </div>
+        <p class="muted" style="margin-top:20px;font-size:14px">Arabic-speaking support team available</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ SECTION -->
+  <section>
+    <div class="container">
+      <div class="h2" style="text-align:center">Frequently Asked Questions</div>
+      <div class="grid col-2" style="margin-top:40px;gap:40px">
+        <div>
+          <h4>Do you support Arabic language completely?</h4>
+          <p class="muted">Yes, full Arabic interface with support for Modern Standard Arabic and understanding of Gulf dialects in our AI models.</p>
+        </div>
+        <div>
+          <h4>Is my data stored locally in Qatar?</h4>
+          <p class="muted">We offer both cloud and on-premise deployment options to meet Qatar's data sovereignty requirements.</p>
+        </div>
+        <div>
+          <h4>How long does implementation take?</h4>
+          <p class="muted">Typically 4-8 weeks depending on building size and systems integration requirements.</p>
+        </div>
+        <div>
+          <h4>Do you provide training in Arabic?</h4>
+          <p class="muted">Yes, comprehensive training and documentation available in Arabic for your team.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Demo Modal -->
+  <div id="demo-modal" class="modal hidden">
+    <div class="modal-backdrop js-close-demo"></div>
+    <div class="modal-panel">
+      <button class="modal-close js-close-demo">✕</button>
+      <h3 class="modal-title">Request GCC Demo</h3>
+      <p class="modal-sub">Our Qatar team will contact you to schedule a personalized demonstration.</p>
+      <form class="demo-form" action="https://formspree.io/f/xyznyolp" method="POST">
+        <input type="text" name="_gotcha" style="display:none">
+        <div class="field">
+          <label for="demo-name">Name</label>
+          <input id="demo-name" name="name" type="text" required>
+        </div>
+        <div class="field">
+          <label for="demo-email">Email</label>
+          <input id="demo-email" name="email" type="email" required>
+        </div>
+        <div class="field">
+          <label for="demo-company">Company</label>
+          <input id="demo-company" name="company" type="text">
+        </div>
+        <div class="field">
+          <label for="demo-building">Building Type</label>
+          <select id="demo-building" name="building_type">
+            <option value="">Select building type</option>
+            <option value="commercial">Commercial Office</option>
+            <option value="retail">Shopping Mall/Retail</option>
+            <option value="healthcare">Hospital/Healthcare</option>
+            <option value="hospitality">Hotel/Resort</option>
+            <option value="government">Government Building</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <button type="submit" class="btn primary" style="width:100%">Request Demo</button>
+      </form>
+    </div>
+  </div>
 
   <script>
-    document.getElementById('y').textContent = new Date().getFullYear();
+    // Modal functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const modal = document.getElementById('demo-modal');
+      const openers = document.querySelectorAll('.js-request-demo');
+      const closers = document.querySelectorAll('.js-close-demo');
+
+      openers.forEach(opener => {
+        opener.addEventListener('click', function(e) {
+          e.preventDefault();
+          modal.classList.remove('hidden');
+        });
+      });
+
+      closers.forEach(closer => {
+        closer.addEventListener('click', function() {
+          modal.classList.add('hidden');
+        });
+      });
+    });
   </script>
 
-        <!-- Demo Modal -->
-<div id="demo-modal" class="modal hidden" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="demo-title">
-  <div class="modal-backdrop js-close-demo" aria-hidden="true"></div>
-
-  <div class="modal-panel" role="document">
-    <button class="modal-close js-close-demo" aria-label="Close">✕</button>
-
-    <h3 id="demo-title" class="modal-title">Request a demo</h3>
-    <p class="modal-sub">Leave your details and questions—we’ll reach out shortly.</p>
-
-    <form id="demo-form" class="demo-form" action="https://formspree.io/f/xyznyolp" method="POST" novalidate>
-      <!-- Honeypot (spam protection) -->
-      <input type="text" name="_gotcha" style="display:none">
-
-      <div class="field">
-        <label for="demo-name">Name</label>
-        <input id="demo-name" name="name" type="text" required placeholder="Your name">
-      </div>
-
-      <div class="field">
-        <label for="demo-email">Email</label>
-        <input id="demo-email" name="email" type="email" required placeholder="you@example.com">
-      </div>
-
-      <div class="field">
-        <label for="demo-company">Company (optional)</label>
-        <input id="demo-company" name="company" type="text" placeholder="Company">
-      </div>
-
-      <div class="field">
-        <label for="demo-msg">Your question</label>
-        <textarea id="demo-msg" name="message" rows="4" required placeholder="Tell us about your building and goals…"></textarea>
-      </div>
-
-      <!-- Optional: subject and page context -->
-      <input type="hidden" name="_subject" value="BLUTA — Demo request">
-      <input type="hidden" name="page" value="/solutions">
-
-      <button type="submit" class="btn primary" style="width:100%">Send request</button>
-      <p class="form-hint">We’ll reply within 1–2 business days.</p>
-    </form>
-  </div>
-</div>
-
-<script>
-(function(){
-  const modal  = document.getElementById('demo-modal');
-  if (!modal) return;
-
-  const openers = document.querySelectorAll('.js-request-demo');
-  const closers = modal.querySelectorAll('.js-close-demo');
-  const panel   = modal.querySelector('.modal-panel');
-  const form    = modal.querySelector('#demo-form');
-
-  function open(e){ if(e) e.preventDefault(); modal.classList.remove('hidden'); document.body.classList.add('modal-open'); (modal.querySelector('input,textarea,button')||{}).focus?.(); }
-  function close(){ modal.classList.add('hidden'); document.body.classList.remove('modal-open'); }
-
-  openers.forEach(b => b.addEventListener('click', open));
-  closers.forEach(b => b.addEventListener('click', close));
-  modal.addEventListener('click', e => { if (!panel.contains(e.target)) close(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !modal.classList.contains('hidden')) close(); });
-
-  // Submit to Formspree (AJAX)
-  form?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const btn = form.querySelector('button[type="submit"]');
-    btn && (btn.disabled = true);
-    try {
-      const res = await fetch(form.action, {
-        method: 'POST',
-        body: new FormData(form),
-        headers: { 'Accept': 'application/json' }
-      });
-      if (res.ok) {
-        form.reset();
-        close();
-        alert('Thanks! We’ll contact you shortly.');
-      } else {
-        alert('Sorry, something went wrong. Please try again.');
-      }
-    } catch (err) {
-      alert('Network error. Please try again.');
-    } finally {
-      btn && (btn.disabled = false);
-    }
-  });
-})();
-</script>
 </body>
 </html>
