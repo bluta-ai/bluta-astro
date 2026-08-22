@@ -12,7 +12,9 @@
     "build": "astro build",
     "preview": "astro preview",
     "audit": "node scripts/site-audit.mjs",
-    "check": "npm run build && npm run audit"
+    "audit:product-images": "node scripts/product-image-audit.mjs",
+    "check": "npm run build && npm run audit && npm run audit:product-images",
+    "release:check": "npm run build && npm run audit && RELEASE_STRICT=1 npm run audit:product-images"
   },
   "dependencies": {
     "astro": "7.2.4",
