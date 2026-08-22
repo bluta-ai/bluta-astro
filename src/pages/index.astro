@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import hero from "../assets/bluta-hero-city.webp";
+import hero from "../assets/bluta-project-3-Garden-Road-1.webp";
 import { products, solutions, projects } from "../data/site";
 const featuredProducts = products.filter((p) => p.featured).slice(0,4);
 const featuredProjects = projects.slice(0,4);
@@ -18,8 +18,8 @@ const featuredProjects = projects.slice(0,4);
         </div>
       </div>
       <div class="hero-visual">
-        <img src={hero.src} alt="Hong Kong city buildings representing Blutech connected-building deployments" width="1200" height="900" fetchpriority="high" />
-        <div class="hero-label"><strong>Built for real buildings, not demo rooms.</strong><span class="muted">Commercial · Healthcare · Government · Transport · Public facilities</span></div>
+        <img src={hero.src} alt="Blutech deployment at Three Garden Road, Hong Kong" width="1200" height="900" fetchpriority="high" />
+        <div class="hero-label"><strong>Three Garden Road · Hong Kong</strong><span class="muted">Real building deployment · commercial building technology</span></div>
       </div>
     </div>
   </section>
@@ -54,9 +54,9 @@ const featuredProjects = projects.slice(0,4);
 
   <section>
     <div class="shell">
-      <div class="section-head"><div><div class="kicker">Products</div><h2>Hardware designed to disappear into operations.</h2><p>From privacy-preserving spatial sensing to environmental monitoring, edge I/O, gateways and information displays.</p></div><a class="button secondary" href="/products">Browse products</a></div>
+      <div class="section-head"><div><div class="kicker">Products</div><h2>Hardware designed to disappear into operations.</h2><p>Every public product must have verified product photography before release. The redesign preview now makes any unresolved image obvious rather than silently leaving an empty card.</p></div><a class="button secondary" href="/products">Browse products</a></div>
       <div class="product-grid">
-        {featuredProducts.map((p) => <a class="card product-card" href={`/products/${p.slug}`}>{p.image && <div class="product-image"><img src={p.image} alt={`${p.model} ${p.name}`} loading="lazy" width="720" height="540" /></div>}<div class="model">{p.model} · {p.family}</div><h3>{p.name}</h3><p>{p.summary}</p><span class="card-link">Product details →</span></a>)}
+        {featuredProducts.map((p) => <a class="card product-card" href={`/products/${p.slug}`}>{p.image ? <div class="product-image"><img src={p.image} alt={`${p.model} ${p.name}`} loading="lazy" width="720" height="540" /></div> : <div class="product-image product-image-missing"><span>Verified product photography pending</span></div>}<div class="model">{p.model} · {p.family}</div><h3>{p.name}</h3><p>{p.summary}</p><span class="card-link">Product details →</span></a>)}
       </div>
     </div>
   </section>
@@ -65,7 +65,7 @@ const featuredProjects = projects.slice(0,4);
     <div class="shell">
       <div class="section-head"><div><div class="kicker">Selected deployments</div><h2>Proof lives on site.</h2><p>Real installations across commercial buildings, hospitals, government facilities and transport infrastructure.</p></div><a class="button secondary" href="/projects">All projects</a></div>
       <div class="project-grid">
-        {featuredProjects.map((p) => <a class="card project-card" href={`/projects#${p.slug}`}><img src={p.image} alt={`${p.title} Blutech project`} loading="lazy" width="900" height="506"/><div class="card-body"><div class="meta">{p.category}</div><h3>{p.title}</h3><p>{p.summary}</p></div></a>)}
+        {featuredProjects.map((p) => <a class="card project-card" href={`/projects#${p.slug}`}><img src={p.image} alt={`${p.title} Blutech project`} loading="lazy" width="900" height="675"/><div class="card-body"><div class="meta">{p.category}</div><h3>{p.title}</h3><p>{p.summary}</p></div></a>)}
       </div>
     </div>
   </section>
