@@ -29,9 +29,9 @@ check(11,'Projects',projects.includes('Real buildings')&&projects.includes('EMSD
 check(12,'Evidence library policy',projects.includes('What we will not do')&&company.includes('official record'),'Public copy includes evidence/claim-scope discipline.');
 check(13,'Awards / credibility',company.includes('iF DESIGN AWARD')&&company.includes('Smart Washroom AIoT Solution'),'Award wording is solution-specific.');
 check(14,'Customer proof',projects.includes('Hong Kong International Airport')&&projects.includes('Three Garden Road'),'Named real project references present.');
-check(15,'Photography',/loading="lazy"/.test(home+projects)&&/alt=/.test(src('src','pages','index.astro')),'Real/local imagery is used with lazy loading and alt text; remaining asset rights require human review.','PASS');
-check(16,'Visual design',css.includes('--brand:')&&css.includes('.software-pair')&&css.includes('.product-grid'),'Shared design system and consistent components exist.');
-check(17,'Mobile design',css.includes('@media(max-width:700px)')&&css.includes('@media(max-width:1050px)'),'Responsive navigation/layout breakpoints exist.');
+review(15,'Photography','Architectural/project imagery is implemented, but product photography is now a hard customer-level release gate. Every public SKU must have the correct current-product image and final publication rights must be checked.');
+check(16,'Visual design',css.includes('--bg:#f7f7f4')&&css.includes('.software-pair')&&css.includes('.product-grid'),'Architectural Tech / Premium Minimal design system is implemented with restrained software contrast and industrial product catalogue styling.');
+check(17,'Mobile design',css.includes('@media(max-width:700px)')&&css.includes('@media(max-width:1100px)'),'Responsive navigation/layout breakpoints exist.');
 check(18,'Conversion / sales',contact.includes('Send enquiry')&&home.includes('Talk to Blutech'),'Contact CTAs and dedicated enquiry route exist.');
 check(19,'Forms',contact.includes('companyName')&&contact.includes('privacyConsent')&&contact.includes('website'),'Required fields, consent, validation hooks and honeypot are present.');
 check(20,'SEO foundations',layout.includes('canonical')&&exists('dist','sitemap.xml')&&exists('dist','robots.txt'),'Canonical metadata, sitemap and robots are generated.');
@@ -48,7 +48,7 @@ check(30,'Social / sharing',layout.includes('og:title')&&layout.includes('twitte
 check(31,'Technical architecture',exists('src','layouts','BaseLayout.astro')&&exists('src','components','SiteHeader.astro')&&exists('src','data','site.ts'),'Reusable layout, components and central product/solution data are used.');
 review(32,'CMS / content maintenance','Catalogue and resources are centralised in data files. A non-developer CMS still requires a deployment/authentication decision.');
 check(33,'Error handling',exists('dist','404.html')&&contact.includes('could not send your message'),'404 and form failure fallback exist.');
-review(34,'Quality assurance','Build and automated structural audit run in CI. Cross-browser/device visual QA must be performed against a deployed preview.');
+review(34,'Quality assurance','Build and automated structural audit run in CI. Cross-browser/device visual QA and a page-by-page customer journey review must be performed against the deployed preview.');
 check(35,'Launch migration',src('vercel.json').includes('/hardware')&&exists('dist','sitemap.xml'),'Old key URLs redirect and new sitemap exists. Search Console indexing checks remain post-deploy.');
 external(36,'Post-launch improvement','Event data, Search Console queries, conversion rate and 404 logs can only be evaluated after production traffic exists.');
 
