@@ -13,7 +13,7 @@ const external=(n,name,note)=>results.push({n,name,status:'EXTERNAL',note});
 
 if(!exists('dist')){ console.error('dist/ not found. Run npm run build before npm run audit.'); process.exit(1); }
 const home=distText(); const software=distText('software/index.html'); const products=distText('products/index.html'); const solutions=distText('solutions/index.html'); const projects=distText('projects/index.html'); const company=distText('company/index.html'); const contact=distText('contact/index.html');
-const data=src('src','data','site.ts'); const css=src('src','styles','global.css'); const layout=src('src','layouts','BaseLayout.astro');
+const data=src('src','data','site.ts'); const css=src('src','styles','global.css'); const layout=src('src','layouts','BaseLayout.astro'); const pkg=JSON.parse(src('package.json'));
 
 check(1,'Positioning',home.includes('Building IoT &amp; AIoT')||home.includes('Building IoT & AIoT'),'Homepage states Building IoT & AIoT clearly.');
 check(2,'Brand architecture',home.includes('BLUTA Fire')&&company.includes('BLUTA Fire')&&software.includes('Blutech Halo')&&software.includes('Blutech Core'),'Blutech, Halo, Core and BLUTA Fire relationship is explicit.');
@@ -41,9 +41,9 @@ check(23,'Structured data',layout.includes('Organization')&&src('src','pages','p
 check(24,'Multilingual',exists('dist','zh-hk','index.html')&&exists('dist','zh-cn','index.html')&&exists('dist','ar','index.html')&&distText('ar/index.html').includes('dir="rtl"'),'English, Traditional Chinese, Simplified Chinese and Arabic core routes build with RTL.');
 check(25,'Technical performance',!css.includes('@font-face')&&/loading="lazy"/.test(home+projects),'No external webfont dependency; below-fold imagery is lazy loaded. Live CWV must be measured after deployment.','PASS');
 check(26,'Accessibility',layout.includes('skip-link')&&contact.includes('<label')&&css.includes('prefers-reduced-motion'),'Skip link, form labels, focus styling and reduced motion support exist.');
-check(27,'Security',exists('vercel.json')&&src('vercel.json').includes('Content-Security-Policy')&&exists('public','.well-known','security.txt'),'Security headers and security contact are configured for supported deployment targets.');
-check(28,'Privacy / legal',exists('dist','privacy','index.html')&&exists('dist','terms','index.html'),'Privacy and website terms pages build.');
-external(29,'Analytics / webmaster','GA, Google Search Console and Bing verification hooks are coded; production IDs and account verification must be supplied after deployment.');
+check(27,'Security',exists('vercel.json')&&src('vercel.json').includes('Content-Security-Policy')&&exists('public','.well-known','security.txt')&&String(pkg.dependencies.astro).startsWith('7.'),'Security headers/security contact are configured and the project is on the current Astro major; CI separately blocks high-severity dependency audit findings.');
+check(28,'Privacy / legal',exists('dist','privacy','index.html')&&exists('dist','terms','index.html')&&layout.includes('blutech_analytics_consent'),'Privacy/terms pages and consent-gated optional analytics are present.');
+external(29,'Analytics / webmaster','Consent-gated GA and conversion/outbound/download hooks are coded; production GA/Search Console/Bing IDs and account verification must be supplied after deployment.');
 check(30,'Social / sharing',layout.includes('og:title')&&layout.includes('twitter:card')&&exists('dist','favicon.svg')&&exists('dist','site.webmanifest'),'Open Graph, social metadata, favicon and manifest are present.');
 check(31,'Technical architecture',exists('src','layouts','BaseLayout.astro')&&exists('src','components','SiteHeader.astro')&&exists('src','data','site.ts'),'Reusable layout, components and central product/solution data are used.');
 review(32,'CMS / content maintenance','Catalogue and resources are centralised in data files. A non-developer CMS still requires a deployment/authentication decision.');
