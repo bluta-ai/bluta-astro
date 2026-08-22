@@ -15,7 +15,7 @@ The site separates the Blutech building portfolio from the dedicated fire brand 
 
 ## Local development
 
-Requires Node.js 24 or later.
+Requires Node.js 24.x.
 
 ```bash
 npm install
@@ -28,7 +28,7 @@ Production build and website-readiness audit:
 npm run check
 ```
 
-`npm run check` builds the full static site and runs `scripts/site-audit.mjs`, which checks the 36 website-readiness categories tracked for this rebuild.
+`npm run check` builds the full static site and runs `scripts/site-audit.mjs`, which checks the 36 website-readiness categories tracked for this rebuild. GitHub CI separately runs `npm audit --omit=dev --audit-level=high` before the site audit.
 
 ## Deployment environment variables
 
@@ -45,6 +45,8 @@ Optional analytics / webmaster verification:
 - `PUBLIC_GA_MEASUREMENT_ID`
 - `PUBLIC_GOOGLE_SITE_VERIFICATION`
 - `PUBLIC_BING_SITE_VERIFICATION`
+
+If Google Analytics is configured, it is **not loaded until the visitor explicitly allows analytics**. The implementation disables advertising-personalisation signals and tracks only website-oriented events such as successful enquiry generation, outbound links and file downloads.
 
 Do not commit credentials, API keys or verification secrets to the repository.
 
