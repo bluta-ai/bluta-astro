@@ -23,8 +23,8 @@ Status definitions:
 | 12 | Evidence library / claims policy | PASS for policy; ongoing editorial gate for every new claim. |
 | 13 | Awards / credibility | PASS — wording remains at verified solution/company scope. |
 | 14 | Customer proof | PASS — real named references are included where currently approved for site use. |
-| 15 | Photography | PASS structurally; **human review required** for final image rights/permission and missing SKU photos. |
-| 16 | Visual design | PASS structurally — common design system/components. |
+| 15 | Photography | **REVIEW / RELEASE BLOCKER** — every published SKU must have a correct current-product image. Missing images, a reused image from another model, generic enclosure art, or an AI label treated as evidence all fail the release gate. Final image rights/permission also require human review. |
+| 16 | Visual design | PASS structurally — Architectural Tech / Premium Minimal design system is now the target; deployed visual review remains under #34. |
 | 17 | Mobile design | PASS structurally — responsive layouts/navigation; final device QA remains under #34. |
 | 18 | Conversion / sales | PASS — contact and contextual product/solution CTAs exist. |
 | 19 | Forms | PASS structurally — validation, consent, honeypot and failure fallback; production email test still required. |
@@ -42,26 +42,34 @@ Status definitions:
 | 31 | Technical architecture | PASS — reusable layout/components and central content data. |
 | 32 | CMS / content maintenance | REVIEW — central TS data is maintainable by developers; decide whether a non-developer CMS is actually needed. |
 | 33 | Error handling | PASS — 404 page and contact failure fallback. |
-| 34 | Quality assurance | REVIEW — CI/build audit exists; must test deployed preview on Chrome, Safari, Edge, iPhone, Android and representative desktop/tablet widths. |
+| 34 | Quality assurance | REVIEW — CI/build audit exists; must test the deployed preview as a customer on Chrome, Safari, Edge, iPhone, Android and representative desktop/tablet widths, including every product page and every primary CTA. |
 | 35 | Launch migration | PASS structurally — redirects and sitemap exist; final production crawl/404/index checks required after cutover. |
 | 36 | Post-launch improvement | EXTERNAL — requires real traffic, conversions, Search Console queries and 404 data. |
 
-## Automated audit target
+## Product photography release gate
 
-The automated build-level target is **32 PASS / 2 REVIEW / 2 EXTERNAL / 0 FAIL**. A REVIEW or EXTERNAL category is not a hidden failure: it records an item that cannot truthfully be closed from source code alone.
+`scripts/product-image-audit.mjs` is now part of the normal website check. In development it reports incomplete imagery without hiding it. The production command `npm run release:check` runs the same audit in strict mode and fails if:
+
+- a published product has no image reference;
+- two different public SKUs reuse the same product image without an explicit, justified reason;
+- an image reference looks like a generic placeholder/demo asset;
+- the assigned image is not the correct current physical product during human review.
+
+**Target before release: 100% of public products with correct product photography.** Installation photographs can be additional, but they do not replace a clear product image.
 
 ## Production launch blockers
 
 The redesign must not be described as fully production-passed until these real-world checks are complete:
 
-1. The **release commit** (not just an earlier development commit) has a green build, dependency security audit and 36-category structural audit.
+1. The **release commit** has a green build, dependency security audit, 36-category structural audit and strict product-image audit.
 2. A deployed preview is checked on Chrome, Safari and Edge plus representative iPhone, Android, desktop and tablet widths.
-3. `RESEND_API_KEY` and a verified `CONTACT_FROM_EMAIL` are configured; a real enquiry is submitted and receipt/reply flow is verified.
-4. Google Analytics (if desired), Google Search Console and Bing Webmaster ownership/IDs are configured and verified.
-5. Publication permission is confirmed for all project/customer images and named references.
-6. Missing real product photography and exact downloadable specifications are added only where approved source files support them.
-7. Production Core Web Vitals/Lighthouse are measured and material regressions are fixed.
-8. After launch, indexing, 404s, conversion events and search queries are inspected before the post-launch categories are closed.
+3. Every public product page is opened and reviewed as a customer: correct model/name, correct photograph, no broken image, understandable summary, useful applications, verified specifications only, working enquiry CTA and related navigation.
+4. `RESEND_API_KEY` and a verified `CONTACT_FROM_EMAIL` are configured; a real enquiry is submitted and receipt/reply flow is verified.
+5. Google Analytics (if desired), Google Search Console and Bing Webmaster ownership/IDs are configured and verified.
+6. Publication permission is confirmed for all project/customer images and named references.
+7. Exact downloadable specifications are added only where approved source files support them.
+8. Production Core Web Vitals/Lighthouse are measured and material regressions are fixed.
+9. After launch, indexing, 404s, conversion events and search queries are inspected before the post-launch categories are closed.
 
 ## BLUTA Fire relationship rule
 
