@@ -46,6 +46,10 @@ Status definitions:
 | 35 | Launch migration | PASS structurally — redirects and sitemap exist; final production crawl/404/index checks required after cutover. |
 | 36 | Post-launch improvement | EXTERNAL — requires real traffic, conversions, Search Console queries and 404 data. |
 
+## Automated audit target
+
+The automated build-level target is **32 PASS / 2 REVIEW / 2 EXTERNAL / 0 FAIL**. A REVIEW or EXTERNAL category is not a hidden failure: it records an item that cannot truthfully be closed from source code alone.
+
 ## Production launch blockers
 
 The redesign must not be described as fully production-passed until these real-world checks are complete:
