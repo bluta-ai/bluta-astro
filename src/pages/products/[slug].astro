@@ -15,7 +15,7 @@ const schema = [
 <BaseLayout title={`${product.model} ${product.name} | Blutech`} description={product.summary} canonicalPath={`/products/${product.slug}`} schema={schema}>
   <section class="page-hero"><div class="shell"><div class="breadcrumb"><a href="/">Home</a><span>›</span><a href="/products">Products</a><span>›</span><span>{product.model}</span></div><div class="kicker">{product.family}</div><h1>{product.model}<br/>{product.name}</h1><p>{product.summary}</p></div></section>
   <section><div class="shell product-detail">
-    <div>{product.image ? <figure class="product-figure"><img src={product.image} alt={`${product.model} ${product.name} product`} width="900" height="675" /></figure> : <div class="panel"><div class="kicker">Product imagery</div><h2>{product.model}</h2><p class="muted">A verified real-product image will be added when the approved website asset is available. We do not substitute a fabricated product render.</p></div>}</div>
+    <div>{product.image ? <figure class="product-figure"><img src={product.image} alt={`${product.model} ${product.name} product`} width="900" height="675" /></figure> : <div class="product-figure product-image-missing"><div><div class="kicker">Preview only</div><strong>{product.model}</strong><p>Verified real-product photography is still being matched to this SKU. This page cannot pass the release gate until the correct image is assigned.</p></div></div>}</div>
     <article>
       <div class="kicker">What it does</div><h2 style="font-size:42px;margin:8px 0 16px">Built for a clear field job.</h2><p class="hero-copy" style="font-size:19px">{product.summary}</p>
       <h3>Key functions</h3><ul class="feature-list">{product.features.map((f) => <li>{f}</li>)}</ul>
