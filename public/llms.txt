@@ -1,0 +1,32 @@
+# Blutech IoT Limited
+
+Blutech is a Hong Kong building IoT and AIoT company founded in 2019. It develops connected-building hardware and software and delivers system integration, commissioning and support for commercial buildings, hospitals, government facilities, transport infrastructure and public facilities.
+
+## Positioning
+- Building IoT & AIoT for real-world operations.
+- Blutech connects sensing, wireless networks, edge logic, software and building-system integrations.
+- AI is used selectively where it improves sensing, recognition or optimisation; not every Blutech function is described as AI.
+
+## Software
+- Blutech Halo: Building Intelligence & Management Platform for live status, floorplans, alerts, history, reports and authorised controls.
+- Blutech Core: IoT Device & Integration Platform for devices, gateways, provisioning, configuration, connectivity, rules, payload/data mapping and APIs.
+
+## Main solution areas
+- Smart washroom systems
+- Privacy-preserving occupancy sensing
+- Fall, long-stay and motionless detection without conventional cameras
+- Wireless smart lighting control
+- Indoor air quality monitoring and HVAC/BMS interaction
+- Water leakage monitoring
+- Smart bin / waste monitoring
+- LoRaWAN and building IoT retrofit
+
+## Fire brand
+BLUTA Fire is Blutech's dedicated fire and life-safety brand. Fire-related products, certifications, approvals and claims are intentionally kept under the exact BLUTA product scope. Website: https://bluta.io
+
+## Evidence policy
+Blutech does not treat an award, certificate or customer outcome as applying to every product unless the source explicitly supports that scope. Product specifications and project quantities should be confirmed against current technical documents before relying on them for design or procurement.
+
+## Contact
+Website: https://blutech.io
+Email: enquiry@blutech.io
