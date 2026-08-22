@@ -13,6 +13,8 @@ The site separates the Blutech building portfolio from the dedicated fire brand 
 - **Blutech Core** — IoT Device & Integration Platform
 - **BLUTA Fire** — Blutech's dedicated fire & life-safety brand (`bluta.io`)
 
+The tracked status of all 36 website-readiness categories is in `docs/website-readiness.md`. Categories that depend on a live deployment, external accounts or human visual/permission review are deliberately not marked complete prematurely.
+
 ## Local development
 
 Requires Node.js 24.x.
