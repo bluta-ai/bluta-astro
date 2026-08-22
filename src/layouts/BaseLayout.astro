@@ -32,6 +32,8 @@ const canonical = new URL(canonicalPath, site).toString();
 const cleanPath = canonicalPath.replace(/^\/(zh-hk|zh-cn|ar)(?=\/|$)/, "") || "/";
 const localePath = (locale: string) => locale === "en" ? cleanPath : `/${locale}${cleanPath === "/" ? "/" : cleanPath}`;
 const alternateLocales = ["en", "zh-HK", "zh-CN", "ar"] as const;
+const localizedCoreRoutes = new Set(["/","/solutions","/products","/software","/projects","/technology","/company","/resources","/contact"]);
+const emitHreflang = hasLocalizedVersions || localizedCoreRoutes.has(cleanPath.replace(/\/$/,"") || "/");
 
 const organizationSchema = {
   "@context": "https://schema.org",
@@ -66,11 +68,11 @@ const bingVerification = import.meta.env.PUBLIC_BING_SITE_VERIFICATION;
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="manifest" href="/site.webmanifest" />
-    {hasLocalizedVersions && alternateLocales.map((locale) => {
+    {emitHreflang && alternateLocales.map((locale) => {
       const key = locale === "zh-HK" ? "zh-hk" : locale === "zh-CN" ? "zh-cn" : locale;
       return <link rel="alternate" hreflang={locale} href={new URL(localePath(key), site).toString()} />;
     })}
-    {hasLocalizedVersions && <link rel="alternate" hreflang="x-default" href={new URL(cleanPath, site).toString()} />}
+    {emitHreflang && <link rel="alternate" hreflang="x-default" href={new URL(cleanPath, site).toString()} />}
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Blutech" />
     <meta property="og:title" content={title} />
