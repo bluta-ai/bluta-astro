@@ -1,0 +1,63 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { solutions, products, projects } from "../../data/site";
+export function getStaticPaths(){ return solutions.map((solution)=>({params:{slug:solution.slug},props:{solution}})); }
+const { solution } = Astro.props;
+const productMap: Record<string,string[]> = {
+  "smart-washroom":["BT101","BT102","BT303","BT337","BT338","BT2035","BT3022","BT3023"],
+  "privacy-preserving-occupancy":["BT303","BT321","BT337","BT338"],
+  "fall-long-stay-motionless":["BT337","BT338","BT317"],
+  "smart-lighting":["BT321","BT315","BT316"],
+  "indoor-air-quality":["BT306"],
+  "water-leakage":["BT333","BT339"],
+  "smart-waste":["BT353"],
+  "building-iot-retrofit":["BT315","BT316","BT802","BT803"]
+};
+const related = products.filter((p)=>productMap[solution.slug]?.includes(p.model));
+const faqMap: Record<string,{q:string,a:string}[]> = {
+  "smart-washroom":[
+    {q:"Does a smart washroom need cameras?",a:"No. Blutech commonly uses thermal, PIR, door-status and sensor-fusion approaches in privacy-sensitive washroom areas, selected according to the required function."},
+    {q:"Can the system show cubicle availability?",a:"Yes. Door status, occupancy sensing and local indicator/signage products can be combined to show availability locally and on connected displays."},
+    {q:"Can it integrate with a building or hospital system?",a:"Yes, where the project interface is available. Blutech supports API, MQTT and project-specific integration workflows."}
+  ],
+  "privacy-preserving-occupancy":[
+    {q:"What does privacy-preserving occupancy mean?",a:"It means the core sensing does not depend on conventional identifiable video. Depending on the application, Blutech uses thermal arrays, PIR or thermal-plus-mmWave sensor fusion."},
+    {q:"Can it work without the cloud?",a:"Some local sensor-to-controller workflows use Bluetooth or local logic so time-critical actions can continue even when the cloud connection is unavailable."}
+  ],
+  "fall-long-stay-motionless":[
+    {q:"Can fall detection work in a toilet without a camera?",a:"Yes, supported Blutech sensor-fusion deployments use non-camera thermal and mmWave information for privacy-sensitive safety monitoring."},
+    {q:"Can alert timing be configured?",a:"Yes. Long-stay, motionless and event-confirmation timings are configured according to the approved workflow and project requirements."}
+  ],
+  "smart-lighting":[
+    {q:"Can Blutech retrofit an existing lighting system?",a:"The architecture is designed around practical retrofit constraints. PIR, local Bluetooth links, controllers, schedules and 0–10V or relay interfaces can be selected according to the existing fixtures and control boundary."},
+    {q:"Does lighting stop if the Internet fails?",a:"Local sensor logic and locally stored schedules can continue where the deployed architecture supports them."}
+  ],
+  "indoor-air-quality":[
+    {q:"Which IAQ parameters are standard on IAQ5?",a:"The current confirmed standard set is temperature, humidity and PM2.5. Other parameters may be customised for a project and should not be assumed to be standard."},
+    {q:"Can IAQ data interact with HVAC?",a:"Yes. IAQ values can be used as inputs to platform or BMS logic where the agreed project integration supports it."}
+  ],
+  "water-leakage":[
+    {q:"What is the difference between BT333 and BluDrop?",a:"BT333 uses a sensing cable for broader area/zone coverage. BluDrop is a compact discrete point detector for locations where a visible sensing cable is undesirable."},
+    {q:"Does BT333 identify the exact point on the cable?",a:"The confirmed product function is detection of leakage at any point along the sensing cable; exact positional localisation should not be assumed unless a project specification explicitly provides it."}
+  ],
+  "smart-waste":[
+    {q:"How is bin fill level measured?",a:"BT353 measures distance to the waste surface. Empty/full reference values are configured so the system can determine fill status and thresholds."}
+  ],
+  "building-iot-retrofit":[
+    {q:"Do all Blutech devices use LoRaWAN?",a:"No. Blutech uses LoRaWAN, Bluetooth, 4G, Wi-Fi, RS485 and contact interfaces according to the site and the required local/cloud behaviour."},
+    {q:"Can existing equipment be connected without replacing it?",a:"Often yes. Signal Receiver and Signal Controller products can acquire existing contact/RS485 signals or provide relay/low-voltage control, subject to the equipment interface."}
+  ]
+};
+const faqs = faqMap[solution.slug] || [];
+const schema = [
+  {"@context":"https://schema.org","@type":"Service",name:solution.title,serviceType:solution.search,provider:{"@type":"Organization",name:"Blutech IoT Limited",url:"https://blutech.io"},description:solution.summary},
+  ...(faqs.length ? [{"@context":"https://schema.org","@type":"FAQPage",mainEntity:faqs.map((f)=>({"@type":"Question",name:f.q,acceptedAnswer:{"@type":"Answer",text:f.a}}))}] : [])
+];
+---
+<BaseLayout title={`${solution.title} | Blutech`} description={solution.summary} canonicalPath={`/solutions/${solution.slug}`} schema={schema}>
+  <section class="page-hero"><div class="shell"><div class="breadcrumb"><a href="/">Home</a><span>›</span><a href="/solutions">Solutions</a><span>›</span><span>{solution.title}</span></div><div class="kicker">{solution.search}</div><h1>{solution.title}</h1><p>{solution.summary}</p></div></section>
+  <section><div class="shell split"><div><div class="kicker">How it works</div><h2>Sense. Connect. Respond. Learn.</h2><p class="hero-copy" style="font-size:19px">The field architecture is selected around the space, privacy requirement, response time and existing systems. Local actions stay local where useful; Halo provides the operator layer and Core manages the connected infrastructure behind it.</p></div><div class="grid grid-2">{solution.bullets.map((b,i)=><div class="card"><div class="meta">0{i+1}</div><h3>{b}</h3><p>Configured as part of the project workflow rather than treated as an isolated sensor point.</p></div>)}</div></div></section>
+  {related.length > 0 && <section style="background:var(--bg-2)"><div class="shell"><div class="section-head"><div><div class="kicker">Related products</div><h2>Hardware commonly used in this solution.</h2><p>Final product selection and quantity depend on site survey, coverage testing and the approved operational workflow.</p></div></div><div class="product-grid">{related.map((p)=><a class="card product-card" href={`/products/${p.slug}`}>{p.image && <div class="product-image"><img src={p.image} alt={`${p.model} ${p.name}`} loading="lazy"/></div>}<div class="model">{p.model}</div><h3>{p.name}</h3><p>{p.summary}</p><span class="card-link">View product →</span></a>)}</div></div></section>}
+  {faqs.length > 0 && <section><div class="shell article"><div class="kicker">FAQ</div><h2>Common questions</h2><div class="faq">{faqs.map((f)=><details><summary>{f.q}</summary><p>{f.a}</p></details>)}</div></div></section>}
+  <section style="background:var(--bg-2)"><div class="shell panel"><div class="section-head" style="margin-bottom:0"><div><div class="kicker">Project design</div><h2>Need this in a real building?</h2><p>Send us the site condition, existing systems and operating objective. We will identify what needs to be verified before proposing the architecture.</p></div><a class="button" href={`/contact?solution=${solution.slug}`}>Discuss this solution</a></div></div></section>
+</BaseLayout>
