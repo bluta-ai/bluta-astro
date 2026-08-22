@@ -54,6 +54,13 @@ const schemas = Array.isArray(schema) ? [organizationSchema, ...schema] : schema
 const gaId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
 const googleVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
 const bingVerification = import.meta.env.PUBLIC_BING_SITE_VERIFICATION;
+const consentCopy:Record<string,{text:string,accept:string,decline:string}> = {
+  en:{text:"We use optional analytics to understand website performance and enquiries. No advertising tracking.",accept:"Allow analytics",decline:"Decline"},
+  "zh-hk":{text:"我們只使用可選的網站分析來了解網站表現及查詢轉換，不使用廣告追蹤。",accept:"允許分析",decline:"拒絕"},
+  "zh-cn":{text:"我们只使用可选的网站分析来了解网站表现及咨询转化，不使用广告追踪。",accept:"允许分析",decline:"拒绝"},
+  ar:{text:"نستخدم تحليلات اختيارية لفهم أداء الموقع والاستفسارات، من دون تتبع إعلاني.",accept:"السماح بالتحليلات",decline:"رفض"}
+};
+const cc = consentCopy[lang] || consentCopy.en;
 ---
 <!doctype html>
 <html lang={lang} dir={dir}>
@@ -86,22 +93,53 @@ const bingVerification = import.meta.env.PUBLIC_BING_SITE_VERIFICATION;
     {googleVerification && <meta name="google-site-verification" content={googleVerification} />}
     {bingVerification && <meta name="msvalidate.01" content={bingVerification} />}
     {schemas.map((item) => <script type="application/ld+json" set:html={JSON.stringify(item)} />)}
-    {gaId && (
-      <>
-        <script async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}></script>
-        <script is:inline define:vars={{ gaId }}>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', gaId, { anonymize_ip: true });
-        </script>
-      </>
-    )}
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
     <SiteHeader lang={lang} path={Astro.url.pathname} />
     <main id="main"><slot /></main>
     <SiteFooter lang={lang} />
+    {gaId && <aside id="analytics-consent" class="consent-banner" hidden aria-label="Analytics preference"><p>{cc.text} <a href="/privacy">Privacy</a></p><div><button class="button small" id="analytics-accept" type="button">{cc.accept}</button><button class="button secondary small" id="analytics-decline" type="button">{cc.decline}</button></div></aside>}
+    {gaId && <script is:inline define:vars={{ gaId }}>
+      (() => {
+        const consentKey = 'blutech_analytics_consent';
+        const banner = document.getElementById('analytics-consent');
+        let loaded = false;
+        function loadAnalytics(){
+          if (loaded) return;
+          loaded = true;
+          window.dataLayer = window.dataLayer || [];
+          window.gtag = function(){ window.dataLayer.push(arguments); };
+          window.gtag('js', new Date());
+          window.gtag('config', gaId, { anonymize_ip:true, allow_google_signals:false, allow_ad_personalization_signals:false });
+          const script = document.createElement('script');
+          script.async = true;
+          script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(gaId)}`;
+          document.head.appendChild(script);
+        }
+        window.blutechTrack = function(eventName, params={}){
+          if (localStorage.getItem(consentKey) === 'granted') {
+            loadAnalytics();
+            window.gtag?.('event', eventName, params);
+          }
+        };
+        const preference = localStorage.getItem(consentKey);
+        if (preference === 'granted') loadAnalytics();
+        else if (!preference && banner) banner.hidden = false;
+        document.getElementById('analytics-accept')?.addEventListener('click',()=>{
+          localStorage.setItem(consentKey,'granted'); loadAnalytics(); if (banner) banner.hidden = true;
+        });
+        document.getElementById('analytics-decline')?.addEventListener('click',()=>{
+          localStorage.setItem(consentKey,'denied'); if (banner) banner.hidden = true;
+        });
+        document.addEventListener('click',(event)=>{
+          const target = event.target instanceof Element ? event.target.closest('a') : null;
+          if (!(target instanceof HTMLAnchorElement)) return;
+          const url = new URL(target.href, location.href);
+          if (url.hostname !== location.hostname) window.blutechTrack?.('outbound_click',{destination:url.hostname,path:url.pathname});
+          if (/\.(pdf|docx?|xlsx?|pptx?|zip)$/i.test(url.pathname)) window.blutechTrack?.('file_download',{file_name:url.pathname.split('/').pop()});
+        });
+      })();
+    </script>}
   </body>
 </html>
