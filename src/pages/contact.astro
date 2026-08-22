@@ -25,7 +25,7 @@ const context = product ? `Product enquiry: ${product}` : solution ? `Solution e
         const enquiryType = String(payload.enquiryType || 'General enquiry');
         form.reset();
         status.textContent = 'Thank you. Your enquiry has been sent to Blutech.';
-        window.blutechTrack?.('generate_lead',{enquiry_type:enquiryType});
+        (window as any).blutechTrack?.('generate_lead',{enquiry_type:enquiryType});
       } catch (error) {
         status.textContent = 'The web form could not send your message. Please email enquiry@blutech.io directly.';
       } finally {
