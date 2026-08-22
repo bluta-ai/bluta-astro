@@ -29,7 +29,7 @@ export default async function handler(req, res) {
     await resend.emails.send({
       from: fromEmail,
       to: toEmail,
-      reply_to: email,
+      replyTo: email,
       subject,
       html:`<div style="font-family:Arial,sans-serif;line-height:1.55"><h2>New Blutech website enquiry</h2><p><b>Name:</b> ${esc(name)}</p><p><b>Company:</b> ${esc(companyName)}</p><p><b>Email:</b> ${esc(email)}</p><p><b>Phone:</b> ${esc(phone || '—')}</p><p><b>Type:</b> ${esc(enquiryType || '—')}</p><p><b>Message:</b></p><pre style="white-space:pre-wrap;font-family:Arial,sans-serif">${esc(message)}</pre></div>`,
       text:`Name: ${name}\nCompany: ${companyName}\nEmail: ${email}\nPhone: ${phone || '—'}\nType: ${enquiryType || '—'}\n\n${message}`
