@@ -11,6 +11,7 @@ interface Props {
   canonicalPath?: string;
   image?: string;
   noindex?: boolean;
+  hasLocalizedVersions?: boolean;
   schema?: Record<string, any> | Record<string, any>[];
 }
 
@@ -22,6 +23,7 @@ const {
   canonicalPath = Astro.url.pathname,
   image = "/og-default.svg",
   noindex = false,
+  hasLocalizedVersions = false,
   schema,
 } = Astro.props;
 
@@ -29,12 +31,7 @@ const site = "https://blutech.io";
 const canonical = new URL(canonicalPath, site).toString();
 const cleanPath = canonicalPath.replace(/^\/(zh-hk|zh-cn|ar)(?=\/|$)/, "") || "/";
 const localePath = (locale: string) => locale === "en" ? cleanPath : `/${locale}${cleanPath === "/" ? "/" : cleanPath}`;
-const alternateLocales = [
-  ["en", "English"],
-  ["zh-HK", "繁體中文"],
-  ["zh-CN", "简体中文"],
-  ["ar", "العربية"],
-] as const;
+const alternateLocales = ["en", "zh-HK", "zh-CN", "ar"] as const;
 
 const organizationSchema = {
   "@context": "https://schema.org",
@@ -52,7 +49,6 @@ const organizationSchema = {
   ]
 };
 const schemas = Array.isArray(schema) ? [organizationSchema, ...schema] : schema ? [organizationSchema, schema] : [organizationSchema];
-
 const gaId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
 const googleVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
 const bingVerification = import.meta.env.PUBLIC_BING_SITE_VERIFICATION;
@@ -70,11 +66,11 @@ const bingVerification = import.meta.env.PUBLIC_BING_SITE_VERIFICATION;
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="manifest" href="/site.webmanifest" />
-    {alternateLocales.map(([locale]) => {
+    {hasLocalizedVersions && alternateLocales.map((locale) => {
       const key = locale === "zh-HK" ? "zh-hk" : locale === "zh-CN" ? "zh-cn" : locale;
       return <link rel="alternate" hreflang={locale} href={new URL(localePath(key), site).toString()} />;
     })}
-    <link rel="alternate" hreflang="x-default" href={new URL(cleanPath, site).toString()} />
+    {hasLocalizedVersions && <link rel="alternate" hreflang="x-default" href={new URL(cleanPath, site).toString()} />}
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Blutech" />
     <meta property="og:title" content={title} />
