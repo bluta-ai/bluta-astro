@@ -1,0 +1,109 @@
+---
+import "../styles/global.css";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  lang?: string;
+  dir?: "ltr" | "rtl";
+  canonicalPath?: string;
+  image?: string;
+  noindex?: boolean;
+  schema?: Record<string, any> | Record<string, any>[];
+}
+
+const {
+  title,
+  description,
+  lang = "en",
+  dir = lang === "ar" ? "rtl" : "ltr",
+  canonicalPath = Astro.url.pathname,
+  image = "/og-default.svg",
+  noindex = false,
+  schema,
+} = Astro.props;
+
+const site = "https://blutech.io";
+const canonical = new URL(canonicalPath, site).toString();
+const cleanPath = canonicalPath.replace(/^\/(zh-hk|zh-cn|ar)(?=\/|$)/, "") || "/";
+const localePath = (locale: string) => locale === "en" ? cleanPath : `/${locale}${cleanPath === "/" ? "/" : cleanPath}`;
+const alternateLocales = [
+  ["en", "English"],
+  ["zh-HK", "繁體中文"],
+  ["zh-CN", "简体中文"],
+  ["ar", "العربية"],
+] as const;
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Blutech IoT Limited",
+  alternateName: "Blutech",
+  url: site,
+  email: "enquiry@blutech.io",
+  foundingDate: "2019",
+  description: "Hong Kong building IoT and AIoT company connecting sensors, wireless networks, edge logic, software and building-system integrations.",
+  brand: [
+    { "@type": "Brand", name: "Blutech Halo" },
+    { "@type": "Brand", name: "Blutech Core" },
+    { "@type": "Brand", name: "BLUTA Fire", url: "https://bluta.io" }
+  ]
+};
+const schemas = Array.isArray(schema) ? [organizationSchema, ...schema] : schema ? [organizationSchema, schema] : [organizationSchema];
+
+const gaId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
+const googleVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
+const bingVerification = import.meta.env.PUBLIC_BING_SITE_VERIFICATION;
+---
+<!doctype html>
+<html lang={lang} dir={dir}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#07131f" />
+    <meta name="color-scheme" content="dark light" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content={noindex ? "noindex,nofollow" : "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1"} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="/site.webmanifest" />
+    {alternateLocales.map(([locale]) => {
+      const key = locale === "zh-HK" ? "zh-hk" : locale === "zh-CN" ? "zh-cn" : locale;
+      return <link rel="alternate" hreflang={locale} href={new URL(localePath(key), site).toString()} />;
+    })}
+    <link rel="alternate" hreflang="x-default" href={new URL(cleanPath, site).toString()} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Blutech" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(image, site).toString()} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL(image, site).toString()} />
+    {googleVerification && <meta name="google-site-verification" content={googleVerification} />}
+    {bingVerification && <meta name="msvalidate.01" content={bingVerification} />}
+    {schemas.map((item) => <script type="application/ld+json" set:html={JSON.stringify(item)} />)}
+    {gaId && (
+      <>
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}></script>
+        <script is:inline define:vars={{ gaId }}>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', gaId, { anonymize_ip: true });
+        </script>
+      </>
+    )}
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <SiteHeader lang={lang} path={Astro.url.pathname} />
+    <main id="main"><slot /></main>
+    <SiteFooter lang={lang} />
+  </body>
+</html>
