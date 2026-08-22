@@ -1,0 +1,62 @@
+import fs from 'node:fs';
+import path from 'node:path';
+
+const root = process.cwd();
+const dist = path.join(root,'dist');
+const src = (...p)=>fs.readFileSync(path.join(root,...p),'utf8');
+const exists = (...p)=>fs.existsSync(path.join(root,...p));
+const distText = (route='index.html')=>{ const p=path.join(dist,route); return fs.existsSync(p)?fs.readFileSync(p,'utf8'):''; };
+const results=[];
+const check=(n,name,ok,note,status=ok?'PASS':'FAIL')=>results.push({n,name,status:ok?status:'FAIL',note});
+const review=(n,name,note)=>results.push({n,name,status:'REVIEW',note});
+const external=(n,name,note)=>results.push({n,name,status:'EXTERNAL',note});
+
+if(!exists('dist')){ console.error('dist/ not found. Run npm run build before npm run audit.'); process.exit(1); }
+const home=distText(); const software=distText('software/index.html'); const products=distText('products/index.html'); const solutions=distText('solutions/index.html'); const projects=distText('projects/index.html'); const company=distText('company/index.html'); const contact=distText('contact/index.html');
+const data=src('src','data','site.ts'); const css=src('src','styles','global.css'); const layout=src('src','layouts','BaseLayout.astro');
+
+check(1,'Positioning',home.includes('Building IoT &amp; AIoT')||home.includes('Building IoT & AIoT'),'Homepage states Building IoT & AIoT clearly.');
+check(2,'Brand architecture',home.includes('BLUTA Fire')&&company.includes('BLUTA Fire')&&software.includes('Blutech Halo')&&software.includes('Blutech Core'),'Blutech, Halo, Core and BLUTA Fire relationship is explicit.');
+check(3,'Site structure',['solutions','products','software','projects','technology','company','resources','contact'].every(r=>exists('dist',r,'index.html')),'All core navigation destinations build.');
+check(4,'Homepage',home.includes('<h1')&&home.includes('Selected deployments')&&home.includes('Blutech Halo'),'Hero, proof, software and project sections present.');
+check(5,'Solution pages',exists('dist','solutions','smart-washroom','index.html')&&exists('dist','solutions','building-iot-retrofit','index.html'),'Search/problem-led solution detail pages build.');
+check(6,'Product catalogue',!data.includes('model:"BT104"')&&!data.includes('model:"BT349"')&&!data.includes('model:"BT318"')&&!data.includes('model:"BT319"'),'Excluded/current-separation rules enforced in public catalogue data.');
+check(7,'Product pages',exists('dist','products','bt338-heatmap-fusion','index.html')&&exists('dist','products','bt802-indoor-lorawan-gateway','index.html'),'Static product detail pages build from a central catalogue.');
+check(8,'Blutech Halo',software.includes('Building Intelligence &amp; Management Platform')||software.includes('Building Intelligence & Management Platform'),'Halo is described beyond a simple dashboard.');
+check(9,'Blutech Core',software.includes('IoT Device &amp; Integration Platform')||software.includes('IoT Device & Integration Platform'),'Core device/integration role is explicit.');
+check(10,'Halo + Core story',software.includes('One data path. Two user experiences.'),'Software relationship is explained.');
+check(11,'Projects',projects.includes('Real buildings')&&projects.includes('EMSD Headquarters'),'Evidence-first project portfolio exists.');
+check(12,'Evidence library policy',projects.includes('What we will not do')&&company.includes('official record'),'Public copy includes evidence/claim-scope discipline.');
+check(13,'Awards / credibility',company.includes('iF DESIGN AWARD')&&company.includes('Smart Washroom AIoT Solution'),'Award wording is solution-specific.');
+check(14,'Customer proof',projects.includes('Hong Kong International Airport')&&projects.includes('Three Garden Road'),'Named real project references present.');
+check(15,'Photography',/loading="lazy"/.test(home+projects)&&/alt=/.test(src('src','pages','index.astro')),'Real/local imagery is used with lazy loading and alt text; remaining asset rights require human review.','PASS');
+check(16,'Visual design',css.includes('--brand:')&&css.includes('.software-pair')&&css.includes('.product-grid'),'Shared design system and consistent components exist.');
+check(17,'Mobile design',css.includes('@media(max-width:700px)')&&css.includes('@media(max-width:1050px)'),'Responsive navigation/layout breakpoints exist.');
+check(18,'Conversion / sales',contact.includes('Send enquiry')&&home.includes('Talk to Blutech'),'Contact CTAs and dedicated enquiry route exist.');
+check(19,'Forms',contact.includes('companyName')&&contact.includes('privacyConsent')&&contact.includes('website'),'Required fields, consent, validation hooks and honeypot are present.');
+check(20,'SEO foundations',layout.includes('canonical')&&exists('dist','sitemap.xml')&&exists('dist','robots.txt'),'Canonical metadata, sitemap and robots are generated.');
+check(21,'Search-intent SEO',solutions.includes('Search intent')&&data.includes('fall detection without camera')&&data.includes('LoRaWAN building monitoring'),'Intent-led landing pages are encoded in solution data.');
+check(22,'GEO / AI search',exists('dist','llms.txt')&&layout.includes('application/ld+json')&&exists('dist','solutions','smart-washroom','index.html'),'AI-readable summary, structured factual copy and FAQ/service pages exist.');
+check(23,'Structured data',layout.includes('Organization')&&src('src','pages','products','[slug].astro').includes('Product')&&software.includes('application/ld+json'),'Organization/Product/Software schema paths exist.');
+check(24,'Multilingual',exists('dist','zh-hk','index.html')&&exists('dist','zh-cn','index.html')&&exists('dist','ar','index.html')&&distText('ar/index.html').includes('dir="rtl"'),'English, Traditional Chinese, Simplified Chinese and Arabic core routes build with RTL.');
+check(25,'Technical performance',!css.includes('@font-face')&&/loading="lazy"/.test(home+projects),'No external webfont dependency; below-fold imagery is lazy loaded. Live CWV must be measured after deployment.','PASS');
+check(26,'Accessibility',layout.includes('skip-link')&&contact.includes('<label')&&css.includes('prefers-reduced-motion'),'Skip link, form labels, focus styling and reduced motion support exist.');
+check(27,'Security',exists('vercel.json')&&src('vercel.json').includes('Content-Security-Policy')&&exists('public','.well-known','security.txt'),'Security headers and security contact are configured for supported deployment targets.');
+check(28,'Privacy / legal',exists('dist','privacy','index.html')&&exists('dist','terms','index.html'),'Privacy and website terms pages build.');
+external(29,'Analytics / webmaster','GA, Google Search Console and Bing verification hooks are coded; production IDs and account verification must be supplied after deployment.');
+check(30,'Social / sharing',layout.includes('og:title')&&layout.includes('twitter:card')&&exists('dist','favicon.svg')&&exists('dist','site.webmanifest'),'Open Graph, social metadata, favicon and manifest are present.');
+check(31,'Technical architecture',exists('src','layouts','BaseLayout.astro')&&exists('src','components','SiteHeader.astro')&&exists('src','data','site.ts'),'Reusable layout, components and central product/solution data are used.');
+review(32,'CMS / content maintenance','Catalogue and resources are centralised in data files. A non-developer CMS still requires a deployment/authentication decision.');
+check(33,'Error handling',exists('dist','404.html')&&contact.includes('could not send your message'),'404 and form failure fallback exist.');
+review(34,'Quality assurance','Build and automated structural audit run in CI. Cross-browser/device visual QA must be performed against a deployed preview.');
+check(35,'Launch migration',src('vercel.json').includes('/hardware')&&exists('dist','sitemap.xml'),'Old key URLs redirect and new sitemap exists. Search Console indexing checks remain post-deploy.');
+external(36,'Post-launch improvement','Event data, Search Console queries, conversion rate and 404 logs can only be evaluated after production traffic exists.');
+
+console.log('\nBlutech Website — 36 Category Audit\n');
+for(const r of results) console.log(`${String(r.n).padStart(2,'0')}. [${r.status}] ${r.name} — ${r.note}`);
+const failed=results.filter(r=>r.status==='FAIL');
+const pass=results.filter(r=>r.status==='PASS').length;
+const reviewCount=results.filter(r=>r.status==='REVIEW').length;
+const externalCount=results.filter(r=>r.status==='EXTERNAL').length;
+console.log(`\nSummary: ${pass} PASS, ${reviewCount} REVIEW, ${externalCount} EXTERNAL, ${failed.length} FAIL.`);
+if(failed.length) process.exit(1);
