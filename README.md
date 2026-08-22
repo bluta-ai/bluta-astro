@@ -6,14 +6,14 @@ Corporate, product and knowledge website for **Blutech IoT Limited**.
 
 **Building IoT & AIoT for real-world operations.**
 
-The site separates the Blutech building portfolio from the dedicated fire brand while making the relationship clear:
+Brand architecture:
 
 - **Blutech** — building IoT / AIoT hardware, solutions, integration and deployment
 - **Blutech Halo** — Building Intelligence & Management Platform
 - **Blutech Core** — IoT Device & Integration Platform
 - **BLUTA Fire** — Blutech's dedicated fire & life-safety brand (`bluta.io`)
 
-The tracked status of all 36 website-readiness categories is in `docs/website-readiness.md`. Categories that depend on a live deployment, external accounts or human visual/permission review are deliberately not marked complete prematurely. The build-level target is **32 PASS / 2 REVIEW / 2 EXTERNAL / 0 FAIL**.
+The 36-category readiness register is in `docs/website-readiness.md`. The site must not be described as finished while any release-blocking photography, customer-journey QA, production credential or post-deployment check is still open.
 
 ## Local development
 
@@ -24,22 +24,42 @@ npm install
 npm run dev
 ```
 
-Production build and website-readiness audit:
+Development build + structural audits:
 
 ```bash
 npm run check
 ```
 
-`npm run check` builds the full static site and runs `scripts/site-audit.mjs`, which checks the 36 website-readiness categories tracked for this rebuild. GitHub CI separately runs `npm audit --omit=dev --audit-level=high` before the site audit.
+Strict production release gate:
+
+```bash
+npm run release:check
+```
+
+`npm run check` builds the site, runs the 36-category structural audit and reports product-image issues. `npm run release:check` repeats the checks with product photography in strict mode, so a public SKU without an assigned image, a reused product image, or a generic/placeholder image reference blocks release. Human review must still confirm that each image is genuinely the correct current product.
+
+GitHub CI also runs `npm audit --omit=dev --audit-level=high`.
+
+## Visual direction
+
+**Architectural Tech / Premium Minimal**
+
+- predominantly white / warm-neutral backgrounds;
+- charcoal typography and restrained Blutech blue;
+- large real project photography;
+- Swiss/industrial catalogue treatment for hardware;
+- minimal card chrome, gradients and glow;
+- one deliberate dark software moment for Halo / Core;
+- subtle motion only.
 
 ## Deployment environment variables
 
-The contact form uses a serverless function at `/api/contact` and Resend.
+The contact form uses `/api/contact` and Resend.
 
 Required for production contact-form delivery:
 
 - `RESEND_API_KEY`
-- `CONTACT_FROM_EMAIL` — use a sender on a domain verified in Resend
+- `CONTACT_FROM_EMAIL` — sender on a domain verified in Resend
 - `CONTACT_TO_EMAIL` — optional; defaults to `enquiry@blutech.io`
 
 Optional analytics / webmaster verification:
@@ -48,62 +68,50 @@ Optional analytics / webmaster verification:
 - `PUBLIC_GOOGLE_SITE_VERIFICATION`
 - `PUBLIC_BING_SITE_VERIFICATION`
 
-If Google Analytics is configured, it is **not loaded until the visitor explicitly allows analytics**. The implementation disables advertising-personalisation signals and tracks only website-oriented events such as successful enquiry generation, outbound links and file downloads.
-
-Do not commit credentials, API keys or verification secrets to the repository.
+Do not commit credentials, API keys or verification secrets.
 
 ## Content architecture
 
-- `src/data/site.ts` — public product catalogue, solution catalogue and selected project references
-- `src/data/resources.ts` — knowledge / SEO resource articles
-- `src/pages/products/[slug].astro` — generated product detail pages
+- `src/data/site.ts` — public product catalogue, solutions and selected projects
+- `src/data/resources.ts` — knowledge / SEO resources
+- `src/pages/products/[slug].astro` — generated product pages
 - `src/pages/solutions/[slug].astro` — generated solution/search-intent pages
-- `src/pages/resources/[slug].astro` — generated knowledge articles
+- `src/pages/resources/[slug].astro` — generated knowledge pages
 - `src/pages/[lang]/[...path].astro` — Traditional Chinese, Simplified Chinese and Arabic core routes
+- `scripts/product-image-audit.mjs` — product photography completeness / duplicate-image gate
 
-The catalogue intentionally excludes products that are discontinued, project-only, never commercialised, or assigned to BLUTA Fire.
+The public catalogue intentionally excludes discontinued, project-only, never-commercialised and BLUTA Fire products.
 
 ## Evidence rules
 
 Do not add a specification, certification, award, deployment quantity, performance figure or customer outcome unless its scope is supported by an approved source.
 
-In particular:
+For imagery:
 
-- do not imply every product in an award-winning solution individually won the award;
-- do not copy an old SKU's technical specification into a replacement/current SKU without confirmation;
-- keep fire-product certifications and approval statements with the exact BLUTA Fire product documentation;
-- prefer a missing product image to an inaccurate generated product image.
+- use the real current product photo first;
+- do not use another SKU's enclosure merely because it looks similar;
+- do not treat text generated inside an AI image as product specification evidence;
+- do not publish a generic enclosure as if it were a verified SKU;
+- installation photography is useful but does not replace a clear product image.
 
 ## Languages
 
-Core routes are provided in:
+Core routes:
 
 - English
 - Traditional Chinese (`/zh-hk/`)
 - Simplified Chinese (`/zh-cn/`)
 - Arabic (`/ar/`, RTL)
 
-Product/solution/resource detail localisation should be expanded from the shared structured content as approved translations become available.
-
-## Search / AI discovery
-
-The site includes:
-
-- canonical metadata
-- hreflang for translated core routes
-- XML sitemap
-- robots.txt
-- Organization, Product, SoftwareApplication, Service, FAQ and Article structured data where relevant
-- Open Graph / social metadata
-- `llms.txt`
-- search-intent solution pages and practical resource articles
-
 ## Release process
 
-1. `npm run check`
-2. CI must be green, including dependency security audit.
-3. Review a deployed preview on desktop/mobile and major browsers.
-4. Verify contact-form delivery with the production Resend sender.
-5. Verify analytics/Search Console/Bing configuration.
-6. Confirm all public imagery and project/customer references are cleared for publication.
-7. Merge only after final content and visual approval.
+1. Complete correct product photography for **every published SKU**.
+2. Run `npm run release:check` and keep CI/security green.
+3. Open every main page and every product page on the deployed preview as a customer.
+4. QA Chrome, Safari, Edge, iPhone, Android, desktop and tablet.
+5. Verify all primary navigation, enquiry CTAs, language routes, downloads and external links.
+6. Verify real contact-form delivery using production Resend credentials.
+7. Verify analytics / Search Console / Bing if enabled.
+8. Confirm publication rights for project/customer imagery and named references.
+9. Measure production Core Web Vitals after deployment.
+10. Merge only after final customer-level content and visual approval.
