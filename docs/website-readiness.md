@@ -36,8 +36,8 @@ Status definitions:
 | 25 | Technical performance | PASS structurally — static generation, minimal JS, no external webfont dependency, lazy loading. Production Core Web Vitals must still be measured. |
 | 26 | Accessibility | PASS structurally — semantic headings, labels, keyboard/focus considerations, skip link, reduced motion. Final screen-reader/browser audit under #34. |
 | 27 | Security | PASS only when CI dependency audit is green. Headers, CSP and security contact are configured. |
-| 28 | Privacy / legal | PASS — privacy and website terms exist; legal review can be performed before production launch. |
-| 29 | Analytics / webmaster | EXTERNAL — code hooks exist; GA/Search Console/Bing IDs and ownership verification required in production. |
+| 28 | Privacy / legal | PASS — privacy and website terms exist. Optional analytics is consent-gated and configured without advertising personalisation signals. Legal review can still be performed before production launch. |
+| 29 | Analytics / webmaster | EXTERNAL — consent-gated GA and conversion/outbound/download event hooks exist; Google Analytics ID, Search Console and Bing ownership/verification must be supplied in production. |
 | 30 | Social / sharing | PASS — OG/Twitter metadata, default social artwork, favicon and manifest. |
 | 31 | Technical architecture | PASS — reusable layout/components and central content data. |
 | 32 | CMS / content maintenance | REVIEW — central TS data is maintainable by developers; decide whether a non-developer CMS is actually needed. |
