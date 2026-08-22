@@ -1,0 +1,74 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { products, projects } from "../../data/site";
+const langs = ["zh-hk","zh-cn","ar"];
+const pages = ["home","solutions","products","software","projects","technology","company","resources","contact"];
+export function getStaticPaths(){
+  return langs.flatMap((lang)=>pages.map((page)=>({params:{lang,path:page==="home"?undefined:page},props:{lang,page}})));
+}
+const { lang, page } = Astro.props;
+const isAr = lang === "ar";
+const strings = {
+  "zh-hk": {
+    home:{title:"Blutech｜Building IoT & AIoT",heading:"連接樓宇，理解正在發生的事。",intro:"Blutech 從感測器到軟件建立完整的 Building IoT & AIoT 系統：私隱友善感知、無線連接、邊緣自動化、Halo、Core 及樓宇系統整合。"},
+    solutions:{title:"解決方案｜Blutech",heading:"由營運問題出發，而不是由感測器出發。",intro:"按空間、私隱要求、反應速度、現有系統及安裝限制，組合合適的感知、連接、本地邏輯和軟件。"},
+    products:{title:"產品｜Blutech",heading:"真正部署及支援的 Building IoT 產品。",intro:"只展示目前支援或已有商業部署的產品；停產、項目專用型號及消防產品不混在一般 Blutech 目錄內。"},
+    software:{title:"Blutech Halo & Core｜軟件",heading:"Core 在底層，Halo 在外圍。",intro:"Halo 面向樓宇營運人員；Core 面向 IoT 設備、網關、配置、連接及整合管理。"},
+    projects:{title:"項目｜Blutech",heading:"真實樓宇，真實現場條件。",intro:"精選商業樓宇、醫院、政府設施及交通基建的實際部署；只陳述可確認的項目範圍。"},
+    technology:{title:"技術｜Blutech",heading:"不是單一感測器，也不是單一協議。",intro:"Blutech 把私隱友善感知、LoRaWAN、Bluetooth、4G、Wi‑Fi、RS485、邊緣控制及 API 整合成實際可運作的系統。"},
+    company:{title:"公司｜Blutech IoT Limited",heading:"讓 Building IoT 真正在現場長期運作。",intro:"Blutech 於 2019 年在香港成立，研發連接式樓宇硬件、軟件及系統整合方案。"},
+    resources:{title:"資源｜Blutech",heading:"在招標、試點或改造前先把問題弄清楚。",intro:"為 FM、顧問及系統整合商整理私隱感知、LoRaWAN、智慧洗手間、漏水等實用設計重點。"},
+    contact:{title:"聯絡 Blutech",heading:"告訴我們樓宇需要理解或自動化甚麼。",intro:"產品、項目、招標、Halo、Core、API 或 BLUTA Fire 查詢均可聯絡 Blutech 團隊。"},
+    more:"了解更多",contactUs:"聯絡我們",bluta:"BLUTA Fire 是由 Blutech 團隊發展的專用消防及生命安全品牌。",halo:"樓宇智能及管理平台",core:"IoT 設備及整合平台"
+  },
+  "zh-cn": {
+    home:{title:"Blutech｜Building IoT & AIoT",heading:"连接楼宇，理解正在发生的事。",intro:"Blutech 从传感器到软件建立完整的 Building IoT & AIoT 系统：隐私友好感知、无线连接、边缘自动化、Halo、Core 及楼宇系统集成。"},
+    solutions:{title:"解决方案｜Blutech",heading:"从运营问题出发，而不是从传感器出发。",intro:"根据空间、隐私要求、响应速度、现有系统及安装限制，组合合适的感知、连接、本地逻辑和软件。"},
+    products:{title:"产品｜Blutech",heading:"真正部署及支持的 Building IoT 产品。",intro:"只展示目前支持或已有商业部署的产品；停产、项目专用型号及消防产品不混在一般 Blutech 目录内。"},
+    software:{title:"Blutech Halo & Core｜软件",heading:"Core 在底层，Halo 在外围。",intro:"Halo 面向楼宇运营人员；Core 面向 IoT 设备、网关、配置、连接及集成管理。"},
+    projects:{title:"项目｜Blutech",heading:"真实楼宇，真实现场条件。",intro:"精选商业楼宇、医院、政府设施及交通基础设施的实际部署；只陈述可确认的项目范围。"},
+    technology:{title:"技术｜Blutech",heading:"不是单一传感器，也不是单一协议。",intro:"Blutech 将隐私友好感知、LoRaWAN、Bluetooth、4G、Wi‑Fi、RS485、边缘控制及 API 集成为实际可运行的系统。"},
+    company:{title:"公司｜Blutech IoT Limited",heading:"让 Building IoT 真正在现场长期运行。",intro:"Blutech 于 2019 年在香港成立，研发连接式楼宇硬件、软件及系统集成方案。"},
+    resources:{title:"资源｜Blutech",heading:"在招标、试点或改造前先把问题弄清楚。",intro:"为 FM、顾问及系统集成商整理隐私感知、LoRaWAN、智慧洗手间、漏水等实用设计重点。"},
+    contact:{title:"联系 Blutech",heading:"告诉我们楼宇需要理解或自动化什么。",intro:"产品、项目、招标、Halo、Core、API 或 BLUTA Fire 咨询均可联系 Blutech 团队。"},
+    more:"了解更多",contactUs:"联系我们",bluta:"BLUTA Fire 是由 Blutech 团队发展的专用消防及生命安全品牌。",halo:"楼宇智能及管理平台",core:"IoT 设备及集成平台"
+  },
+  ar: {
+    home:{title:"Blutech | إنترنت الأشياء والذكاء الاصطناعي للمباني",heading:"اربط المبنى. وافهم ما يحدث داخله.",intro:"تبني Blutech أنظمة المباني المتصلة من الحساس إلى البرمجيات: استشعار يحترم الخصوصية، شبكات لاسلكية، أتمتة طرفية، Halo وCore وتكامل مع أنظمة المبنى."},
+    solutions:{title:"الحلول | Blutech",heading:"ابدأ بالمشكلة التشغيلية، لا بالحساس.",intro:"نختار الاستشعار والاتصال والمنطق المحلي والبرمجيات وفق المساحة والخصوصية وسرعة الاستجابة والأنظمة القائمة وقيود الموقع."},
+    products:{title:"المنتجات | Blutech",heading:"منتجات إنترنت أشياء للمباني مثبتة ومستخدمة فعلياً.",intro:"نعرض المنتجات التي تدعمها Blutech حالياً أو التي تم نشرها تجارياً، مع إبقاء منتجات الحريق تحت BLUTA Fire بشكل منفصل."},
+    software:{title:"Blutech Halo & Core | البرمجيات",heading:"Core في الداخل. Halo حوله.",intro:"Halo لفرق تشغيل المباني؛ Core لإدارة أجهزة إنترنت الأشياء والبوابات والإعداد والاتصال والتكامل."},
+    projects:{title:"المشاريع | Blutech",heading:"مبانٍ حقيقية. ظروف تشغيل حقيقية.",intro:"نماذج من عمليات نشر في مبانٍ تجارية ومستشفيات ومرافق حكومية وبنية تحتية للنقل، مع وصف محافظ للنطاق المؤكد."},
+    technology:{title:"التقنية | Blutech",heading:"ليس حساساً واحداً ولا بروتوكولاً واحداً.",intro:"تجمع Blutech الاستشعار المحافظ على الخصوصية وLoRaWAN وBluetooth و4G وWi‑Fi وRS485 والتحكم الطرفي وواجهات API في نظام عملي واحد."},
+    company:{title:"الشركة | Blutech IoT Limited",heading:"تقنية مبانٍ مصممة للعمل في الموقع الحقيقي.",intro:"تأسست Blutech في هونغ كونغ عام 2019 وتطور أجهزة وبرمجيات وتكاملات للمباني المتصلة."},
+    resources:{title:"المصادر | Blutech",heading:"افهم التصميم قبل المناقصة أو التجربة أو التحديث.",intro:"ملاحظات عملية لفرق المرافق والاستشاريين حول الاستشعار المحافظ على الخصوصية وLoRaWAN ودورات المياه الذكية وتسرب المياه."},
+    contact:{title:"تواصل مع Blutech",heading:"أخبرنا بما يحتاج المبنى إلى فهمه أو أتمتته.",intro:"للاستفسارات حول المنتجات والمشاريع وHalo وCore والتكامل وBLUTA Fire تواصل مع فريق Blutech."},
+    more:"اعرف المزيد",contactUs:"تواصل معنا",bluta:"BLUTA Fire هي العلامة المتخصصة في أنظمة الحريق وسلامة الأرواح التي يطورها فريق Blutech.",halo:"منصة ذكاء وإدارة المباني",core:"منصة أجهزة إنترنت الأشياء والتكامل"
+  }
+};
+const t = strings[lang];
+const p = t[page];
+const prefix = `/${lang}`;
+const solutionNames = lang==="ar" ? ["دورات مياه ذكية","إشغال يحترم الخصوصية","كشف السقوط والبقاء الطويل","إضاءة ذكية لاسلكية","جودة الهواء الداخلي وHVAC","مراقبة تسرب المياه","مراقبة النفايات","تحديث IoT للمباني"] : lang==="zh-hk" ? ["智慧洗手間","私隱友善空間使用偵測","跌倒、長時間逗留及靜止偵測","無線智慧照明","室內空氣質素及 HVAC 互動","漏水監測","智慧垃圾桶監測","Building IoT 改造"] : ["智慧洗手间","隐私友好空间使用检测","跌倒、长时间逗留及静止检测","无线智慧照明","室内空气质量及 HVAC 互动","漏水监测","智慧垃圾桶监测","Building IoT 改造"];
+---
+<BaseLayout title={p.title} description={p.intro} lang={lang} dir={isAr?"rtl":"ltr"} canonicalPath={`${prefix}${page==="home"?"/":`/${page}`}`} hasLocalizedVersions={true}>
+  <section class="page-hero"><div class="shell"><div class="kicker">Blutech · Building IoT & AIoT</div><h1>{p.heading}</h1><p>{p.intro}</p><div class="actions" style="margin-top:24px"><a class="button" href={`${prefix}/contact`}>{t.contactUs}</a>{page!=="home" && <a class="button secondary" href={prefix+"/"}>{lang==="ar"?"الرئيسية":"Home"}</a>}</div></div></section>
+
+  {page==="home" && <><section><div class="shell"><div class="grid grid-3"><div class="card"><div class="meta">Sense</div><h3>{isAr?"استشعار يحترم الخصوصية":lang==="zh-hk"?"私隱友善感知":"隐私友好感知"}</h3><p>{isAr?"حراري وPIR ورادار ودمج حساسات حسب الحاجة.":lang==="zh-hk"?"按需要使用熱感、PIR、雷達及感測融合。":"按需要使用热感、PIR、雷达及传感融合。"}</p></div><div class="card"><div class="meta">Connect</div><h3>LoRaWAN · Bluetooth · 4G</h3><p>{isAr?"اختيار الشبكة وفق الموقع والطاقة وزمن الاستجابة.":lang==="zh-hk"?"按現場、供電及反應時間選擇連接方式。":"按现场、供电及响应时间选择连接方式。"}</p></div><div class="card"><div class="meta">Integrate</div><h3>API · MQTT · BMS</h3><p>{isAr?"ربط بيانات IoT مع أنظمة المبنى القائمة.":lang==="zh-hk"?"把 IoT 數據連接至現有樓宇系統。":"把 IoT 数据连接至现有楼宇系统。"}</p></div></div></div></section><section style="background:var(--bg-2)"><div class="shell software-pair"><div class="card software-card"><div class="software-role">{t.halo}</div><h3>Blutech Halo</h3><p>{isAr?"الحالة الحية والمخططات والتنبيهات والسجل والتقارير والتحكم المصرح به.":lang==="zh-hk"?"即時狀態、樓層圖、警報、歷史、報告及授權控制。":"实时状态、楼层图、警报、历史、报告及授权控制。"}</p></div><div class="card software-card core"><div class="software-role">{t.core}</div><h3>Blutech Core</h3><p>{isAr?"الأجهزة والبوابات والتجهيز والإعداد وصحة الاتصال وواجهات التكامل.":lang==="zh-hk"?"設備、網關、配置、連接健康及整合接口。":"设备、网关、配置、连接健康及集成接口。"}</p></div></div></section><section><div class="shell panel brand-callout"><div class="kicker">From Blutech</div><h2>BLUTA Fire</h2><p>{t.bluta}</p><a class="button" href="https://bluta.io" target="_blank" rel="noopener">bluta.io ↗</a></div></section></>}
+
+  {page==="solutions" && <section><div class="shell grid grid-2">{solutionNames.map((name,i)=><div class="card"><div class="meta">0{i+1}</div><h3>{name}</h3><p>{isAr?"حل يجمع الاستشعار والاتصال والبرمجيات والتكامل وفق متطلبات الموقع.":lang==="zh-hk"?"按現場需求組合感知、連接、軟件及系統整合。":"按现场需求组合感知、连接、软件及系统集成。"}</p></div>)}</div></section>}
+
+  {page==="products" && <section><div class="shell"><div class="product-grid">{products.map((product)=><a class="card product-card" href={`/products/${product.slug}`}><div class="model">{product.model} · {product.family}</div><h3>{product.name}</h3><p>{isAr?"اطلع على الوظائف والمواصفات المؤكدة لهذا المنتج.":lang==="zh-hk"?"查看此產品已確認的功能、連接方式及應用。":"查看此产品已确认的功能、连接方式及应用。"}</p><span class="card-link">{t.more} →</span></a>)}</div></div></section>}
+
+  {page==="software" && <section><div class="shell software-pair"><article class="card software-card"><div class="software-role">{t.halo}</div><h3>Blutech Halo</h3><ul class="feature-list"><li>{isAr?"حالة حية ومخططات مواقع":"Live status / floorplan"}</li><li>{isAr?"تنبيهات وسجل وتقارير":"Alerts / history / reports"}</li><li>{isAr?"صلاحيات وتحكم وفق المشروع":"Roles / authorised control"}</li></ul><a class="card-link" href="https://dashboard.blutech.io">dashboard.blutech.io ↗</a></article><article class="card software-card core"><div class="software-role">{t.core}</div><h3>Blutech Core</h3><ul class="feature-list"><li>{isAr?"سجل الأجهزة والبوابات":"Device / gateway registry"}</li><li>{isAr?"تجهيز وإعداد ومراقبة الاتصال":"Provisioning / configuration / health"}</li><li>{isAr?"واجهات API والتكامل":"API / integrations"}</li></ul><a class="card-link" href="https://platform.blutech.io">platform.blutech.io ↗</a></article></div></section>}
+
+  {page==="projects" && <section><div class="shell project-grid">{projects.map((project)=><article class="card project-card"><img src={project.image} alt={project.title} loading="lazy"/><div class="card-body"><div class="meta">{project.category}</div><h3>{project.title}</h3><p>{isAr?"مرجع نشر فعلي من Blutech ضمن نطاق منشور بصورة محافظة.":lang==="zh-hk"?"Blutech 真實部署參考；網站只保留可確認的範圍。":"Blutech 真实部署参考；网站只保留可确认的范围。"}</p></div></article>)}</div></section>}
+
+  {page==="technology" && <section><div class="shell grid grid-3"><div class="card"><h3>{isAr?"الاستشعار":"Privacy-preserving sensing"}</h3><p>Thermal · PIR · mmWave · sensor fusion</p></div><div class="card"><h3>{isAr?"الاتصال":"Connectivity"}</h3><p>LoRaWAN · Bluetooth · 4G · Wi‑Fi · Ethernet · RS485</p></div><div class="card"><h3>{isAr?"الأتمتة الطرفية":"Edge automation"}</h3><p>{isAr?"إبقاء الاستجابة الزمنية الحرجة محلياً حيث يلزم.":lang==="zh-hk"?"需要快速反應的控制盡量留在現場本地。":"需要快速响应的控制尽量留在现场本地。"}</p></div><div class="card"><h3>Blutech Core</h3><p>{t.core}</p></div><div class="card"><h3>Blutech Halo</h3><p>{t.halo}</p></div><div class="card"><h3>API · MQTT · BMS</h3><p>{isAr?"تكامل مفتوح حسب واجهة المشروع.":lang==="zh-hk"?"按項目接口進行開放整合。":"按项目接口进行开放集成。"}</p></div></div></section>}
+
+  {page==="company" && <><section><div class="shell split"><div><div class="kicker">Since 2019 · Hong Kong</div><h2>Blutech IoT Limited</h2><p class="hero-copy" style="font-size:19px">{p.intro}</p></div><div class="panel"><h3>Building IoT & AIoT</h3><p>{isAr?"أجهزة + اتصال + منطق طرفي + برمجيات + تكامل + تشغيل موقعي.":lang==="zh-hk"?"硬件 + 連接 + 邊緣邏輯 + 軟件 + 整合 + 現場交付。":"硬件 + 连接 + 边缘逻辑 + 软件 + 集成 + 现场交付。"}</p></div></div></section><section style="background:var(--bg-2)"><div class="shell panel brand-callout"><div class="kicker">Brand architecture</div><h2>BLUTA Fire</h2><p>{t.bluta}</p><a class="button" href="https://bluta.io" target="_blank" rel="noopener">bluta.io ↗</a></div></section></>}
+
+  {page==="resources" && <section><div class="shell grid grid-2"><div class="card"><h3>{isAr?"كشف السقوط دون كاميرات":"Fall detection without cameras"}</h3><p>{isAr?"ما الذي يجب تقييمه في المساحات الحساسة للخصوصية.":lang==="zh-hk"?"私隱敏感空間的感知及警報流程設計。":"隐私敏感空间的感知及警报流程设计。"}</p></div><div class="card"><h3>LoRaWAN building retrofit</h3><p>{isAr?"متى يستخدم LoRaWAN ومتى نحتاج Bluetooth أو 4G أو واجهات سلكية.":lang==="zh-hk"?"LoRaWAN、Bluetooth、4G 及有線接口如何分工。":"LoRaWAN、Bluetooth、4G 及有线接口如何分工。"}</p></div><div class="card"><h3>{isAr?"تصميم دورات المياه الذكية":"Smart washroom system design"}</h3><p>{isAr?"الإشغال والسلامة وجودة الهواء والتنظيف والشاشات ضمن نظام واحد.":lang==="zh-hk"?"把佔用、安全、IAQ、清潔及顯示整合起來。":"把占用、安全、IAQ、清洁及显示整合起来。"}</p></div><div class="card"><h3>{isAr?"كشف التسرب: نقطة أم كابل":"Point vs cable water leakage"}</h3><p>{isAr?"اختيار طريقة الكشف حسب منطقة الخطر ومسار المياه.":lang==="zh-hk"?"按風險區域及可能水路選擇點式或線纜式偵測。":"按风险区域及可能水路选择点式或线缆式检测。"}</p></div></div></section>}
+
+  {page==="contact" && <section><div class="shell split"><div><div class="kicker">Email</div><h2>enquiry@blutech.io</h2><p class="hero-copy" style="font-size:19px">{p.intro}</p></div><div class="panel"><h3>{isAr?"معلومات مفيدة في رسالتك":lang==="zh-hk"?"建議提供":"建议提供"}</h3><ul class="feature-list"><li>{isAr?"نوع المبنى والموقع":lang==="zh-hk"?"樓宇類型及位置":"楼宇类型及位置"}</li><li>{isAr?"الوظيفة المطلوبة":lang==="zh-hk"?"希望做到的功能":"希望实现的功能"}</li><li>{isAr?"النظام أو الشبكة الحالية":lang==="zh-hk"?"現有系統或網絡":"现有系统或网络"}</li><li>{isAr?"المخططات أو المواصفات إن وجدت":lang==="zh-hk"?"已有圖紙或規格":"已有图纸或规格"}</li></ul><a class="button" href="mailto:enquiry@blutech.io">enquiry@blutech.io</a></div></div></section>}
+</BaseLayout>
