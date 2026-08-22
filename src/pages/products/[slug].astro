@@ -1,0 +1,28 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { products } from "../../data/site";
+export function getStaticPaths(){ return products.map((product) => ({ params:{ slug:product.slug }, props:{ product } })); }
+const { product } = Astro.props;
+const schema = [
+  { "@context":"https://schema.org", "@type":"Product", name:`${product.model} ${product.name}`, brand:{"@type":"Brand",name:"Blutech"}, model:product.model, category:product.family, description:product.summary },
+  { "@context":"https://schema.org", "@type":"BreadcrumbList", itemListElement:[
+    {"@type":"ListItem",position:1,name:"Home",item:"https://blutech.io/"},
+    {"@type":"ListItem",position:2,name:"Products",item:"https://blutech.io/products"},
+    {"@type":"ListItem",position:3,name:`${product.model} ${product.name}`,item:`https://blutech.io/products/${product.slug}`}
+  ]}
+];
+---
+<BaseLayout title={`${product.model} ${product.name} | Blutech`} description={product.summary} canonicalPath={`/products/${product.slug}`} schema={schema}>
+  <section class="page-hero"><div class="shell"><div class="breadcrumb"><a href="/">Home</a><span>›</span><a href="/products">Products</a><span>›</span><span>{product.model}</span></div><div class="kicker">{product.family}</div><h1>{product.model}<br/>{product.name}</h1><p>{product.summary}</p></div></section>
+  <section><div class="shell product-detail">
+    <div>{product.image ? <figure class="product-figure"><img src={product.image} alt={`${product.model} ${product.name} product`} width="900" height="675" /></figure> : <div class="panel"><div class="kicker">Product imagery</div><h2>{product.model}</h2><p class="muted">A verified real-product image will be added when the approved website asset is available. We do not substitute a fabricated product render.</p></div>}</div>
+    <article>
+      <div class="kicker">What it does</div><h2 style="font-size:42px;margin:8px 0 16px">Built for a clear field job.</h2><p class="hero-copy" style="font-size:19px">{product.summary}</p>
+      <h3>Key functions</h3><ul class="feature-list">{product.features.map((f) => <li>{f}</li>)}</ul>
+      <h3 style="margin-top:34px">Typical applications</h3><ul class="feature-list">{product.applications.map((a) => <li>{a}</li>)}</ul>
+      <table class="spec-table"><tbody><tr><th>Model</th><td>{product.model}</td></tr><tr><th>Product family</th><td>{product.family}</td></tr>{product.connectivity && <tr><th>Connectivity / interfaces</th><td>{product.connectivity.join(" · ")}</td></tr>}{product.power && <tr><th>Power</th><td>{product.power}</td></tr>}</tbody></table>
+      <p class="notice" style="margin-top:28px">This page intentionally lists only specifications confirmed for the current product. Exact dimensions, ratings, battery life, coverage and project-specific interfaces are published only after the corresponding source specification is verified.</p>
+      <div class="actions" style="margin-top:26px"><a class="button" href={`/contact?product=${encodeURIComponent(product.model)}`}>Ask about {product.model}</a><a class="button secondary" href="/products">Back to products</a></div>
+    </article>
+  </div></section>
+</BaseLayout>
