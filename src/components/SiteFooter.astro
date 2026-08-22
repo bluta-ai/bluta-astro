@@ -1,0 +1,43 @@
+---
+interface Props { lang?: string; }
+const { lang = "en" } = Astro.props;
+const prefix = lang === "en" ? "" : `/${lang}`;
+const copy = {
+  en: { intro:"Building IoT & AIoT for real-world operations.", bluta:"BLUTA Fire is Blutech's dedicated fire & life-safety brand.", privacy:"Privacy", terms:"Terms" },
+  "zh-hk": { intro:"為真實樓宇營運而設的 Building IoT & AIoT。", bluta:"BLUTA Fire 是由 Blutech 發展的專用消防及生命安全品牌。", privacy:"私隱政策", terms:"條款" },
+  "zh-cn": { intro:"面向真实楼宇运营的 Building IoT & AIoT。", bluta:"BLUTA Fire 是由 Blutech 发展的专用消防及生命安全品牌。", privacy:"隐私政策", terms:"条款" },
+  ar: { intro:"حلول إنترنت الأشياء والذكاء الاصطناعي للمباني من أجل التشغيل الواقعي.", bluta:"BLUTA Fire هي علامة Blutech المتخصصة في أنظمة الحريق وسلامة الأرواح.", privacy:"الخصوصية", terms:"الشروط" }
+}[lang] || null;
+const t = copy || { intro:"Building IoT & AIoT for real-world operations.", bluta:"BLUTA Fire is Blutech's dedicated fire & life-safety brand.", privacy:"Privacy", terms:"Terms" };
+---
+<footer class="site-footer">
+  <div class="shell footer-grid">
+    <div>
+      <a class="brand footer-brand" href={prefix || "/"}><span class="brand-blu">blu</span><span>tech</span><span class="brand-dot">.</span></a>
+      <p>{t.intro}</p>
+      <p class="muted">© {new Date().getFullYear()} Blutech IoT Limited. All rights reserved.</p>
+    </div>
+    <div>
+      <strong>Software</strong>
+      <a href={`${prefix}/software#halo`}>Blutech Halo</a>
+      <a href={`${prefix}/software#core`}>Blutech Core</a>
+    </div>
+    <div>
+      <strong>Explore</strong>
+      <a href={`${prefix}/solutions`}>Solutions</a>
+      <a href={`${prefix}/products`}>Products</a>
+      <a href={`${prefix}/projects`}>Projects</a>
+      <a href={`${prefix}/company`}>Company</a>
+    </div>
+    <div>
+      <strong>BLUTA Fire</strong>
+      <p class="muted">{t.bluta}</p>
+      <a href="https://bluta.io" rel="noopener" target="_blank">Visit bluta.io ↗</a>
+      <a href="mailto:enquiry@blutech.io">enquiry@blutech.io</a>
+    </div>
+  </div>
+  <div class="shell footer-bottom">
+    <a href="/privacy">{t.privacy}</a>
+    <a href="/terms">{t.terms}</a>
+  </div>
+</footer>
