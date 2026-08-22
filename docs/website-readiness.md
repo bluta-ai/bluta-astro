@@ -48,16 +48,16 @@ Status definitions:
 
 ## Production launch blockers
 
-The following must be resolved before the redesign is described as fully production-passed:
+The redesign must not be described as fully production-passed until these real-world checks are complete:
 
-1. CI build + dependency security audit green on the release commit.
-2. A deployed preview completes cross-browser/mobile visual QA.
-3. `RESEND_API_KEY` and a verified `CONTACT_FROM_EMAIL` are configured; submit a real test enquiry and verify receipt/reply flow.
+1. The **release commit** (not just an earlier development commit) has a green build, dependency security audit and 36-category structural audit.
+2. A deployed preview is checked on Chrome, Safari and Edge plus representative iPhone, Android, desktop and tablet widths.
+3. `RESEND_API_KEY` and a verified `CONTACT_FROM_EMAIL` are configured; a real enquiry is submitted and receipt/reply flow is verified.
 4. Google Analytics (if desired), Google Search Console and Bing Webmaster ownership/IDs are configured and verified.
-5. Confirm publication permission for all project/customer images and named references.
-6. Fill missing real product photography and exact downloadable specs only where approved source files support them.
-7. Measure production Core Web Vitals/Lighthouse after deployment and fix regressions.
-8. After launch, inspect indexing, 404s, conversion events and search queries before calling categories 29, 34, 35 and 36 fully closed.
+5. Publication permission is confirmed for all project/customer images and named references.
+6. Missing real product photography and exact downloadable specifications are added only where approved source files support them.
+7. Production Core Web Vitals/Lighthouse are measured and material regressions are fixed.
+8. After launch, indexing, 404s, conversion events and search queries are inspected before the post-launch categories are closed.
 
 ## BLUTA Fire relationship rule
 
