@@ -13,7 +13,7 @@ The site separates the Blutech building portfolio from the dedicated fire brand 
 - **Blutech Core** — IoT Device & Integration Platform
 - **BLUTA Fire** — Blutech's dedicated fire & life-safety brand (`bluta.io`)
 
-The tracked status of all 36 website-readiness categories is in `docs/website-readiness.md`. Categories that depend on a live deployment, external accounts or human visual/permission review are deliberately not marked complete prematurely.
+The tracked status of all 36 website-readiness categories is in `docs/website-readiness.md`. Categories that depend on a live deployment, external accounts or human visual/permission review are deliberately not marked complete prematurely. The build-level target is **32 PASS / 2 REVIEW / 2 EXTERNAL / 0 FAIL**.
 
 ## Local development
 
