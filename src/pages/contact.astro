@@ -1,0 +1,33 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+const product = Astro.url.searchParams.get("product") || "";
+const solution = Astro.url.searchParams.get("solution") || "";
+const software = Astro.url.searchParams.get("software") || "";
+const context = product ? `Product enquiry: ${product}` : solution ? `Solution enquiry: ${solution}` : software ? `Software enquiry: ${software}` : "";
+---
+<BaseLayout title="Contact Blutech | Building IoT & AIoT" description="Contact Blutech about connected-building products, smart-building projects, Blutech Halo, Blutech Core, integrations and site deployments." canonicalPath="/contact">
+  <section class="page-hero"><div class="shell"><div class="breadcrumb"><a href="/">Home</a><span>›</span><span>Contact</span></div><div class="kicker">Talk to Blutech</div><h1>Tell us what the building needs to understand or automate.</h1><p>Product enquiry, site retrofit, tender, integration question or a problem that does not fit a standard catalogue — send us the context and we will route it to the right team.</p></div></section>
+  <section><div class="shell contact-grid"><div><div class="kicker">Direct contact</div><h2 style="font-size:42px">enquiry@blutech.io</h2><p class="hero-copy" style="font-size:18px">For useful first-pass advice, include the site type, location, target function, existing system/network and any drawing or specification you already have.</p><div class="panel"><h3>BLUTA Fire enquiry?</h3><p class="muted">BLUTA Fire is Blutech's dedicated fire & life-safety brand. You can still contact the Blutech team here, or visit the dedicated BLUTA site.</p><a class="card-link" href="https://bluta.io" target="_blank" rel="noopener">Visit bluta.io ↗</a></div></div><div class="panel"><form id="contact-form" class="contact-form" method="post" action="/api/contact"><div class="field"><label for="name">Name *</label><input id="name" name="name" autocomplete="name" maxlength="120" required /></div><div class="field"><label for="companyName">Company *</label><input id="companyName" name="companyName" autocomplete="organization" maxlength="180" required /></div><div class="field"><label for="email">Work email *</label><input id="email" name="email" type="email" autocomplete="email" maxlength="180" required /></div><div class="field"><label for="phone">Phone</label><input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="60" /></div><div class="field"><label for="enquiryType">Enquiry type</label><select id="enquiryType" name="enquiryType"><option>Project / solution</option><option>Product</option><option>Halo / Core software</option><option>Integration / API</option><option>BLUTA Fire</option><option>Partnership</option><option>Other</option></select></div><div class="field"><label for="message">What do you need? *</label><textarea id="message" name="message" maxlength="5000" required>{context}</textarea></div><div class="honeypot" aria-hidden="true"><label for="website">Website</label><input id="website" name="website" tabindex="-1" autocomplete="off" /></div><label style="display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--muted)"><input type="checkbox" name="privacyConsent" value="yes" required style="margin-top:4px"/> <span>I agree that Blutech may use the submitted information to respond to this enquiry in accordance with the <a href="/privacy" style="text-decoration:underline">Privacy Policy</a>.</span></label><button class="button" type="submit">Send enquiry</button><p id="form-status" class="form-note" role="status" aria-live="polite">You can also email enquiry@blutech.io directly.</p></form></div></div></section>
+  <script>
+    const form = document.querySelector('#contact-form');
+    const status = document.querySelector('#form-status');
+    form?.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!(form instanceof HTMLFormElement) || !(status instanceof HTMLElement)) return;
+      const button = form.querySelector('button[type="submit"]');
+      if (button instanceof HTMLButtonElement) button.disabled = true;
+      status.textContent = 'Sending…';
+      try {
+        const response = await fetch('/api/contact', { method:'POST', body:new FormData(form), headers:{'Accept':'application/json'} });
+        const data = await response.json().catch(()=>({}));
+        if (!response.ok || !data.ok) throw new Error(data.error || 'Unable to send');
+        form.reset();
+        status.textContent = 'Thank you. Your enquiry has been sent to Blutech.';
+      } catch (error) {
+        status.textContent = 'The web form could not send your message. Please email enquiry@blutech.io directly.';
+      } finally {
+        if (button instanceof HTMLButtonElement) button.disabled = false;
+      }
+    });
+  </script>
+</BaseLayout>
