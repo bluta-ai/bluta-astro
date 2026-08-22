@@ -18,7 +18,8 @@ const context = product ? `Product enquiry: ${product}` : solution ? `Solution e
       if (button instanceof HTMLButtonElement) button.disabled = true;
       status.textContent = 'Sending…';
       try {
-        const response = await fetch('/api/contact', { method:'POST', body:new FormData(form), headers:{'Accept':'application/json'} });
+        const payload = Object.fromEntries(new FormData(form).entries());
+        const response = await fetch('/api/contact', { method:'POST', body:JSON.stringify(payload), headers:{'Accept':'application/json','Content-Type':'application/json'} });
         const data = await response.json().catch(()=>({}));
         if (!response.ok || !data.ok) throw new Error(data.error || 'Unable to send');
         form.reset();
