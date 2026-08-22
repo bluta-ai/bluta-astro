@@ -1,12 +1,14 @@
 {
-  "name": "bluta-astro-original-style",
-  "version": "0.0.1",
+  "name": "blutech-website",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "audit": "node scripts/site-audit.mjs",
+    "check": "npm run build && npm run audit"
   },
   "dependencies": {
     "astro": "^4.16.19",
