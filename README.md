@@ -52,17 +52,39 @@ GitHub CI also runs `npm audit --omit=dev --audit-level=high`.
 - one deliberate dark software moment for Halo / Core;
 - subtle motion only.
 
-## Deployment environment variables
+## Hosting: Cloudflare Pages
 
-The contact form uses `/api/contact` and Resend.
+The target host is **Cloudflare Pages**, matching the BLUTA hosting approach. Vercel is not part of the intended Blutech deployment architecture.
 
-Required for production contact-form delivery:
+Recommended Cloudflare Pages Git settings:
+
+- Repository: `bluta-ai/bluta-astro`
+- Production branch: `main` only after final approval
+- Current preview branch: `redesign/blutech-website-v1`
+- Framework preset: Astro
+- Build command: `npm run build`
+- Build output directory: `dist`
+- Node version: 24
+
+Cloudflare Pages automatically consumes:
+
+- `public/_headers` for security headers;
+- `public/_redirects` for legacy redirects;
+- `functions/api/contact.js` for the `/api/contact` Pages Function.
+
+The production custom domain will remain `blutech.io` / `www.blutech.io` when the approved build is promoted. A Cloudflare branch preview should be used for visual/customer QA before production cutover.
+
+## Cloudflare environment variables
+
+The contact form uses `/api/contact` through a Cloudflare Pages Function and the Resend HTTP API.
+
+Set these in the Cloudflare Pages project environment:
 
 - `RESEND_API_KEY`
 - `CONTACT_FROM_EMAIL` — sender on a domain verified in Resend
 - `CONTACT_TO_EMAIL` — optional; defaults to `enquiry@blutech.io`
 
-Optional analytics / webmaster verification:
+Optional analytics / webmaster variables:
 
 - `PUBLIC_GA_MEASUREMENT_ID`
 - `PUBLIC_GOOGLE_SITE_VERIFICATION`
@@ -78,6 +100,7 @@ Do not commit credentials, API keys or verification secrets.
 - `src/pages/solutions/[slug].astro` — generated solution/search-intent pages
 - `src/pages/resources/[slug].astro` — generated knowledge pages
 - `src/pages/[lang]/[...path].astro` — Traditional Chinese, Simplified Chinese and Arabic core routes
+- `functions/api/contact.js` — Cloudflare Pages contact endpoint
 - `scripts/product-image-audit.mjs` — product photography completeness / duplicate-image gate
 
 The public catalogue intentionally excludes discontinued, project-only, never-commercialised and BLUTA Fire products.
@@ -107,11 +130,12 @@ Core routes:
 
 1. Complete correct product photography for **every published SKU**.
 2. Run `npm run release:check` and keep CI/security green.
-3. Open every main page and every product page on the deployed preview as a customer.
-4. QA Chrome, Safari, Edge, iPhone, Android, desktop and tablet.
-5. Verify all primary navigation, enquiry CTAs, language routes, downloads and external links.
-6. Verify real contact-form delivery using production Resend credentials.
-7. Verify analytics / Search Console / Bing if enabled.
-8. Confirm publication rights for project/customer imagery and named references.
-9. Measure production Core Web Vitals after deployment.
-10. Merge only after final customer-level content and visual approval.
+3. Deploy the current branch as a **Cloudflare Pages preview**.
+4. Open every main page and every product page on the Cloudflare preview as a customer.
+5. QA Chrome, Safari, Edge, iPhone, Android, desktop and tablet.
+6. Verify all primary navigation, enquiry CTAs, language routes, downloads and external links.
+7. Verify real contact-form delivery using the Cloudflare environment variables above.
+8. Verify analytics / Search Console / Bing if enabled.
+9. Confirm publication rights for project/customer imagery and named references.
+10. Measure production Core Web Vitals after deployment.
+11. Promote to `main` / `blutech.io` only after final customer-level content and visual approval.
