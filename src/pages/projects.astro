@@ -1,10 +1,96 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { projects } from "../data/site";
+
+const tgr = projects.find((p)=>p.slug === "three-garden-road");
+const otherProjects = projects.filter((p)=>p.slug !== "three-garden-road");
 ---
 <BaseLayout title="Projects | Blutech IoT Deployments" description="Selected Blutech building IoT and AIoT deployments across commercial buildings, hospitals, government facilities and transport infrastructure." canonicalPath="/projects">
-  <section class="page-hero"><div class="shell"><div class="breadcrumb"><a href="/">Home</a><span>›</span><span>Projects</span></div><div class="kicker">Selected deployments</div><h1>Real buildings. Real operating conditions.</h1><p>We publish project references conservatively: what was actually deployed, where disclosure is appropriate, without inventing performance figures or expanding a project beyond the verified scope.</p></div></section>
-  <section><div class="shell"><div class="project-grid">{projects.map((p)=><article class="card project-card" id={p.slug}><img src={p.image} alt={`${p.title} Blutech deployment`} loading="lazy" width="1100" height="619"/><div class="card-body"><div class="meta">{p.category}</div><h2 style="font-size:32px;margin:8px 0 12px">{p.title}</h2><p>{p.summary}</p><div class="tag-row"><span class="tag">Connected sensing</span><span class="tag">Software / monitoring</span><span class="tag">Site commissioning</span></div></div></article>)}</div></div></section>
-  <section style="background:var(--bg-2)"><div class="shell split"><div><div class="kicker">Evidence-first references</div><h2>What we will not do.</h2><p class="hero-copy" style="font-size:19px">We do not publish a savings percentage, device quantity, certification claim or customer outcome simply because it sounds good. Project pages are expanded only when the supporting source and disclosure position are clear.</p></div><div class="panel"><h3>Case-study publication standard</h3><ul class="feature-list"><li>Confirmed customer/site name</li><li>Confirmed Blutech scope and products</li><li>Real project photography where permitted</li><li>Verified scale or quantity before publishing</li><li>Outcome statements only when evidence supports them</li></ul></div></div></section>
-  <section><div class="shell panel"><div class="section-head" style="margin-bottom:0"><div><div class="kicker">Planning a deployment?</div><h2>Bring us the building constraints.</h2><p>Existing network, ceiling height, privacy requirements, installation windows and integration boundaries matter as much as the sensor specification.</p></div><a class="button" href="/contact">Discuss a site</a></div></div></section>
+  <section class="projects-hero">
+    <div class="shell">
+      <div class="breadcrumb"><a href="/">Home</a><span>›</span><span>Projects</span></div>
+      <div class="kicker">Selected deployments</div>
+      <h1>Technology is only useful once it works in the building.</h1>
+      <p>Selected Blutech work across commercial property, healthcare, government and transport — shown around the real operational problem and system scope.</p>
+    </div>
+  </section>
+
+  {tgr && <section class="tgr-case" id="three-garden-road">
+    <div class="shell">
+      <div class="tgr-intro">
+        <div><div class="kicker">Featured project · Three Garden Road</div><h2>From smart washrooms to a wider smart-building control layer.</h2></div>
+        <p>Blutech's existing work at Three Garden Road includes a large phased smart-washroom and privacy-preserving sensing deployment. A 2026 smart-building expansion has also been designed around wireless lighting control, IAQ visibility and BMS integration.</p>
+      </div>
+
+      <div class="tgr-hero-image"><img src={tgr.image} alt="Three Garden Road Blutech deployment" width="1600" height="900" loading="eager"/></div>
+
+      <div class="case-status"><span>EXISTING</span><strong>Smart washroom & sensing deployment</strong><i></i><span>PROPOSED EXPANSION</span><strong>Wireless lighting + IAQ / BMS interaction</strong></div>
+
+      <div class="tgr-story-grid">
+        <div class="tgr-story-copy">
+          <div class="kicker">Wireless smart lighting</div>
+          <h3>Local when it needs to be fast. Connected when it needs to be managed.</h3>
+          <p>The design separates the immediate lighting-control path from cloud management. PIR and lux events can trigger assigned lighting logic locally over BLE, while the gateway handles schedules, status and central configuration. A dedicated 4G uplink avoids dependence on the landlord's corporate network.</p>
+          <p>Compatible 0–10V dimmable drivers provide simple scene-based output. Central operation covers schedules, PIR time-outs, lux thresholds, scene mapping, temporary override, device status, events and BMS/API integration.</p>
+        </div>
+        <div class="tgr-metrics">
+          <div><strong>30</strong><span>Typical floors in the proposed rollout</span></div>
+          <div><strong>14</strong><span>PIR sensors / typical floor<br/><small>2 lift lobby + 12 corridor</small></span></div>
+          <div><strong>4</strong><span>BLE repeaters / typical floor<br/><small>All allocated to corridor RF coverage</small></span></div>
+          <div><strong>1 + 1 + 1</strong><span>Gateway + 4G router + SIM / typical floor</span></div>
+          <div><strong>4</strong><span>Lux sensors in the UG/F Main Lobby<br/><small>No Main Lobby PIR in the proposal</small></span></div>
+          <div><strong>0 / 50 / 100%</strong><span>Typical provisional lighting scene states</span></div>
+        </div>
+      </div>
+
+      <div class="lighting-architecture">
+        <div class="architecture-title"><div class="kicker">System architecture</div><h3>Immediate control stays close to the field.</h3></div>
+        <div class="architecture-board">
+          <div class="architecture-column">
+            <span class="arch-cap">LOCAL LIGHTING PATH</span>
+            <div class="arch-nodes"><div><b>PIR / Lux</b><small>Sensor event</small></div><i>→</i><div><b>BLE network</b><small>Local communication</small></div><i>→</i><div><b>Lighting controller</b><small>Scene logic</small></div><i>→</i><div class="arch-invert"><b>0–10V driver</b><small>Light output</small></div></div>
+          </div>
+          <div class="architecture-line"></div>
+          <div class="architecture-column">
+            <span class="arch-cap">MANAGEMENT PATH</span>
+            <div class="arch-nodes"><div><b>Gateway</b><small>Schedules & status</small></div><i>→</i><div><b>4G router + SIM</b><small>Dedicated uplink</small></div><i>→</i><div><b>Blutech platform</b><small>Monitor & configure</small></div><i>→</i><div><b>Existing BMS</b><small>API integration</small></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tgr-function-row">
+        <div><span>01</span><h4>Motion</h4><p>Presence can raise an assigned group from standby to occupied scene, then return after a configured time-out.</p></div>
+        <div><span>02</span><h4>Daylight</h4><p>Lux thresholds can switch a daylight zone between configured scenes without dedicating a lux sensor to every circuit.</p></div>
+        <div><span>03</span><h4>Schedule</h4><p>Daily and weekly schedules are stored locally at the gateway so temporary 4G loss does not stop timer operation.</p></div>
+        <div><span>04</span><h4>Override & BMS</h4><p>FM users can apply authorised temporary overrides and exchange agreed lighting / status points with the existing BMS.</p></div>
+      </div>
+
+      <div class="tgr-note"><strong>Project status</strong><span>The lighting and IAQ scope above describes the 2026 proposed smart-building expansion. Final device quantities and positions remain subject to site survey, RF testing and detailed coordination.</span><a href="/solutions/smart-lighting">Explore wireless smart lighting →</a></div>
+    </div>
+  </section>}
+
+  <section class="project-index">
+    <div class="shell">
+      <div class="section-head"><div><div class="kicker">More deployments</div><h2>Different buildings. Different constraints.</h2><p>The system changes with the site: privacy, network availability, ceiling conditions, workflow and integration requirements all matter.</p></div></div>
+      <div class="project-editorial-grid">
+        {otherProjects.map((p, i)=><article class={`project-editorial ${i===0 ? "project-editorial-wide" : ""}`} id={p.slug}>
+          <img src={p.image} alt={`${p.title} Blutech deployment`} loading="lazy" width="1200" height="800"/>
+          <div class="project-editorial-copy"><div class="meta">{p.category}</div><h3>{p.title}</h3><p>{p.summary}</p></div>
+        </article>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="project-contact"><div class="shell project-contact-grid"><div><div class="kicker">Planning a retrofit?</div><h2>Start with the building, not the brochure.</h2><p>Send us the floorplan, operating requirement and integration boundary. We can work backwards to sensing, wireless coverage, local control and software.</p></div><a class="button" href="/contact">Discuss a site</a></div></section>
 </BaseLayout>
+
+<style>
+  .projects-hero{background:#fff;border-bottom:1px solid var(--line);padding:90px 0 72px}.projects-hero h1{font-size:clamp(55px,6.5vw,92px);max-width:1060px;line-height:.94;letter-spacing:-.06em;margin:10px 0 24px;font-weight:750}.projects-hero p{font-size:20px;color:var(--muted);max-width:780px;margin:0}
+  .tgr-case{background:var(--bg);padding-top:95px}.tgr-intro{display:grid;grid-template-columns:1.2fr .8fr;gap:70px;align-items:end;margin-bottom:44px}.tgr-intro h2{font-size:clamp(43px,5vw,68px);line-height:.98;letter-spacing:-.05em;margin:10px 0 0}.tgr-intro p{font-size:18px;color:var(--muted);margin:0}.tgr-hero-image{height:min(68vw,760px);overflow:hidden;background:#ddd}.tgr-hero-image img{width:100%;height:100%;object-fit:cover}.case-status{display:grid;grid-template-columns:auto 1fr 1px auto 1fr;gap:16px;align-items:center;border-bottom:1px solid var(--line);padding:18px 0;color:#4e565a}.case-status span{font-size:10px;letter-spacing:.13em;color:var(--brand-2);font-weight:900}.case-status strong{font-size:13px}.case-status i{height:20px;background:var(--line)}
+  .tgr-story-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:75px;padding:92px 0}.tgr-story-copy h3{font-size:clamp(38px,4.5vw,60px);line-height:1;letter-spacing:-.048em;margin:10px 0 25px}.tgr-story-copy p{font-size:17px;color:var(--muted);max-width:650px}.tgr-metrics{display:grid;grid-template-columns:repeat(2,1fr);border-top:1px solid var(--line)}.tgr-metrics>div{padding:24px 20px 28px 0;border-bottom:1px solid var(--line)}.tgr-metrics>div:nth-child(even){padding-left:25px;border-left:1px solid var(--line)}.tgr-metrics strong{font-size:42px;letter-spacing:-.05em;display:block}.tgr-metrics span{font-size:13px;color:#50585d}.tgr-metrics small{color:var(--muted)}
+  .lighting-architecture{background:#111315;color:#fff;padding:55px;margin-bottom:0}.architecture-title{display:flex;justify-content:space-between;gap:40px;align-items:end;margin-bottom:40px}.architecture-title .kicker{color:#7dd8df}.architecture-title h3{font-size:36px;letter-spacing:-.04em;margin:0;max-width:650px}.architecture-board{display:grid;grid-template-columns:1fr 1px 1fr;gap:38px;align-items:center}.architecture-line{width:1px;background:rgba(255,255,255,.15);height:100%}.arch-cap{font-size:10px;letter-spacing:.15em;color:#80dce4;font-weight:900}.arch-nodes{display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;gap:8px;align-items:center;margin-top:14px}.arch-nodes i{font-style:normal;color:#687176}.arch-nodes>div{border:1px solid rgba(255,255,255,.16);padding:16px;min-height:104px;display:flex;flex-direction:column;justify-content:space-between}.arch-nodes b,.arch-nodes small{display:block}.arch-nodes small{font-size:10px;color:#a9b0b3}.arch-nodes .arch-invert{background:#fff;color:#111}.arch-nodes .arch-invert small{color:#555}
+  .tgr-function-row{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--line)}.tgr-function-row>div{padding:35px 26px 42px 0}.tgr-function-row>div+div{padding-left:26px;border-left:1px solid var(--line)}.tgr-function-row span{font-size:10px;color:var(--brand-2);font-weight:900}.tgr-function-row h4{font-size:24px;margin:7px 0 9px}.tgr-function-row p{font-size:13px;color:var(--muted);margin:0}.tgr-note{display:grid;grid-template-columns:130px 1fr auto;gap:25px;align-items:center;padding:24px 0 0}.tgr-note strong{font-size:12px;text-transform:uppercase;letter-spacing:.09em}.tgr-note span{font-size:13px;color:var(--muted)}.tgr-note a{font-size:13px;font-weight:800;border-bottom:1px solid currentColor}
+  .project-index{background:#fff}.project-editorial-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:65px 30px}.project-editorial{border-top:1px solid var(--line);padding-top:16px}.project-editorial-wide{grid-column:1/-1;display:grid;grid-template-columns:1.4fr .6fr;gap:34px;align-items:end}.project-editorial img{width:100%;aspect-ratio:16/10;object-fit:cover}.project-editorial-wide img{aspect-ratio:16/8}.project-editorial-copy{padding-top:16px}.project-editorial-wide .project-editorial-copy{padding:0 0 10px}.project-editorial .meta{font-size:10px;letter-spacing:.13em;color:var(--brand-2);font-weight:900;text-transform:uppercase}.project-editorial h3{font-size:30px;letter-spacing:-.04em;margin:7px 0 10px}.project-editorial p{color:var(--muted);margin:0}.project-contact{background:var(--bg-2);border-top:1px solid var(--line)}.project-contact-grid{display:flex;justify-content:space-between;gap:50px;align-items:end}.project-contact h2{font-size:clamp(40px,5vw,65px);letter-spacing:-.05em;line-height:1;margin:10px 0 12px;max-width:800px}.project-contact p{color:var(--muted);font-size:17px;max-width:700px}
+  @media(max-width:1000px){.tgr-intro,.tgr-story-grid{grid-template-columns:1fr}.architecture-board{grid-template-columns:1fr}.architecture-line{width:100%;height:1px}.arch-nodes{grid-template-columns:1fr 1fr}.arch-nodes i{display:none}.tgr-function-row{grid-template-columns:1fr 1fr}.tgr-note{grid-template-columns:1fr}.project-editorial-wide{grid-template-columns:1fr}.project-contact-grid{align-items:start;flex-direction:column}.case-status{grid-template-columns:1fr 1fr}.case-status i{display:none}}
+  @media(max-width:680px){.projects-hero{padding:58px 0 50px}.projects-hero h1{font-size:50px}.tgr-case{padding-top:65px}.tgr-hero-image{height:65vw;min-height:330px}.tgr-story-grid{padding:65px 0}.tgr-metrics,.tgr-function-row{grid-template-columns:1fr}.tgr-metrics>div:nth-child(even),.tgr-function-row>div+div{padding-left:0;border-left:0}.lighting-architecture{padding:28px 20px}.architecture-title{align-items:start;flex-direction:column}.arch-nodes{grid-template-columns:1fr}.project-editorial-grid{grid-template-columns:1fr}.project-editorial-wide{grid-column:auto}.case-status{grid-template-columns:1fr;gap:5px}}
+</style>
