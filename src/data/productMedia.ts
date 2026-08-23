@@ -6,7 +6,7 @@ import ioBox from "../assets/bluta-io-box.webp";
 
 export const productImages: Record<string,string> = {
   BT102: infoStation.src,
-  BT303: "/products/bt303-heatmap-8x8.webp",
+  BT303: "/products/bt303-heatmap.jpg",
   BT306: iaq.src,
   BT311: "/products/bt311-service-button.jpg",
   BT315: ioBox.src,
