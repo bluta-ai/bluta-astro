@@ -1,10 +1,13 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { products } from "../../data/site";
+import { products, comparisonGroups } from "../../data/site";
 export function getStaticPaths(){ return products.map((product) => ({ params:{ slug:product.slug }, props:{ product } })); }
 const { product } = Astro.props;
+const media = product.media?.length ? product.media : product.image ? [{src:product.image,alt:`${product.model} ${product.name}`,kind:"product"}] : [];
+const related = products.filter((p)=>p.family===product.family && p.model!==product.model).slice(0,3);
+const comparison = comparisonGroups.find((group)=>group.models.includes(product.model));
 const schema = [
-  { "@context":"https://schema.org", "@type":"Product", name:`${product.model} ${product.name}`, brand:{"@type":"Brand",name:"Blutech"}, model:product.model, category:product.family, description:product.summary },
+  { "@context":"https://schema.org", "@type":"Product", name:`${product.model} ${product.name}`, brand:{"@type":"Brand",name:"Blutech"}, model:product.model, category:product.family, description:product.summary, ...(product.image ? {image:new URL(product.image,"https://blutech.io").toString()} : {}) },
   { "@context":"https://schema.org", "@type":"BreadcrumbList", itemListElement:[
     {"@type":"ListItem",position:1,name:"Home",item:"https://blutech.io/"},
     {"@type":"ListItem",position:2,name:"Products",item:"https://blutech.io/products"},
@@ -12,17 +15,38 @@ const schema = [
   ]}
 ];
 ---
-<BaseLayout title={`${product.model} ${product.name} | Blutech`} description={product.summary} canonicalPath={`/products/${product.slug}`} schema={schema}>
-  <section class="page-hero"><div class="shell"><div class="breadcrumb"><a href="/">Home</a><span>›</span><a href="/products">Products</a><span>›</span><span>{product.model}</span></div><div class="kicker">{product.family}</div><h1>{product.model}<br/>{product.name}</h1><p>{product.summary}</p></div></section>
-  <section><div class="shell product-detail">
-    <div>{product.image ? <figure class="product-figure"><img src={product.image} alt={`${product.model} ${product.name} product`} width="900" height="675" /></figure> : <div class="product-figure product-image-missing"><div><div class="kicker">Preview only</div><strong>{product.model}</strong><p>Verified real-product photography is still being matched to this SKU. This page cannot pass the release gate until the correct image is assigned.</p></div></div>}</div>
-    <article>
-      <div class="kicker">What it does</div><h2 style="font-size:42px;margin:8px 0 16px">Built for a clear field job.</h2><p class="hero-copy" style="font-size:19px">{product.summary}</p>
-      <h3>Key functions</h3><ul class="feature-list">{product.features.map((f) => <li>{f}</li>)}</ul>
-      <h3 style="margin-top:34px">Typical applications</h3><ul class="feature-list">{product.applications.map((a) => <li>{a}</li>)}</ul>
-      <table class="spec-table"><tbody><tr><th>Model</th><td>{product.model}</td></tr><tr><th>Product family</th><td>{product.family}</td></tr>{product.connectivity && <tr><th>Connectivity / interfaces</th><td>{product.connectivity.join(" · ")}</td></tr>}{product.power && <tr><th>Power</th><td>{product.power}</td></tr>}</tbody></table>
-      <p class="notice" style="margin-top:28px">This page intentionally lists only specifications confirmed for the current product. Exact dimensions, ratings, battery life, coverage and project-specific interfaces are published only after the corresponding source specification is verified.</p>
-      <div class="actions" style="margin-top:26px"><a class="button" href={`/contact?product=${encodeURIComponent(product.model)}`}>Ask about {product.model}</a><a class="button secondary" href="/products">Back to products</a></div>
-    </article>
-  </div></section>
+<BaseLayout title={`${product.model} ${product.name} | Blutech`} description={product.summary} canonicalPath={`/products/${product.slug}`} image={product.image} schema={schema}>
+  <section class="product-story-hero">
+    <div class="shell">
+      <div class="breadcrumb"><a href="/">Home</a><span>›</span><a href="/products">Products</a><span>›</span><span>{product.model}</span></div>
+      <div class="product-story-grid">
+        <div class="product-story-copy"><div class="kicker">{product.family} · {product.model}</div><h1>{product.name}</h1><p class="product-claim">{product.headline || product.summary}</p><p class="product-summary">{product.summary}</p><div class="actions"><a class="button" href={`/contact?product=${encodeURIComponent(product.model)}`}>Talk to Blutech</a>{comparison && <a class="button secondary" href={`/products/compare#${comparison.models.join("-").toLowerCase()}`}>Compare {comparison.models.join(" / ")}</a>}</div></div>
+        <div class={`product-hero-object ${media.length ? "" : "product-hero-unresolved"}`}>{media.length ? <img src={media[0].src} alt={media[0].alt} width="1000" height="750" /> : <div class="product-model-art"><span>{product.model}</span></div>}</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="product-benefits">
+    <div class="shell"><div class="kicker">What it enables</div><div class="benefit-grid">{product.features.slice(0,4).map((f,i)=><article><span>0{i+1}</span><h2>{f}</h2></article>)}</div></div>
+  </section>
+
+  {media.length > 1 && <section class="product-gallery-section"><div class="shell"><div class="product-gallery">{media.map((item,index)=><figure class={index===0 ? "gallery-wide" : ""}><img src={item.src} alt={item.alt} loading={index===0?"eager":"lazy"}/>{item.caption && <figcaption>{item.caption}</figcaption>}</figure>)}</div></div></section>}
+
+  <section class="catalogue-family catalogue-family-alt">
+    <div class="shell product-context-grid">
+      <div><div class="kicker">Where it fits</div><h2>Designed around a clear field job.</h2><p>Product selection starts with the physical space and the operational decision the system needs to make.</p></div>
+      <div class="application-list">{product.applications.map((a)=><div><span>Application</span><strong>{a}</strong></div>)}</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="shell product-technical-grid">
+      <div><div class="kicker">System role</div><h2>From device to building operation.</h2><p>{product.connectivity?.length ? `${product.model} can be deployed with ${product.connectivity.join(", ")} according to the product variant and project architecture.` : `${product.model} is integrated into the project architecture according to the required sensing and operating workflow.`}</p><p>Connected data can feed Blutech Core for infrastructure management and Blutech Halo for operator-facing status, alerts and workflows where the project uses those software layers.</p></div>
+      <div><table class="spec-table"><tbody><tr><th>Model</th><td>{product.model}</td></tr><tr><th>Product family</th><td>{product.family}</td></tr>{product.connectivity && <tr><th>Connectivity / interfaces</th><td>{product.connectivity.join(" · ")}</td></tr>}{product.power && <tr><th>Power</th><td>{product.power}</td></tr>}</tbody></table><p class="spec-footnote">Detailed dimensions, environmental ratings, coverage and project-specific interfaces are provided in the applicable product specification or proposal.</p></div>
+    </div>
+  </section>
+
+  {related.length > 0 && <section class="catalogue-family catalogue-family-alt"><div class="shell"><div class="section-head"><div><div class="kicker">Related products</div><h2>Explore the same product family.</h2></div><a class="button secondary" href="/products">All products</a></div><div class="product-grid product-grid-premium">{related.map((p)=><a class="product-card-premium" href={`/products/${p.slug}`}><div class={`product-visual ${p.image ? "" : "product-visual-unresolved"}`}>{p.image ? <img src={p.image} alt={`${p.model} ${p.name}`} loading="lazy"/> : <div class="product-model-art"><span>{p.model}</span></div>}</div><div class="product-copy"><div class="model">{p.model}</div><h3>{p.name}</h3><p class="product-headline">{p.headline}</p><span class="card-link">Explore →</span></div></a>)}</div></div></section>}
+
+  <section><div class="shell premium-cta"><div><div class="kicker">Project enquiry</div><h2>See whether {product.model} fits the site.</h2><p>Share the intended location, operating objective and existing building systems. We can identify the important design questions before detailed specification.</p></div><a class="button" href={`/contact?product=${encodeURIComponent(product.model)}`}>Ask about {product.model}</a></div></section>
 </BaseLayout>
