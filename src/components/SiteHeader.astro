@@ -17,7 +17,7 @@ const nav = [
 const clean = path.replace(/^\/(zh-hk|zh-cn|ar)(?=\/|$)/, "") || "/";
 const isHome = clean === "/";
 const localisedCore = new Set(["/","/solutions","/products","/software","/projects","/technology","/company","/resources","/contact"]);
-const localisedDetail = clean.replace(/\/$/, "") !== "/products/compare" && /^\/(products|projects)\/[^/]+\/?$/.test(clean);
+const localisedDetail = clean.replace(/\/$/, "") !== "/products/compare" && /^\/(products|projects|solutions|resources)\/[^/]+\/?$/.test(clean);
 const switchPath = clean === "/hardware" ? "/products" : localisedCore.has(clean.replace(/\/$/,"") || "/") || localisedDetail ? clean : "/";
 const localeHref = (code:string) => code === "en" ? switchPath : `/${code}${switchPath === "/" ? "/" : switchPath}`;
 ---
