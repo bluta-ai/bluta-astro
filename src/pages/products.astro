@@ -1,115 +1,18 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { products, comparisonGroups } from "../data/site";
+import { products } from "../data/site";
 import { getProductImage } from "../data/productMedia";
-
-const byModel = Object.fromEntries(products.map((p) => [p.model, p]));
-const featuredModels = ["BT338","BT337","BT303","BT102","BT306","BT336","BT317","BT339","BT2035","BT3022"];
-const featured = featuredModels.map((m)=>byModel[m]).filter(Boolean);
-const groups = [
-  { title:"Sensing", note:"Occupancy, activity, air quality, leakage, motion and other real-world conditions.", models:["BT303","BT306","BT321","BT333","BT336","BT337","BT338","BT339","BT353","BT3022","BT3023"] },
-  { title:"Control & Response", note:"Turn field events into local control, service calls, alarms and visible status.", models:["BT311","BT315","BT316","BT317","BT2035"] },
-  { title:"Display & Guidance", note:"Put live building information where visitors and operators can actually use it.", models:["BT101","BT102","BT103","BT107"] },
-  { title:"Connectivity", note:"Connect distributed building devices to IP, cellular and cloud integration layers.", models:["BT802","BT803"] },
-];
-const families = [
-  { title:"Sensing", line:"Understand spaces in real time.", model:"BT338", href:"#sensing" },
-  { title:"Control & Response", line:"Automate actions. Improve outcomes.", model:"BT317", href:"#control-response" },
-  { title:"Display & Guidance", line:"Communicate clearly. Guide effortlessly.", model:"BT102", href:"#display-guidance" },
-  { title:"Connectivity", line:"Connect securely. Integrate seamlessly.", model:"BT306", href:"#connectivity" },
-  { title:"Smart Lighting", line:"Adaptive lighting that saves more.", model:"BT321", href:"/products/wireless-smart-lighting" },
-];
+const families = [...new Set(products.map((p)=>p.family))];
 ---
-<BaseLayout title="Products | Blutech Building IoT & AIoT" description="Blutech sensing, control, display and connectivity technology for premium commercial buildings, public facilities, healthcare and smart-building retrofits." canonicalPath="/products">
-  <div class="products-page">
-    <section class="products-hero">
-      <div class="hero-copy">
-        <div class="eyebrow">PRODUCTS</div>
-        <h1>Technology<br/>designed for<br/>real buildings.</h1>
-        <p>Purpose-built sensing, control, display and connectivity systems for smarter buildings and better experiences.</p>
-        <a class="teal-button" href="#featured">Explore our products <span>→</span></a>
-      </div>
-      <div class="hero-showcase" aria-label="Selected Blutech building products">
-        <div class="wall-split"></div><div class="leaf leaf-a"></div><div class="leaf leaf-b"></div>
-        <div class="plinth plinth-a"></div><div class="plinth plinth-b"></div><div class="plinth plinth-c"></div>
-        {byModel.BT338 && <img class="hero-product hp-338" src={getProductImage("BT338",byModel.BT338.image)} alt="BT338 HeatMap Fusion"/>}
-        {byModel.BT337 && <img class="hero-product hp-337" src={getProductImage("BT337",byModel.BT337.image)} alt="BT337 HeatMap Pro"/>}
-        {byModel.BT102 && <img class="hero-product hp-102" src={getProductImage("BT102",byModel.BT102.image)} alt="BT102 Smart Info Station"/>}
-        {byModel.BT306 && <img class="hero-product hp-306" src={getProductImage("BT306",byModel.BT306.image)} alt="BT306 IAQ5"/>}
-        {byModel.BT303 && <img class="hero-product hp-303" src={getProductImage("BT303",byModel.BT303.image)} alt="BT303 HeatMap 8×8"/>}
-      </div>
-    </section>
-
-    <section class="featured-section" id="featured">
-      <div class="page-width">
-        <div class="section-row"><h2>Featured products</h2><a href="#catalogue">View all products →</a></div>
-        <div class="featured-grid">
-          {featured.map((p)=><a class="featured-card" href={`/products/${p.slug}`}>
-            <div class="featured-image"><img src={getProductImage(p.model,p.image)} alt={`${p.model} ${p.name}`} loading="lazy"/></div>
-            <div class="featured-copy"><span>{p.model}</span><h3>{p.name}</h3><p>{p.headline || p.summary}</p><b>→</b></div>
-          </a>)}
-        </div>
-
-        <div class="family-grid">
-          {families.map((family)=><a class="family-card" href={family.href}>
-            <img src={getProductImage(family.model,byModel[family.model]?.image)} alt="" loading="lazy"/>
-            <div class="family-overlay"></div>
-            <div class="family-copy"><h3>{family.title}</h3><p>{family.line}</p><span>View products →</span></div>
-          </a>)}
-        </div>
-
-        <div class="lighting-card">
-          <div class="lighting-copy">
-            <div class="eyebrow">NEW LIGHTING SOLUTION</div>
-            <h2>Smarter lighting.<br/>Better buildings.</h2>
-            <p>An integrated wireless lighting system that combines sensing, local control and central visibility for premium commercial buildings and retrofit projects.</p>
-            <div class="lighting-benefits"><span>✓ Occupancy & motion response</span><span>✓ Daylight / lux sensing</span><span>✓ 0–10V dimming control</span><span>✓ Local BLE operation</span><span>✓ Schedules & override</span><span>✓ Gateway & BMS integration</span></div>
-            <a href="/products/wireless-smart-lighting">Discover the lighting solution →</a>
-          </div>
-          <div class="lighting-architecture">
-            <div class="arch-flow">
-              <div><i>◉</i><strong>PIR & Lux</strong><small>Sensing</small></div><em>→</em>
-              <div><i>◌</i><strong>BLE Mesh</strong><small>Network</small></div><em>→</em>
-              <div><i>◐</i><strong>0–10V</strong><small>Dimming</small></div><em>→</em>
-              <div><i>▣</i><strong>Gateway</strong><small>Integration</small></div><em>→</em>
-              <div><i>☁</i><strong>BMS / API</strong><small>Management</small></div>
-            </div>
-            <div class="lighting-room"><span></span><span></span><span></span><span></span><span></span></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="catalogue-section" id="catalogue">
-      <div class="page-width">
-        <div class="section-row catalogue-title"><div><span class="eyebrow">ALL PRODUCTS</span><h2>Built around what the building needs to do.</h2></div></div>
-        {groups.map((group,index)=><div class="catalogue-group" id={index===0?"sensing":index===1?"control-response":index===2?"display-guidance":"connectivity"}>
-          <div class="group-intro"><span>0{index+1}</span><h3>{group.title}</h3><p>{group.note}</p></div>
-          <div class="catalogue-list">
-            {group.models.map((model)=>byModel[model]).filter(Boolean).map((p)=>{ const img=getProductImage(p.model,p.image); return <a class="catalogue-row" href={`/products/${p.slug}`}>
-              <div class="thumb">{img ? <img src={img} alt="" loading="lazy"/> : <span>{p.model}</span>}</div>
-              <div class="row-name"><span>{p.model}</span><strong>{p.name}</strong></div>
-              <p>{p.summary}</p><b>→</b>
-            </a>})}
-          </div>
-        </div>)}
-      </div>
-    </section>
-
-    <section class="compare-section"><div class="page-width"><div class="section-row"><div><span class="eyebrow">COMPARE</span><h2>Similar role. Different fit.</h2></div><a href="/products/compare">Open comparisons →</a></div><div class="compare-grid">{comparisonGroups.map((g)=><a href={`/products/compare#${g.models.join("-").toLowerCase()}`}><span>{g.title}</span><strong>{g.models.join(" / ")}</strong><p>{g.note}</p></a>)}</div></div></section>
-
-    <section class="bluta-band"><div class="page-width"><span class="eyebrow">FROM BLUTECH</span><h2>BLUTA Fire</h2><p>Our dedicated fire & life-safety brand, developed by the Blutech team.</p><a href="https://bluta.io" target="_blank" rel="noopener">Discover BLUTA Fire ↗</a></div></section>
-  </div>
+<BaseLayout title="Building IoT Hardware Products | Blutech" description="Blutech building IoT products for smart washrooms, occupancy, safety, IAQ, water leakage, displays, lighting, controls and LoRaWAN connectivity." canonicalPath="/products">
+  <section class="page-hero product-intro"><div class="shell"><div class="breadcrumb"><a href="/">Home</a><span>›</span><span>Products</span></div><div class="kicker">Blutech hardware</div><h1>Commercial hardware with a clear job in the system.</h1><p>Every product page explains what the device enables, where it fits, how it connects and which details must be confirmed for the project.</p></div></section>
+  <section class="catalogue"><div class="shell">
+    <div class="catalogue-filter" aria-label="Product families"><a href="#all">All products</a>{families.map((family)=><a href={`#${family.toLowerCase().replaceAll(" ","-").replaceAll("&","and")}`}>{family}</a>)}</div>
+    <div id="all" class="product-grid product-four">{products.map((p)=>{const image=getProductImage(p.model,p.image);return <a class="product-card" id={p.family.toLowerCase().replaceAll(" ","-").replaceAll("&","and")} href={`/products/${p.slug}`}><div class="product-image"><img src={image} alt={`${p.model} ${p.name}`} loading="lazy" /></div><div class="product-copy"><div class="model">{p.model} · {p.family}</div>{p.award && <span class="award-badge">iF DESIGN AWARD</span>}<h2>{p.name}</h2><p>{p.summary}</p><div class="protocols">{p.connectivity?.slice(0,3).map((c)=><span>{c}</span>)}</div><b>View product →</b></div></a>})}</div>
+  </div></section>
+  <section class="product-guidance"><div class="shell guidance-grid"><div><div class="kicker">Specification support</div><h2>Choose by outcome and site condition.</h2></div><div><p>Product selection depends on the room geometry, privacy requirement, response time, power, wireless coverage, network policy and integration boundary.</p><p>Blutech confirms mounting, communications, environmental rating and integration against the exact model and project configuration.</p><a class="button" href="/contact">Discuss a product schedule</a></div></div></section>
 </BaseLayout>
-
 <style>
-.products-page{--teal:#079cad;--ink:#111315;--muted:#666e73;background:#fff;color:var(--ink);font-family:Inter,"Segoe UI",Arial,sans-serif}.products-page h1,.products-page h2,.products-page h3{font-family:Inter,"Segoe UI",Arial,sans-serif}.page-width{width:min(1440px,calc(100% - 96px));margin:0 auto}.eyebrow{font-size:11px;letter-spacing:.15em;color:var(--teal);font-weight:800}
-.products-hero{display:grid;grid-template-columns:40% 60%;min-height:455px;border-bottom:1px solid #e3e4e1;background:#fff}.hero-copy{padding:56px 56px 48px max(48px,calc((100vw - 1440px)/2));display:flex;flex-direction:column;justify-content:center}.hero-copy h1{font-size:clamp(50px,4.4vw,72px);line-height:.97;letter-spacing:-.055em;font-weight:560;margin:14px 0 20px}.hero-copy p{max-width:460px;color:#5f676c;font-size:16px;line-height:1.5;margin:0 0 26px}.teal-button{align-self:flex-start;background:var(--teal);color:#fff;padding:13px 17px;font-size:13px;font-weight:700}.teal-button span{margin-left:16px}
-.hero-showcase{position:relative;overflow:hidden;min-height:455px;background:linear-gradient(90deg,#d7d5d1 0 25%,#eeeae4 25% 100%)}.hero-showcase:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 74% 22%,rgba(255,255,255,.85),transparent 33%),linear-gradient(180deg,rgba(255,255,255,.3),rgba(255,255,255,0))}.wall-split{position:absolute;left:25%;top:0;bottom:0;width:1px;background:rgba(80,80,80,.1)}.plinth{position:absolute;background:linear-gradient(#f4f2ee,#d8d5cf);box-shadow:0 10px 24px rgba(0,0,0,.08)}.plinth-a{left:3%;bottom:24px;width:27%;height:35px;border-radius:50%}.plinth-b{left:26%;bottom:14px;width:37%;height:52px}.plinth-c{right:5%;bottom:22px;width:28%;height:88px}.hero-product{position:absolute;z-index:3;object-fit:contain;filter:drop-shadow(0 15px 16px rgba(0,0,0,.12))}.hp-338{left:8%;bottom:54px;width:23%;height:190px}.hp-337{left:29%;bottom:65px;width:20%;height:190px}.hp-102{right:20%;bottom:74px;width:19%;height:260px}.hp-306{left:46%;bottom:42px;width:19%;height:145px}.hp-303{right:4%;bottom:78px;width:14%;height:150px}.leaf{position:absolute;background:#62895e;border-radius:70% 0 70% 0;opacity:.45}.leaf-a{width:86px;height:36px;right:1%;top:12px;transform:rotate(-22deg)}.leaf-b{width:72px;height:28px;right:7%;top:42px;transform:rotate(28deg)}
-.featured-section{padding:38px 0 64px;background:#fff}.section-row{display:flex;align-items:end;justify-content:space-between;gap:30px;margin-bottom:20px}.section-row h2{font-size:28px;line-height:1.05;letter-spacing:-.035em;margin:0;font-weight:600}.section-row>a{font-size:12px;font-weight:700;border-bottom:1px solid currentColor;padding-bottom:2px}.featured-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}.featured-card{border:1px solid #dedfdd;background:#fff;min-width:0;position:relative;overflow:hidden;transition:transform .2s ease,box-shadow .2s ease}.featured-card:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(0,0,0,.06)}.featured-image{height:185px;background:#efefec;display:flex;align-items:center;justify-content:center;overflow:hidden}.featured-image img{width:100%;height:100%;object-fit:contain;padding:15px}.featured-copy{padding:13px 14px 15px;min-height:132px;position:relative}.featured-copy>span{color:#6f777b;font-size:9px;font-weight:700}.featured-copy h3{font-size:15px;line-height:1.1;margin:4px 20px 6px 0;font-weight:700;letter-spacing:-.015em}.featured-copy p{font-size:10px;line-height:1.35;color:#666d71;margin:0 18px 0 0}.featured-copy b{position:absolute;right:12px;bottom:12px;font-size:16px;font-weight:400}
-.family-grid{display:grid;grid-template-columns:repeat(5,1fr);height:180px;margin-top:16px;border-radius:5px;overflow:hidden}.family-card{position:relative;overflow:hidden;background:#171a1c;color:#fff;border-right:1px solid rgba(255,255,255,.12)}.family-card:last-child{border-right:0}.family-card img{width:100%;height:100%;object-fit:cover;filter:saturate(.75) brightness(.7);transition:transform .3s ease}.family-card:hover img{transform:scale(1.025)}.family-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,10,11,.82),rgba(8,10,11,.16) 85%)}.family-copy{position:absolute;z-index:2;left:20px;right:18px;bottom:18px}.family-copy h3{font-size:17px;margin:0 0 4px;font-weight:650}.family-copy p{font-size:10px;line-height:1.3;margin:0 0 15px;color:#d2d5d6;max-width:150px}.family-copy span{font-size:10px;border-bottom:1px solid rgba(255,255,255,.65)}
-.lighting-card{margin-top:16px;display:grid;grid-template-columns:37% 63%;border:1px solid #dedfdd;border-radius:5px;overflow:hidden;background:#fff;min-height:285px}.lighting-copy{padding:28px}.lighting-copy h2{font-size:28px;line-height:1.02;letter-spacing:-.04em;margin:7px 0 10px;font-weight:560}.lighting-copy>p{font-size:11.5px;line-height:1.45;color:#62696d;margin:0 0 14px}.lighting-benefits{display:grid;grid-template-columns:1fr 1fr;gap:6px 18px;font-size:10px;color:#3d464a;margin-bottom:15px}.lighting-copy>a{font-size:11px;font-weight:700;border-bottom:1px solid currentColor;padding-bottom:2px}.lighting-architecture{position:relative;background:linear-gradient(#f8f8f6 0 64%,rgba(249,249,247,.88)),linear-gradient(90deg,#efefec,#fff);padding:34px 34px 0;overflow:hidden}.arch-flow{display:grid;grid-template-columns:1fr 20px 1fr 20px 1fr 20px 1fr 20px 1fr;align-items:center;position:relative;z-index:2}.arch-flow>div{height:90px;border:1px solid #dfe1df;background:#fff;border-radius:9px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}.arch-flow i{color:var(--teal);font-style:normal;font-size:20px;line-height:1}.arch-flow strong{font-size:10px;margin-top:5px}.arch-flow small{font-size:8.5px;color:#737a7e}.arch-flow em{text-align:center;color:var(--teal);font-style:normal}.lighting-room{position:absolute;left:0;right:0;bottom:0;height:105px;background:linear-gradient(to bottom,rgba(237,237,233,.15),rgba(216,214,207,.75)),linear-gradient(90deg,#edeae3,#f7f6f2)}.lighting-room:before{content:"";position:absolute;left:10%;right:10%;bottom:0;height:60px;border-top:1px solid #d8d5cd;border-left:1px solid #d8d5cd;border-right:1px solid #d8d5cd}.lighting-room span{position:absolute;top:24px;width:1px;height:68px;background:#8a8e8e}.lighting-room span:after{content:"";position:absolute;left:-24px;bottom:0;width:48px;height:10px;background:#474d50;border-radius:50%}.lighting-room span:nth-child(1){left:14%}.lighting-room span:nth-child(2){left:32%}.lighting-room span:nth-child(3){left:50%}.lighting-room span:nth-child(4){left:68%}.lighting-room span:nth-child(5){left:86%}
-.catalogue-section{padding:70px 0 20px;background:#f7f7f5;border-top:1px solid #e2e3e0}.catalogue-title{margin-bottom:28px}.catalogue-title h2{font-size:38px;margin-top:7px;max-width:700px}.catalogue-group{display:grid;grid-template-columns:250px 1fr;border-top:1px solid #d9dbd8;padding:28px 0}.group-intro>span{font-size:10px;color:var(--teal)}.group-intro h3{font-size:22px;margin:4px 0 8px}.group-intro p{font-size:11px;color:#6d7478;line-height:1.45;max-width:205px}.catalogue-list{border-top:1px solid #e1e2df}.catalogue-row{display:grid;grid-template-columns:64px 210px 1fr 22px;gap:16px;align-items:center;min-height:82px;border-bottom:1px solid #e1e2df}.thumb{width:52px;height:52px;background:#fff;display:flex;align-items:center;justify-content:center}.thumb img{width:100%;height:100%;object-fit:contain;padding:5px}.thumb span{font-size:9px;color:#777}.row-name span{display:block;font-size:9px;color:var(--teal)}.row-name strong{display:block;font-size:13px}.catalogue-row>p{font-size:10.5px;color:#686f73;line-height:1.35;margin:0}.catalogue-row>b{font-weight:400;font-size:16px}.compare-section{padding:56px 0;background:#fff}.compare-grid{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid #ddd}.compare-grid a{padding:18px 15px 20px 0;border-bottom:1px solid #ddd}.compare-grid a:not(:first-child){padding-left:15px;border-left:1px solid #ddd}.compare-grid span{display:block;font-size:9px;color:var(--teal)}.compare-grid strong{display:block;font-size:13px;margin:4px 0}.compare-grid p{font-size:10px;color:#6b7276;margin:0}.bluta-band{padding:52px 0;background:#111416;color:#fff}.bluta-band h2{font-size:36px;margin:7px 0 6px}.bluta-band p{color:#c9cdcf;margin:0 0 16px}.bluta-band a{font-size:12px;border-bottom:1px solid currentColor}
-@media(max-width:1100px){.page-width{width:min(100% - 48px,1440px)}.products-hero{grid-template-columns:1fr}.hero-copy{padding:54px 24px}.hero-showcase{min-height:360px}.featured-grid{grid-template-columns:repeat(3,1fr)}.family-grid{grid-template-columns:repeat(2,1fr);height:auto}.family-card{height:180px}.lighting-card{grid-template-columns:1fr}.lighting-architecture{min-height:260px}.catalogue-group{grid-template-columns:1fr}.group-intro{margin-bottom:18px}}
-@media(max-width:700px){.page-width{width:calc(100% - 28px)}.hero-copy h1{font-size:50px}.hero-showcase{min-height:280px}.featured-grid{grid-template-columns:1fr 1fr}.featured-image{height:150px}.family-grid{grid-template-columns:1fr}.lighting-benefits{grid-template-columns:1fr}.arch-flow{grid-template-columns:1fr;gap:7px;padding-bottom:120px}.arch-flow em{transform:rotate(90deg)}.catalogue-row{grid-template-columns:54px 1fr 20px}.catalogue-row>p{display:none}.compare-grid{grid-template-columns:1fr 1fr}}
+.product-intro h1{font-size:clamp(46px,5vw,70px);max-width:980px}.catalogue{background:#f1f2ef}.catalogue-filter{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:26px}.catalogue-filter a{font-size:11px;border:1px solid var(--line);background:#fff;padding:8px 10px}.product-grid.product-four{grid-template-columns:repeat(4,minmax(0,1fr));gap:1px}.product-card{background:#fff;display:flex;flex-direction:column;min-height:100%}.product-image{aspect-ratio:4/3}.product-image img{padding:9%;object-fit:contain}.product-copy{padding:18px 19px 22px;display:flex;flex-direction:column;flex:1}.product-copy .model{margin:0}.product-copy h2{font-size:21px;line-height:1.08;letter-spacing:-.025em;margin:7px 0 9px}.product-copy p{font-size:12px;color:var(--muted);margin:0}.product-copy>b{font-size:12px;margin-top:auto;padding-top:22px}.award-badge{align-self:flex-start;color:#d71920;border:1px solid rgba(215,25,32,.35);font-size:8px;font-weight:900;letter-spacing:.08em;padding:4px 5px;margin-top:8px}.protocols{display:flex;flex-wrap:wrap;gap:5px;margin-top:14px}.protocols span{font-size:9px;background:#f1f2ef;padding:5px 6px}.product-guidance{background:#fff}.guidance-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:90px}.guidance-grid h2{font-size:clamp(36px,4vw,54px);line-height:1.03;letter-spacing:-.045em;margin:9px 0}.guidance-grid p{color:var(--muted)}.guidance-grid .button{margin-top:12px}
+@media(max-width:1100px){.product-grid.product-four{grid-template-columns:repeat(3,1fr)}}@media(max-width:820px){.product-grid.product-four{grid-template-columns:repeat(2,1fr)}.guidance-grid{grid-template-columns:1fr;gap:28px}}@media(max-width:520px){.product-grid.product-four{grid-template-columns:1fr}}
 </style>

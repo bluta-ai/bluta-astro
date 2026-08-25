@@ -17,20 +17,20 @@ const data=src('src','data','site.ts'); const css=src('src','styles','global.css
 const headers=exists('public','_headers')?src('public','_headers'):'';
 const redirects=exists('public','_redirects')?src('public','_redirects'):'';
 
-check(1,'Positioning',home.includes('Building IoT &amp; AIoT')||home.includes('Building IoT & AIoT'),'Homepage states Building IoT & AIoT clearly.');
-check(2,'Brand architecture',home.includes('BLUTA Fire')&&company.includes('BLUTA Fire')&&software.includes('Blutech Halo')&&software.includes('Blutech Core'),'Blutech, Halo, Core and BLUTA Fire relationship is explicit.');
+check(1,'Positioning',home.includes('Building AI and IoT'),'Homepage states Building AI and IoT clearly.');
+check(2,'Brand architecture',company.includes('BLUTA')&&software.includes('Blutech Halo')&&software.includes('Blutech Core'),'Blutech, Halo, Core and BLUTA relationship is explicit without overcrowding the homepage.');
 check(3,'Site structure',['solutions','products','software','projects','technology','company','resources','contact'].every(r=>exists('dist',r,'index.html')),'All core navigation destinations build.');
-check(4,'Homepage',home.includes('<h1')&&home.includes('Selected deployments')&&home.includes('Blutech Halo'),'Hero, proof, software and project sections present.');
+check(4,'Homepage',home.includes('<h1')&&home.includes('Selected work')&&home.includes('Blutech Halo'),'Hero, proof, software and project sections present.');
 check(5,'Solution pages',exists('dist','solutions','smart-washroom','index.html')&&exists('dist','solutions','building-iot-retrofit','index.html'),'Search/problem-led solution detail pages build.');
 check(6,'Product catalogue',!data.includes('model:"BT104"')&&!data.includes('model:"BT349"')&&!data.includes('model:"BT318"')&&!data.includes('model:"BT319"'),'Excluded/current-separation rules enforced in public catalogue data.');
 check(7,'Product pages',exists('dist','products','bt338-heatmap-fusion','index.html')&&exists('dist','products','bt802-indoor-lorawan-gateway','index.html'),'Static product detail pages build from a central catalogue.');
-check(8,'Blutech Halo',software.includes('Building Intelligence &amp; Management Platform')||software.includes('Building Intelligence & Management Platform'),'Halo is described beyond a simple dashboard.');
-check(9,'Blutech Core',software.includes('IoT Device &amp; Integration Platform')||software.includes('IoT Device & Integration Platform'),'Core device/integration role is explicit.');
-check(10,'Halo + Core story',software.includes('One data path. Two user experiences.'),'Software relationship is explained.');
-check(11,'Projects',projects.includes('Real buildings')&&projects.includes('EMSD Headquarters'),'Evidence-first project portfolio exists.');
-check(12,'Evidence library policy',projects.includes('What we will not do')&&company.includes('official record'),'Public copy includes evidence/claim-scope discipline.');
+check(8,'Blutech Halo',software.includes('building intelligence and management layer'),'Halo is described beyond a simple dashboard.');
+check(9,'Blutech Core',software.includes('IoT device and integration layer'),'Core device/integration role is explicit.');
+check(10,'Halo + Core story',software.includes('Halo turns building data')&&software.includes('Core keeps the devices'),'Software relationship and responsibilities are explained.');
+check(11,'Projects',projects.includes('What Blutech delivered')&&projects.includes('EMSD Headquarters'),'Benefit-led project portfolio exists.');
+check(12,'Evidence policy',projects.includes('confirmed scope')&&company.includes('official record'),'Project and award copy use confirmed-scope language without empty reference disclaimers.');
 check(13,'Awards / credibility',company.includes('iF DESIGN AWARD')&&company.includes('Smart Washroom AIoT Solution'),'Award wording is solution-specific.');
-check(14,'Customer proof',projects.includes('Hong Kong International Airport')&&projects.includes('Three Garden Road'),'Named real project references present.');
+check(14,'Customer proof',projects.includes('Hong Kong International Airport')&&projects.includes('Three Garden Road')&&exists('dist','projects','three-garden-road','index.html'),'Named references and detailed case studies are present.');
 review(15,'Photography','Architectural/project imagery is implemented, but product photography is a hard customer-level release gate. Every public SKU must have the correct current-product image and final publication rights must be checked.');
 check(16,'Visual design',css.includes('--bg:#f7f7f4')&&css.includes('.software-pair')&&css.includes('.product-grid'),'Architectural Tech / Premium Minimal design system is implemented with restrained software contrast and industrial product catalogue styling.');
 check(17,'Mobile design',css.includes('@media(max-width:700px)')&&css.includes('@media(max-width:1100px)'),'Responsive navigation/layout breakpoints exist.');
@@ -40,7 +40,7 @@ check(20,'SEO foundations',layout.includes('canonical')&&exists('dist','sitemap.
 check(21,'Search-intent SEO',solutions.includes('Search intent')&&data.includes('fall detection without camera')&&data.includes('LoRaWAN building monitoring'),'Intent-led landing pages are encoded in solution data.');
 check(22,'GEO / AI search',exists('dist','llms.txt')&&layout.includes('application/ld+json')&&exists('dist','solutions','smart-washroom','index.html'),'AI-readable summary, structured factual copy and FAQ/service pages exist.');
 check(23,'Structured data',layout.includes('Organization')&&src('src','pages','products','[slug].astro').includes('Product')&&software.includes('application/ld+json'),'Organization/Product/Software schema paths exist.');
-check(24,'Multilingual',exists('dist','zh-hk','index.html')&&exists('dist','zh-cn','index.html')&&exists('dist','ar','index.html')&&distText('ar/index.html').includes('dir="rtl"'),'English, Traditional Chinese, Simplified Chinese and Arabic core routes build with RTL.');
+check(24,'Multilingual',exists('dist','zh-hk','index.html')&&exists('dist','zh-cn','index.html')&&exists('dist','ar','index.html')&&exists('dist','zh-hk','products','bt102-smart-info-station','index.html')&&exists('dist','ar','projects','three-garden-road','index.html')&&distText('ar/index.html').includes('dir="rtl"'),'English, Traditional Chinese, Simplified Chinese and Arabic core and detail routes build with RTL.');
 check(25,'Technical performance',!css.includes('@font-face')&&/loading="lazy"/.test(home+projects),'No external webfont dependency; below-fold imagery is lazy loaded. Live CWV must be measured after deployment.','PASS');
 check(26,'Accessibility',layout.includes('skip-link')&&contact.includes('<label')&&css.includes('prefers-reduced-motion'),'Skip link, form labels, focus styling and reduced motion support exist.');
 check(27,'Security',headers.includes('Content-Security-Policy')&&headers.includes('Strict-Transport-Security')&&exists('public','.well-known','security.txt')&&String(pkg.dependencies.astro).startsWith('7.'),'Cloudflare Pages security headers/security contact are configured and the project is on the current Astro major; CI separately blocks high-severity dependency audit findings.');

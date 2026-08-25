@@ -38,20 +38,30 @@ const emitHreflang = hasLocalizedVersions || localizedCoreRoutes.has(cleanPath.r
 
 const organizationSchema = {
   "@context": "https://schema.org",
-  "@type": "Organization",
+  "@type": ["Organization", "Corporation"],
   name: "Blutech IoT Limited",
   alternateName: "Blutech",
   url: site,
   email: "enquiry@blutech.io",
   foundingDate: "2019",
-  description: "Hong Kong building IoT and AIoT company connecting sensors, wireless networks, edge logic, software and building-system integrations.",
+  slogan: "Building AI and IoT for real buildings.",
+  description: "Building technology company founded in Hong Kong in 2019, connecting sensors, Bluetooth edge control, LoRaWAN, 4G/IP, Blutech Halo, Blutech Core and building-system integrations.",
+  areaServed: ["Hong Kong", "Greater Bay Area", "Qatar", "Middle East"],
+  knowsAbout: ["Building AI", "Building IoT", "Smart washroom", "Privacy-preserving occupancy sensing", "LoRaWAN", "Bluetooth edge control", "Indoor air quality", "Water leakage monitoring", "Smart lighting", "Building management system integration"],
+  location: [
+    { "@type": "Place", name: "Hong Kong headquarters", address: { "@type": "PostalAddress", addressLocality: "Hong Kong", addressCountry: "HK" } },
+    { "@type": "Place", name: "Dongguan R&D office", address: { "@type": "PostalAddress", addressLocality: "Dongguan", addressCountry: "CN" } },
+    { "@type": "Place", name: "Qatar office", address: { "@type": "PostalAddress", addressCountry: "QA" } }
+  ],
+  award: ["Hong Kong ICT Awards 2020 recognition", "APICTA 2021 recognition", "iF DESIGN AWARD 2024 — BLUTECH.IO Smart Washroom AIoT Solution", "Smart Living Partnership Awards 2023/24 recognition"],
   brand: [
     { "@type": "Brand", name: "Blutech Halo" },
     { "@type": "Brand", name: "Blutech Core" },
-    { "@type": "Brand", name: "BLUTA Fire", url: "https://bluta.io" }
+    { "@type": "Brand", name: "BLUTA", slogan: "For fire safety", url: "https://bluta.io" }
   ]
 };
-const schemas = Array.isArray(schema) ? [organizationSchema, ...schema] : schema ? [organizationSchema, schema] : [organizationSchema];
+const websiteSchema = { "@context":"https://schema.org", "@type":"WebSite", name:"Blutech", url:site, inLanguage:["en","zh-HK","zh-CN","ar"] };
+const schemas = Array.isArray(schema) ? [organizationSchema, websiteSchema, ...schema] : schema ? [organizationSchema, websiteSchema, schema] : [organizationSchema, websiteSchema];
 const gaId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
 const googleVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
 const bingVerification = import.meta.env.PUBLIC_BING_SITE_VERIFICATION;
@@ -86,6 +96,7 @@ const cc = consentCopy[lang] || consentCopy.en;
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={lang === "zh-hk" ? "zh_HK" : lang === "zh-cn" ? "zh_CN" : lang === "ar" ? "ar_QA" : "en_HK"} />
     <meta property="og:image" content={new URL(image, site).toString()} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />

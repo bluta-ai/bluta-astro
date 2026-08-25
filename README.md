@@ -4,14 +4,14 @@ Corporate, product and knowledge website for **Blutech IoT Limited**.
 
 ## Positioning
 
-**Building IoT & AIoT for real-world operations.**
+**Building AI and IoT for real buildings.**
 
 Brand architecture:
 
 - **Blutech** — building IoT / AIoT hardware, solutions, integration and deployment
 - **Blutech Halo** — Building Intelligence & Management Platform
 - **Blutech Core** — IoT Device & Integration Platform
-- **BLUTA Fire** — Blutech's dedicated fire & life-safety brand (`bluta.io`)
+- **BLUTA** — Blutech's dedicated brand for fire safety (`bluta.io`)
 
 The 36-category readiness register is in `docs/website-readiness.md`. The site must not be described as finished while any release-blocking photography, customer-journey QA, production credential or post-deployment check is still open.
 
@@ -103,7 +103,7 @@ Do not commit credentials, API keys or verification secrets.
 - `functions/api/contact.js` — Cloudflare Pages contact endpoint
 - `scripts/product-image-audit.mjs` — product photography completeness / duplicate-image gate
 
-The public catalogue intentionally excludes discontinued, project-only, never-commercialised and BLUTA Fire products.
+The public catalogue intentionally excludes discontinued, project-only, never-commercialised and BLUTA products.
 
 ## Evidence rules
 

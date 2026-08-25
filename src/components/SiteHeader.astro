@@ -15,7 +15,10 @@ const nav = [
   ["projects", `${prefix}/projects`], ["technology", `${prefix}/technology`], ["company", `${prefix}/company`], ["resources", `${prefix}/resources`]
 ];
 const clean = path.replace(/^\/(zh-hk|zh-cn|ar)(?=\/|$)/, "") || "/";
-const localeHref = (code:string) => code === "en" ? clean : `/${code}${clean === "/" ? "/" : clean}`;
+const localisedCore = new Set(["/","/solutions","/products","/software","/projects","/technology","/company","/resources","/contact"]);
+const localisedDetail = clean.replace(/\/$/, "") !== "/products/compare" && /^\/(products|projects)\/[^/]+\/?$/.test(clean);
+const switchPath = clean === "/hardware" ? "/products" : localisedCore.has(clean.replace(/\/$/,"") || "/") || localisedDetail ? clean : "/";
+const localeHref = (code:string) => code === "en" ? switchPath : `/${code}${switchPath === "/" ? "/" : switchPath}`;
 ---
 <header class="site-header">
   <div class="shell nav-shell">
@@ -45,6 +48,6 @@ const localeHref = (code:string) => code === "en" ? clean : `/${code}${clean ===
   </div>
 </header>
 <style>
-.brand-image{display:flex!important;align-items:center}.brand-image img{width:151px;height:auto;display:block}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.brand-image{display:flex!important;align-items:center;background:#fff;padding:8px 10px;border:1px solid rgba(17,19,21,.11);border-radius:5px}.brand-image img{width:151px;height:auto;display:block}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 @media(max-width:700px){.brand-image img{width:128px}}
 </style>
