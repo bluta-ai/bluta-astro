@@ -1,0 +1,11 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { resources } from "../../data/resources";
+export function getStaticPaths(){ return resources.map((resource)=>({params:{slug:resource.slug},props:{resource}})); }
+const { resource } = Astro.props;
+const schema = {"@context":"https://schema.org","@type":"Article",headline:resource.title,description:resource.description,author:{"@type":"Organization",name:"Blutech IoT Limited"},publisher:{"@type":"Organization",name:"Blutech IoT Limited"},mainEntityOfPage:`https://blutech.io/resources/${resource.slug}`};
+---
+<BaseLayout title={`${resource.title} | Blutech`} description={resource.description} canonicalPath={`/resources/${resource.slug}`} schema={schema}>
+  <section class="page-hero"><div class="shell"><div class="breadcrumb"><a href="/">Home</a><span>›</span><a href="/resources">Resources</a><span>›</span><span>{resource.type}</span></div><div class="kicker">{resource.type}</div><h1>{resource.title}</h1><p>{resource.description}</p></div></section>
+  <section><article class="shell article">{resource.sections.map((s)=><section style="padding:0"><h2>{s.heading}</h2><p>{s.body}</p></section>)}<p class="notice" style="margin-top:44px">This guide is general design guidance, not a substitute for site survey, product-specific specifications, regulatory requirements or project acceptance criteria.</p><div class="actions" style="margin-top:28px"><a class="button" href="/contact">Discuss a project</a><a class="button secondary" href="/resources">More resources</a></div></article></section>
+</BaseLayout>

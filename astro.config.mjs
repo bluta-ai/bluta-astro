@@ -1,7 +1,7 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  site: 'https://bluta.io',
+  site: 'https://blutech.io',
   vite: {
     css: {
       preprocessorOptions: {

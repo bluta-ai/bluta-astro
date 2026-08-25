@@ -1,0 +1,66 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { products } from "../../data/site";
+import { getProductImage } from "../../data/productMedia";
+
+export function getStaticPaths(){ return products.map((product)=>({params:{slug:product.slug},props:{product}})); }
+const { product } = Astro.props;
+const image = getProductImage(product.model, product.image);
+const media = product.media || [];
+const related = products.filter((p)=>p.family===product.family && p.slug!==product.slug).slice(0,3);
+const benefits = product.benefits || product.features.slice(0,3).map((title,i)=>({
+  title,
+  body: i === 0 ? `Supports ${product.applications.slice(0,2).join(" and ").toLowerCase()} with a purpose-built field signal.` : i === 1 ? `Designed to connect cleanly with the agreed ${product.family.toLowerCase()} workflow.` : `Final behaviour is configured around the building, room and operating requirement.`
+}));
+const schema = {
+  "@context":"https://schema.org","@type":"Product",name:`${product.model} ${product.name}`,
+  description:product.summary,brand:{"@type":"Brand",name:"Blutech"},manufacturer:{"@type":"Organization",name:"Blutech IoT Limited"},
+  sku:product.model,url:`https://blutech.io/products/${product.slug}`,
+};
+---
+<BaseLayout title={`${product.model} ${product.name} | Blutech`} description={product.summary} canonicalPath={`/products/${product.slug}`} schema={schema} image={image} hasLocalizedVersions={true}>
+  <section class="pd-hero">
+    <div class="shell">
+      <div class="breadcrumb"><a href="/">Home</a><span>›</span><a href="/products">Products</a><span>›</span><span>{product.model}</span></div>
+      <div class="pd-grid">
+        <div class="pd-copy">
+          <div class="kicker">{product.family} · {product.model}</div>
+          {product.award && <div class="award-mark">iF DESIGN AWARD · Awarded solution</div>}
+          <h1>{product.name}</h1>
+          <p class="headline">{product.headline || product.summary}</p>
+          <p class="summary">{product.summary}</p>
+          <div class="pd-actions"><a class="button" href={`/contact?product=${product.model}`}>Talk to Blutech</a><a class="quiet-link" href="#details">Technical overview ↓</a></div>
+        </div>
+        {image ? <div class="pd-visual"><img src={image} alt={`${product.model} ${product.name}`} width="1000" height="800" loading="eager"/></div> : <div class="pd-system-card">
+          <span>{product.model}</span><h2>{product.name}</h2><div class="system-lines">{product.connectivity?.map((c)=><b>{c}</b>)}</div><p>Project-specific product photography is available with technical submission.</p>
+        </div>}
+      </div>
+    </div>
+  </section>
+
+  <section class="pd-benefits">
+    <div class="shell">
+      <div class="section-label">What it enables</div>
+      <div class="benefit-grid">{benefits.map((f,i)=><div><span>{String(i+1).padStart(2,"0")}</span><h2>{f.title}</h2><p>{f.body}</p></div>)}</div>
+    </div>
+  </section>
+
+  {media.length>1 && <section class="pd-gallery"><div class="shell gallery-grid">{media.slice(1).map((m)=><figure><img src={m.src} alt={m.alt} loading="lazy"/><figcaption>{m.caption || m.alt}</figcaption></figure>)}</div></section>}
+
+  <section class="pd-details" id="details">
+    <div class="shell details-grid">
+      <div class="applications"><div class="kicker">Where it fits</div><h2>Designed around the operating environment.</h2><div class="application-list">{product.applications.map((a)=><span>{a}</span>)}</div></div>
+      <div class="spec-panel"><div class="kicker">Technical overview</div><table><tbody><tr><th>Model</th><td>{product.model}</td></tr><tr><th>Product</th><td>{product.name}</td></tr>{product.connectivity?.length && <tr><th>Connectivity</th><td>{product.connectivity.join(" · ")}</td></tr>}{product.power && <tr><th>Power</th><td>{product.power}</td></tr>}<tr><th>System role</th><td>{product.family}</td></tr></tbody></table><p>Final specification, mounting, communications and integration are confirmed against the project requirement and site condition.</p></div>
+    </div>
+  </section>
+
+  {related.length>0 && <section class="pd-related"><div class="shell"><div class="compact-heading"><div><div class="kicker">Related hardware</div><h2>Other products in this system layer.</h2></div><a class="quiet-link" href="/products">All products →</a></div><div class="related-grid">{related.map((p)=>{ const rimg=getProductImage(p.model,p.image); return <a href={`/products/${p.slug}`} class="related-card">{rimg && <div class="related-image"><img src={rimg} alt="" loading="lazy"/></div>}<div><span>{p.model}</span><h3>{p.name}</h3><p>{p.headline || p.summary}</p><b>Explore →</b></div></a>})}</div></div></section>}
+
+  <section class="pd-cta"><div class="shell cta-grid"><div><div class="kicker">For architects, consultants & landlords</div><h2>Have a floorplan or performance brief?</h2><p>Send us the space, installation constraints and required building-system interface. We can define the sensing, connectivity and integration around the project.</p></div><a class="button" href={`/contact?product=${product.model}`}>Discuss {product.model}</a></div></section>
+</BaseLayout>
+
+<style>
+.pd-hero{background:#fff;padding:38px 0 72px;border-bottom:1px solid var(--line)}.pd-grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:64px;align-items:center;min-height:500px}.pd-copy h1{font-size:clamp(44px,4.8vw,66px);line-height:1;letter-spacing:-.05em;margin:12px 0 20px}.headline{font-size:21px;line-height:1.35;max-width:620px;margin:0 0 14px}.summary{font-size:16px;color:var(--muted);max-width:620px}.pd-actions{display:flex;align-items:center;gap:22px;margin-top:28px}.quiet-link{font-size:13px;font-weight:800;border-bottom:1px solid currentColor}.award-mark{display:inline-block;color:#d71920;border:1px solid rgba(215,25,32,.4);font-size:9px;font-weight:900;letter-spacing:.09em;padding:5px 7px;margin-top:12px}.pd-visual{height:470px;background:linear-gradient(135deg,#ecebe7,#f8f7f3);display:flex;align-items:center;justify-content:center;overflow:hidden}.pd-visual img{width:100%;height:100%;object-fit:contain;padding:7%;mix-blend-mode:multiply;filter:drop-shadow(0 18px 25px rgba(0,0,0,.1))}.pd-system-card{height:430px;background:#17191a;color:#fff;padding:42px;display:flex;flex-direction:column;justify-content:flex-end}.pd-system-card>span{color:#75d3dc;font-size:11px;font-weight:900;letter-spacing:.15em}.pd-system-card h2{font-size:38px;letter-spacing:-.04em;margin:7px 0 20px}.system-lines{display:flex;gap:8px;flex-wrap:wrap}.system-lines b{font-size:11px;border:1px solid rgba(255,255,255,.22);padding:8px 9px}.pd-system-card p{font-size:12px;color:#adb4b7;margin-top:25px}.pd-benefits{background:#f7f7f4}.section-label{font-size:12px;color:var(--brand-2);font-weight:850;margin-bottom:20px}.benefit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}.benefit-grid>div{padding:26px;background:#fff;min-height:210px}.benefit-grid span{font-size:10px;color:var(--brand-2);font-weight:900}.benefit-grid h2{font-size:21px;line-height:1.16;letter-spacing:-.025em;margin:24px 0 10px}.benefit-grid p{font-size:13px;color:var(--muted);margin:0}.pd-gallery{background:#fff}.gallery-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}.gallery-grid figure{margin:0}.gallery-grid img{width:100%;aspect-ratio:4/3;object-fit:cover}.gallery-grid figcaption{font-size:11px;color:var(--muted);padding-top:9px}.pd-details{background:#fff}.details-grid{display:grid;grid-template-columns:1fr 1fr;gap:90px}.applications h2{font-size:clamp(34px,3.5vw,48px);letter-spacing:-.04em;line-height:1;margin:10px 0 28px}.application-list{display:flex;flex-wrap:wrap;gap:8px}.application-list span{border:1px solid var(--line);padding:10px 12px;font-size:12px}.spec-panel{background:#f0f0ec;padding:34px}.spec-panel table{width:100%;border-collapse:collapse;margin-top:18px}.spec-panel th,.spec-panel td{border-bottom:1px solid var(--line);padding:14px 0;text-align:left;vertical-align:top}.spec-panel th{width:130px;font-size:11px;color:var(--muted)}.spec-panel td{font-size:13px}.spec-panel>p{font-size:11px;color:var(--muted);margin:18px 0 0}.pd-related{background:#efefeb}.compact-heading{display:flex;justify-content:space-between;align-items:end;gap:40px;margin-bottom:28px}.compact-heading h2{font-size:clamp(32px,3.7vw,48px);line-height:1;letter-spacing:-.04em;margin:9px 0 0}.related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.related-card{background:#fff;border:1px solid var(--line)}.related-image{height:210px;background:#e9e9e5}.related-image img{width:100%;height:100%;object-fit:contain;padding:9%;mix-blend-mode:multiply}.related-card>div:last-child{padding:20px}.related-card span{font-size:9px;color:var(--brand-2);font-weight:900}.related-card h3{font-size:22px;margin:5px 0 8px}.related-card p{font-size:12px;color:var(--muted);min-height:48px}.related-card b{font-size:12px}.pd-cta{background:#151718;color:#fff}.cta-grid{display:flex;justify-content:space-between;align-items:end;gap:50px}.pd-cta .kicker{color:#7cd8df}.pd-cta h2{font-size:clamp(34px,4vw,54px);line-height:1;letter-spacing:-.045em;margin:9px 0 14px;max-width:780px}.pd-cta p{color:#b9c0c2;max-width:680px}.pd-cta .button{background:#fff;color:#111;border-color:#fff}
+@media(max-width:900px){.pd-grid,.details-grid{grid-template-columns:1fr}.pd-grid{gap:35px}.pd-visual{height:460px}.benefit-grid{grid-template-columns:1fr 1fr}.related-grid{grid-template-columns:1fr 1fr}.cta-grid,.compact-heading{align-items:flex-start;flex-direction:column}}
+@media(max-width:600px){.pd-hero{padding-bottom:55px}.pd-grid{min-height:auto}.pd-copy h1{font-size:47px}.pd-visual{height:350px}.benefit-grid{grid-template-columns:1fr}.benefit-grid>div+div{padding-left:0;border-left:0}.gallery-grid,.related-grid{grid-template-columns:1fr}.shell{width:min(var(--max),calc(100% - 36px))}}
+</style>

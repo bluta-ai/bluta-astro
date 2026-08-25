@@ -1,15 +1,23 @@
 {
-  "name": "bluta-astro-original-style",
-  "version": "0.0.1",
+  "name": "blutech-website",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
+  "packageManager": "npm@11.17.0",
+  "engines": {
+    "node": ">=24 <25"
+  },
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "audit": "node scripts/site-audit.mjs",
+    "audit:product-images": "node scripts/product-image-audit.mjs",
+    "check": "npm run build && npm run audit && npm run audit:product-images",
+    "release:check": "npm run build && npm run audit && RELEASE_STRICT=1 npm run audit:product-images"
   },
   "dependencies": {
-    "astro": "^4.16.19",
-    "resend": "^6.0.2"
+    "astro": "7.2.4",
+    "resend": "6.21.0"
   }
 }

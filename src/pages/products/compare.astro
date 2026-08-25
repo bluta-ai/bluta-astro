@@ -1,0 +1,27 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { products, comparisonGroups } from "../../data/site";
+const productFor = (model:string) => products.find((p)=>p.model===model);
+---
+<BaseLayout title="Compare Blutech Products" description="Compare Blutech products commonly considered together for spatial sensing, water leakage, display, door status and LoRaWAN gateway applications." canonicalPath="/products/compare">
+  <section class="page-hero">
+    <div class="shell"><div class="breadcrumb"><a href="/">Home</a><span>›</span><a href="/products">Products</a><span>›</span><span>Compare</span></div><div class="kicker">Product comparison</div><h1>Choose around the job,<br/>not the model number.</h1><p>These comparisons show the practical distinction between products customers commonly evaluate together. Final selection still depends on site geometry, coverage, connectivity and the required workflow.</p></div>
+  </section>
+  {comparisonGroups.map((group,index)=>{
+    const compared = group.models.map(productFor).filter(Boolean);
+    return <section class={index % 2 ? "catalogue-family catalogue-family-alt" : "catalogue-family"} id={group.models.join("-").toLowerCase()}>
+      <div class="shell">
+        <div class="section-head"><div><div class="kicker">{group.title}</div><h2>{group.models.join(" vs ")}</h2><p>{group.note}</p></div></div>
+        <div class={`compare-grid compare-${compared.length}`}>
+          {compared.map((p:any)=><article class="compare-product">
+            <a href={`/products/${p.slug}`} class="compare-visual">{p.image ? <img src={p.image} alt={`${p.model} ${p.name}`} loading="lazy" /> : <div class="product-model-art"><span>{p.model}</span></div>}</a>
+            <div class="model">{p.model}</div><h3>{p.name}</h3><p class="product-headline">{p.headline}</p>
+            <dl class="compare-facts"><div><dt>Best fit</dt><dd>{p.applications.slice(0,3).join(" · ")}</dd></div>{p.connectivity && <div><dt>Connectivity</dt><dd>{p.connectivity.join(" · ")}</dd></div>}{p.power && <div><dt>Power</dt><dd>{p.power}</dd></div>}</dl>
+            <a class="card-link" href={`/products/${p.slug}`}>Explore {p.model} →</a>
+          </article>)}
+        </div>
+      </div>
+    </section>
+  })}
+  <section><div class="shell premium-cta"><div><div class="kicker">Project fit</div><h2>Still deciding?</h2><p>Send us the site condition and what the building needs to detect, show or control. We can narrow the product choice before detailed design.</p></div><a class="button" href="/contact?solution=product-comparison">Ask Blutech</a></div></section>
+</BaseLayout>
