@@ -3,7 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { projects } from "../data/projects";
 ---
 <BaseLayout title="Building IoT Projects | Blutech" description="Blutech case studies across commercial buildings, airports, government facilities, hospitals, rail and retail — with confirmed scope and practical outcomes." canonicalPath="/projects">
-  <section class="page-hero projects-intro"><div class="shell"><div class="breadcrumb"><a href="/">Home</a><span>›</span><span>Projects</span></div><div class="kicker">Selected deployments</div><h1>What Blutech delivered — and why it matters.</h1><p>Real projects explained through confirmed scope, operational benefits and the evidence a property owner, operator, architect or consultant needs to evaluate.</p></div></section>
+  <section class="page-hero projects-intro"><div class="shell"><div class="breadcrumb"><a href="/">Home</a><span>›</span><span>Projects</span></div><div class="kicker">Selected deployments</div><h1>Proven in buildings that cannot pause.</h1><p>Real projects explained through confirmed scope, visible KPIs and practical benefits for owners, operators and project teams.</p></div></section>
   <section class="project-index"><div class="shell project-grid project-three">
     {projects.map((p)=><a class="project-card" href={`/projects/${p.slug}`}><div class="project-image"><img src={p.image} alt={`${p.title} exterior`} loading="lazy" /></div><div class="project-copy"><div class="meta">{p.category} · {p.location}</div><h2>{p.title}</h2><p>{p.outcome}</p><div class="project-kpis">{p.kpis.map((k)=><span><b>{k.value}</b>{k.label}</span>)}</div><i>View case study →</i></div></a>)}
   </div></section>

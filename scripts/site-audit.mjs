@@ -27,14 +27,14 @@ check(7,'Product pages',exists('dist','products','bt338-heatmap-fusion','index.h
 check(8,'Blutech Halo',software.includes('building intelligence and management layer'),'Halo is described beyond a simple dashboard.');
 check(9,'Blutech Core',software.includes('IoT device and integration layer'),'Core device/integration role is explicit.');
 check(10,'Halo + Core story',software.includes('Halo turns building data')&&software.includes('Core keeps the devices'),'Software relationship and responsibilities are explained.');
-check(11,'Projects',projects.includes('What Blutech delivered')&&projects.includes('EMSD Headquarters'),'Benefit-led project portfolio exists.');
+check(11,'Projects',projects.includes('Proven in buildings that cannot pause')&&projects.includes('EMSD Headquarters'),'Benefit-led project portfolio with visible KPIs exists.');
 check(12,'Evidence policy',projects.includes('confirmed scope')&&company.includes('official record'),'Project and award copy use confirmed-scope language without empty reference disclaimers.');
 check(13,'Awards / credibility',company.includes('iF DESIGN AWARD')&&company.includes('Smart Washroom AIoT Solution'),'Award wording is solution-specific.');
 check(14,'Customer proof',projects.includes('Hong Kong International Airport')&&projects.includes('Three Garden Road')&&exists('dist','projects','three-garden-road','index.html'),'Named references and detailed case studies are present.');
 review(15,'Photography','Architectural/project imagery is implemented, but product photography is a hard customer-level release gate. Every public SKU must have the correct current-product image and final publication rights must be checked.');
-check(16,'Visual design',css.includes('--bg:#f7f7f4')&&css.includes('.software-pair')&&css.includes('.product-grid'),'Architectural Tech / Premium Minimal design system is implemented with restrained software contrast and industrial product catalogue styling.');
+check(16,'Visual design',css.includes('--bg:#f5f7f4')&&home.includes('bp-software-pair')&&css.includes('.product-grid'),'ChatGPT Site blueprint, architectural dark moments and four-column product catalogue styling are implemented.');
 check(17,'Mobile design',css.includes('@media(max-width:700px)')&&css.includes('@media(max-width:1100px)'),'Responsive navigation/layout breakpoints exist.');
-check(18,'Conversion / sales',contact.includes('Send enquiry')&&home.includes('Talk to Blutech'),'Contact CTAs and dedicated enquiry route exist.');
+check(18,'Conversion / sales',contact.includes('Send enquiry')&&home.includes('Talk to our project team'),'Contact CTAs and dedicated enquiry route exist.');
 check(19,'Forms',contact.includes('companyName')&&contact.includes('privacyConsent')&&contact.includes('website')&&exists('functions','api','contact.js'),'Required fields, consent, honeypot and Cloudflare Pages Function endpoint are present.');
 check(20,'SEO foundations',layout.includes('canonical')&&exists('dist','sitemap.xml')&&exists('dist','robots.txt'),'Canonical metadata, sitemap and robots are generated.');
 check(21,'Search-intent SEO',solutions.includes('Search intent')&&data.includes('fall detection without camera')&&data.includes('LoRaWAN building monitoring'),'Intent-led landing pages are encoded in solution data.');

@@ -15,12 +15,13 @@ const nav = [
   ["projects", `${prefix}/projects`], ["technology", `${prefix}/technology`], ["company", `${prefix}/company`], ["resources", `${prefix}/resources`]
 ];
 const clean = path.replace(/^\/(zh-hk|zh-cn|ar)(?=\/|$)/, "") || "/";
+const isHome = clean === "/";
 const localisedCore = new Set(["/","/solutions","/products","/software","/projects","/technology","/company","/resources","/contact"]);
 const localisedDetail = clean.replace(/\/$/, "") !== "/products/compare" && /^\/(products|projects)\/[^/]+\/?$/.test(clean);
 const switchPath = clean === "/hardware" ? "/products" : localisedCore.has(clean.replace(/\/$/,"") || "/") || localisedDetail ? clean : "/";
 const localeHref = (code:string) => code === "en" ? switchPath : `/${code}${switchPath === "/" ? "/" : switchPath}`;
 ---
-<header class="site-header">
+<header class:list={["site-header", isHome && "home-header"]}>
   <div class="shell nav-shell">
     <a class="brand brand-image" href={home} aria-label="Blutech home"><img src="/blutech-logo.svg" alt="Blutech" width="151" height="31"/><span class="sr-only">Blutech</span></a>
     <nav class="desktop-nav" aria-label="Primary navigation">
