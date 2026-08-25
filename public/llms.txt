@@ -1,48 +1,44 @@
-# Blutech IoT Limited
+# Blutech
 
-Blutech is a building AI and IoT company founded in Hong Kong in 2019. It develops connected-building hardware and software and delivers system integration, commissioning and support for commercial buildings, hospitals, government facilities, transport infrastructure and public facilities. Blutech also has an R&D office in Dongguan and an office in Qatar supporting the Middle East.
+> Blutech designs and delivers building AI and IoT hardware, software, integration and deployment for owners and property operations. Founded in Hong Kong in 2019, with an R&D office in Dongguan and an office in Qatar.
 
-## Positioning
-- Building AI and IoT for real buildings.
-- Blutech connects sensing, wireless networks, edge logic, software and building-system integrations.
-- AI is used selectively where it improves sensing, recognition or optimisation; not every Blutech function is described as AI.
+## Core proposition
 
-## Software
-- Blutech Halo: Building Intelligence & Management Platform for live status, floorplans, alerts, history, reports and authorised controls.
-- Blutech Core: IoT Device & Integration Platform for devices, gateways, provisioning, configuration, connectivity, rules, payload/data mapping and APIs.
+- Accurate sensing, edge intelligence and connected building software.
+- Blutech Halo is the daily workspace for owners and property teams: dashboards, floorplans, alerts, work orders, trends and reports.
+- Blutech Core is the technical IoT platform: devices, gateways, data, rules, permissions, health and integrations.
+- Bluetooth supports fast local edge control. LoRaWAN carries building data and settings. 4G, Ethernet or Wi-Fi gateways connect the system to Core.
 
-## Main solution areas
-- Smart washroom systems
-- Privacy-preserving occupancy sensing
-- Fall, long-stay and motionless detection without conventional cameras
-- Wireless smart lighting control
-- Indoor air quality monitoring and HVAC/BMS interaction
-- Water leakage monitoring
-- Smart bin / waste monitoring
-- LoRaWAN and building IoT retrofit
+## Main pages
 
-## Selected confirmed project facts
-- Three Garden Road: more than 1,000 connected devices; live occupancy-led HVAC coordination; water leakage, IAQ, smart washroom and ESG-reporting data. Smart Lighting is a proposal and is not represented as delivered.
-- Hong Kong International Airport: airport-wide passenger-safety monitoring using the HeatMap Series, with 74 monitored spaces, floorplans, dashboards, alerts and reporting.
-- EMSD Headquarters: smart-washroom occupancy monitoring for 230 cubicles from B1 to 6/F, connected to the Government-Wide IoT Network.
-- Metroplaza: more than 300 connected devices and 180 cubicles; smart washroom, fan and ventilation control, occupancy plus temperature/humidity inputs for HVAC, Smart Info Station, Smart Signage, Halo and Core.
-- Hospital Patient Safety: fall and incident detection in accessible toilets with local alarm, nurse notification, dashboard, LoRaWAN and Bluetooth.
-- Immigration Department in Tseung Kwan O: live queue monitoring for passport and identity-card service machines with Smart Display.
-- Hong Kong West Kowloon Station: toilet-paper and soap-level monitoring, water leakage, HeatMap, lighting, IAQ, BT107 Smart Display, Halo and Core.
-- Olympian City 1, 2 and 3: water leakage, noise, independent IoT smoke monitoring, smoking detection, HeatMap, temperature/humidity, BMS integration and HVAC optimisation. The IoT smoke monitoring is separate from the statutory fire-alarm system.
+- Home: https://blutech.io/
+- Products: https://blutech.io/products
+- Halo and Core: https://blutech.io/software
+- Edge and cloud technology: https://blutech.io/technology
+- Case studies: https://blutech.io/projects
+- Company and deployment network: https://blutech.io/company
 
-## Awards
-- 2020 Hong Kong ICT Awards: Award of the Year and ICT Startup Grand Award recognition for the Smart Washroom AIoT Solution.
-- 2021 APICTA: Start Up of the Year recognition.
-- 2024 iF DESIGN AWARD: “BLUTECH.IO Smart Washroom AIoT Solution”, Product / Building Technology.
-- 2023/24 Smart Living Partnership Awards: Outstanding B2B IoT Solutions recognition.
+## Confirmed scale and selected deployments
 
-## Fire-safety brand
-BLUTA is Blutech's dedicated brand for fire safety. Fire-related products, certifications, approvals and claims are kept under the exact BLUTA product scope. Website: https://bluta.io
+- More than 100 real-world deployments.
+- Three Garden Road: 1,000+ connected devices, occupancy-led HVAC coordination, indoor air quality, water-leakage monitoring and ESG reporting integration.
+- Metroplaza: 300+ connected devices and 180 connected cubicles, with occupancy and environmental signals supporting ventilation and HVAC operation.
+- EMSD Headquarters: 230 connected cubicles across B1 to 6/F, including GWIN integration.
+- Hong Kong International Airport: airport-wide passenger-safety monitoring using Heatmap sensing, floorplan visibility, alerts, dashboards and reporting.
+- Hong Kong West Kowloon Station: passenger-facing and operator-facing smart washroom system including BT107 Smart Display, consumables, leakage, Heatmap, lighting and IAQ.
+- Healthcare: non-camera patient-safety monitoring with local alarms, nurse notification, dashboards, LoRaWAN and Bluetooth.
 
-## Evidence policy
-Blutech does not treat an award, certificate or customer outcome as applying to every product unless the source explicitly supports that scope. Product specifications and project quantities should be confirmed against current technical documents before relying on them for design or procurement.
+## Selected hardware
 
-## Contact
-Website: https://blutech.io
-Email: enquiry@blutech.io
+- BT337 HeatMap Pro: low-resolution thermal occupancy and spatial sensing without conventional camera imagery; iF Design Award.
+- BT306 Indoor Air Quality Sensor: temperature, humidity and PM2.5 monitoring; iF Design Award.
+- BT102 Smart Info Station: architectural building-information interface; iF Design Award. Current model: BT102.
+- BT101 Smart Signage: compact live facility information display; iF Design Award.
+- Blutech Smart Lighting Control: local Bluetooth response with LoRaWAN data and 4G or IP backhaul.
+- BT802 Indoor and BT803 Outdoor LoRaWAN Gateways connect field devices to Blutech Core.
+
+## Accuracy
+
+- Exact dimensions, certifications, performance and ordered configuration must be confirmed against the current Blutech product submittal.
+- Project detail is published only within confirmed and permitted scope.
+- Contact: enquiry@blutech.io
