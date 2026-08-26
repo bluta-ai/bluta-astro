@@ -4,10 +4,54 @@ import { useRef, useState } from "react";
 import { useSiteLanguage } from "./LanguageContext";
 
 const copy = {
-  en: { name:"Name", company:"Company", email:"Work email", role:"Role", type:"Property / project type", location:"Location", improve:"What do you want to improve?", timing:"Project timing", send:"Send project enquiry", sending:"Sending…", success:"Thank you. Your enquiry has been sent to the Blutech project team.", error:"We could not send your enquiry. Please email enquiry@blutech.io.", note:"Your enquiry is sent securely to the Blutech project team.", placeholder:"Safety, occupancy, indoor air quality, energy, facility workflow or another building outcome…" },
-  tc: { name:"姓名", company:"公司", email:"工作電郵", role:"職位", type:"物業／項目類型", location:"地點", improve:"你希望改善甚麼？", timing:"項目時間", send:"提交項目查詢", sending:"傳送中……", success:"謝謝。你的查詢已傳送至 Blutech 項目團隊。", error:"暫時未能傳送查詢，請電郵 enquiry@blutech.io。", note:"你的查詢會安全傳送至 Blutech 項目團隊。", placeholder:"安全、佔用、室內空氣質素、能源、設施流程或其他樓宇成果……" },
-  sc: { name:"姓名", company:"公司", email:"工作邮箱", role:"职位", type:"物业／项目类型", location:"地点", improve:"你希望改善什么？", timing:"项目时间", send:"提交项目咨询", sending:"发送中……", success:"谢谢。你的咨询已发送至 Blutech 项目团队。", error:"暂时无法发送咨询，请邮件联系 enquiry@blutech.io。", note:"你的咨询会安全发送至 Blutech 项目团队。", placeholder:"安全、占用、室内空气质量、能源、设施流程或其他楼宇成果……" },
-  ar: { name:"الاسم", company:"الشركة", email:"بريد العمل", role:"الدور", type:"نوع العقار أو المشروع", location:"الموقع", improve:"ما الذي تريد تحسينه؟", timing:"توقيت المشروع", send:"إرسال استفسار المشروع", sending:"جارٍ الإرسال…", success:"شكراً لك. تم إرسال استفسارك إلى فريق مشاريع Blutech.", error:"تعذر إرسال الاستفسار. يرجى مراسلة enquiry@blutech.io.", note:"يُرسل استفسارك بأمان إلى فريق مشاريع Blutech.", placeholder:"السلامة أو الإشغال أو جودة الهواء أو الطاقة أو سير عمل المرافق أو نتيجة أخرى…" },
+  en: {
+    name: "Name",
+    company: "Company",
+    contact: "Email or phone",
+    message: "How can we help?",
+    send: "Send enquiry",
+    sending: "Sending…",
+    success: "Thank you. Your enquiry has been sent to the Blutech team.",
+    error: "We could not send your enquiry. Please call 2180 7157 or email enquiry@blutech.io.",
+    note: "We will use your contact details only to respond to this enquiry.",
+    placeholder: "Tell us briefly what you need…",
+  },
+  tc: {
+    name: "姓名",
+    company: "公司",
+    contact: "電郵或電話",
+    message: "我們可以如何協助？",
+    send: "提交查詢",
+    sending: "傳送中……",
+    success: "謝謝。你的查詢已傳送至 Blutech 團隊。",
+    error: "暫時未能傳送查詢，請致電 2180 7157 或電郵 enquiry@blutech.io。",
+    note: "你的聯絡資料只會用於回覆這次查詢。",
+    placeholder: "請簡單告訴我們你的需要……",
+  },
+  sc: {
+    name: "姓名",
+    company: "公司",
+    contact: "邮箱或电话",
+    message: "我们可以如何协助？",
+    send: "提交咨询",
+    sending: "发送中……",
+    success: "谢谢。你的咨询已发送至 Blutech 团队。",
+    error: "暂时无法发送咨询，请致电 2180 7157 或发送邮件至 enquiry@blutech.io。",
+    note: "你的联系方式只会用于回复本次咨询。",
+    placeholder: "请简单告诉我们你的需求……",
+  },
+  ar: {
+    name: "الاسم",
+    company: "الشركة",
+    contact: "البريد الإلكتروني أو الهاتف",
+    message: "كيف يمكننا مساعدتك؟",
+    send: "إرسال الاستفسار",
+    sending: "جارٍ الإرسال…",
+    success: "شكراً لك. تم إرسال استفسارك إلى فريق Blutech.",
+    error: "تعذر إرسال الاستفسار. اتصل على 2180 7157 أو راسل enquiry@blutech.io.",
+    note: "سنستخدم بيانات الاتصال فقط للرد على هذا الاستفسار.",
+    placeholder: "أخبرنا باختصار بما تحتاج إليه…",
+  },
 };
 
 export function ContactForm() {
@@ -22,6 +66,7 @@ export function ContactForm() {
     setStatus("sending");
     const data = new FormData(event.currentTarget);
     const payload = Object.fromEntries(data.entries());
+
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
@@ -37,16 +82,38 @@ export function ContactForm() {
       setStatus("error");
     }
   }
-  return <form ref={formRef} className="project-enquiry-form" onSubmit={submit}>
-    <label className="form-honeypot" aria-hidden="true"><span>Website</span><input name="website" tabIndex={-1} autoComplete="off" /></label>
-    <label><span>{t.name}</span><input name="name" autoComplete="name" required /></label>
-    <label><span>{t.company}</span><input name="company" autoComplete="organization" required /></label>
-    <label><span>{t.email}</span><input name="email" type="email" autoComplete="email" required /></label>
-    <label><span>{t.role}</span><input name="role" autoComplete="organization-title" /></label>
-    <label><span>{t.type}</span><input name="type" required /></label>
-    <label><span>{t.location}</span><input name="location" autoComplete="country-name" required /></label>
-    <label className="form-wide"><span>{t.improve}</span><textarea name="improve" rows={5} placeholder={t.placeholder} required /></label>
-    <label className="form-wide"><span>{t.timing}</span><input name="timing" /></label>
-    <div className="form-wide form-submit"><button className="button" type="submit" disabled={status === "sending"}>{status === "sending" ? t.sending : t.send}<span aria-hidden="true">→</span></button><small>{t.note}</small><p className={`form-status ${status}`} role="status" aria-live="polite">{status === "success" ? t.success : status === "error" ? t.error : ""}</p></div>
-  </form>;
+
+  return (
+    <form ref={formRef} className="project-enquiry-form simple-contact-form" onSubmit={submit}>
+      <label className="form-honeypot" aria-hidden="true">
+        <span>Website</span>
+        <input name="website" tabIndex={-1} autoComplete="off" />
+      </label>
+      <label>
+        <span>{t.name}</span>
+        <input name="name" autoComplete="name" required />
+      </label>
+      <label>
+        <span>{t.company}</span>
+        <input name="company" autoComplete="organization" required />
+      </label>
+      <label className="form-wide">
+        <span>{t.contact}</span>
+        <input name="contact" required />
+      </label>
+      <label className="form-wide">
+        <span>{t.message}</span>
+        <textarea name="message" rows={6} placeholder={t.placeholder} required />
+      </label>
+      <div className="form-wide form-submit">
+        <button className="button" type="submit" disabled={status === "sending"}>
+          {status === "sending" ? t.sending : t.send}<span aria-hidden="true">→</span>
+        </button>
+        <small>{t.note}</small>
+        <p className={`form-status ${status}`} role="status" aria-live="polite">
+          {status === "success" ? t.success : status === "error" ? t.error : ""}
+        </p>
+      </div>
+    </form>
+  );
 }

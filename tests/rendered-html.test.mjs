@@ -131,7 +131,7 @@ test("software, technology, solutions, resources and contact are genuinely local
     ["/ar/technology", /ذكاء الحافة/],
     ["/zh-hans/solutions", /更好的运营/],
     ["/ar/resources", /معرفة عملية/],
-    ["/zh-hant/contact", /提交項目查詢/],
+    ["/zh-hant/contact", /提交查詢/],
   ];
   for (const [path, pattern] of checks) {
     const response = await fetchPath(path);
@@ -150,10 +150,8 @@ test("contact endpoint emails the fixed Blutech project address", async () => {
       body: JSON.stringify({
         name: "Test Contact",
         company: "Example Property",
-        email: "contact@example.com",
-        type: "Commercial building",
-        location: "Hong Kong",
-        improve: "Improve operational visibility",
+        contact: "contact@example.com",
+        message: "Improve operational visibility",
         language: "en",
         page: "https://blutech.io/contact",
       }),
