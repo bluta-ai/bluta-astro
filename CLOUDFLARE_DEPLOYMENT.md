@@ -12,7 +12,7 @@ In **Workers & Pages**, choose **Create application -> Import a repository** and
 
 Use these settings:
 
-- Worker name: `blutech-physical-ai`
+- Worker name: `bluta-astro`
 - Production branch: `main`
 - Root directory: `/`
 - Build command: `npm run build`
