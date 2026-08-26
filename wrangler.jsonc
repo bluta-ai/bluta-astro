@@ -8,6 +8,13 @@
     "directory": "./dist/client",
     "binding": "ASSETS"
   },
+  "send_email": [
+    {
+      "name": "EMAIL",
+      "destination_address": "enquiry@blutech.io",
+      "allowed_sender_addresses": ["website@blutech.io"]
+    }
+  ],
   "observability": {
     "enabled": true
   },
