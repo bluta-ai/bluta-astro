@@ -4,6 +4,81 @@ import { Arrow, SiteFooter, SiteHeader } from "../components/SiteChrome";
 import { Localized } from "../components/LanguageContext";
 import { ContactForm } from "../components/ContactForm";
 
-export const metadata: Metadata = { title: "Plan a Building IoT Pilot — Blutech", description: "Plan a practical building AI and IoT pilot with the Blutech project team.", alternates:{canonical:"/contact",languages:languageAlternates("/contact")} };
+export const metadata: Metadata = {
+  title: "Contact Blutech — Building AI and IoT",
+  description: "Contact the Blutech team about building AI, IoT, sensing, software and integration.",
+  alternates: { canonical: "/contact", languages: languageAlternates("/contact") },
+};
 
-export default function ContactPage(){return <main className="internal-page"><SiteHeader/><section className="contact-page"><div className="contact-lead"><p className="eyebrow light"><Localized en="PLAN A PILOT" tc="規劃試點" sc="规划试点" ar="خطط لتجربة" /></p><h1><Localized en="Start with the building—not the gadget." tc="由建築需要開始，而不是由設備開始。" sc="从建筑需要开始，而不是从设备开始。" ar="ابدأ بالمبنى، لا بالجهاز." /></h1><p><Localized en="Tell us what the property team needs to see, prevent or improve. We will help shape a measurable first scope." tc="告訴我們物業團隊需要看見、預防或改善甚麼，我們會協助制定可量度的第一階段範圍。" sc="告诉我们物业团队需要看见、预防或改善什么，我们会协助制定可衡量的第一阶段范围。" ar="أخبرنا بما يحتاج فريق العقار إلى رؤيته أو منعه أو تحسينه، وسنساعد في صياغة نطاق أول قابل للقياس." /></p></div><div className="contact-card"><span><Localized en="PROJECT ENQUIRIES" tc="項目查詢" sc="项目咨询" ar="استفسارات المشاريع" /></span><a href="mailto:enquiry@blutech.io">enquiry@blutech.io <Arrow/></a><div><p><Localized en="Useful details to include" tc="建議提供的資料" sc="建议提供的资料" ar="تفاصيل مفيدة" /></p><ul><li><Localized en="Property type and location" tc="物業類型與地點" sc="物业类型与地点" ar="نوع العقار وموقعه" /></li><li><Localized en="Operational problem or design objective" tc="營運問題或設計目標" sc="运营问题或设计目标" ar="المشكلة التشغيلية أو هدف التصميم" /></li><li><Localized en="Target area, floor or portfolio" tc="目標區域、樓層或物業組合" sc="目标区域、楼层或物业组合" ar="المنطقة أو الطابق أو المحفظة المستهدفة" /></li><li><Localized en="Existing BMS, network or IoT systems" tc="現有 BMS、網絡或 IoT 系統" sc="现有 BMS、网络或 IoT 系统" ar="أنظمة BMS أو الشبكة أو IoT القائمة" /></li><li><Localized en="Desired pilot or project timing" tc="期望試點或項目時間" sc="期望试点或项目时间" ar="التوقيت المطلوب للتجربة أو المشروع" /></li></ul></div><small>Hong Kong · Dongguan R&amp;D · Qatar</small></div></section><section className="contact-form-section section-pad"><div className="catalogue-heading"><div><p className="section-label"><Localized en="Project brief" tc="項目資料" sc="项目资料" ar="موجز المشروع" /></p><h2><Localized en="Give us the context." tc="告訴我們現場背景。" sc="告诉我们现场背景。" ar="شاركنا سياق الموقع." /></h2></div><p><Localized en="A clear first brief helps us propose the right sensing, software, integration and delivery path." tc="清晰的初步資料有助我們提出合適的感測、軟件、整合及交付路徑。" sc="清晰的初步资料有助我们提出合适的感知、软件、集成及交付路径。" ar="يساعدنا الموجز الواضح على اقتراح مسار الاستشعار والبرمجيات والتكامل والتنفيذ المناسب." /></p></div><ContactForm/></section><section className="contact-route"><p><Localized en={<>For product submittals, consultant specifications or integration workshops, reference the relevant model—such as <strong>BT102</strong>—and the project stage in your email.</>} tc={<>如需產品提交文件、顧問規格或整合工作坊，請在電郵列明相關型號（例如 <strong>BT102</strong>）及項目階段。</>} sc={<>如需产品提交文件、顾问规格或集成工作坊，请在邮件列明相关型号（例如 <strong>BT102</strong>）及项目阶段。</>} ar={<>لطلب مستندات المنتج أو مواصفات الاستشاري أو ورشة تكامل، اذكر الطراز المعني مثل <strong>BT102</strong> ومرحلة المشروع.</>} /></p></section><SiteFooter/></main>}
+export default function ContactPage() {
+  return (
+    <main className="internal-page">
+      <SiteHeader />
+      <section className="contact-page">
+        <div className="contact-lead">
+          <p className="eyebrow light">
+            <Localized en="CONTACT BLUTECH" tc="聯絡 BLUTECH" sc="联系 BLUTECH" ar="تواصل مع BLUTECH" />
+          </p>
+          <h1>
+            <Localized
+              en="Tell us what you need."
+              tc="告訴我們你的需要。"
+              sc="告诉我们你的需求。"
+              ar="أخبرنا بما تحتاج إليه."
+            />
+          </h1>
+          <p>
+            <Localized
+              en="Whether you have a building problem, a product question or a potential project, our team is ready to help."
+              tc="無論是樓宇營運問題、產品查詢或潛在項目，我們的團隊都樂意協助。"
+              sc="无论是楼宇运营问题、产品咨询或潜在项目，我们的团队都乐意协助。"
+              ar="سواء كان لديك تحدٍ في المبنى أو سؤال عن منتج أو مشروع محتمل، فإن فريقنا مستعد للمساعدة."
+            />
+          </p>
+        </div>
+        <div className="contact-card">
+          <span>
+            <Localized en="CONTACT" tc="聯絡方式" sc="联系方式" ar="بيانات الاتصال" />
+          </span>
+          <div className="contact-links">
+            <a href="mailto:enquiry@blutech.io">enquiry@blutech.io <Arrow /></a>
+            <a href="tel:+85221807157">2180 7157 <Arrow /></a>
+          </div>
+          <small>Hong Kong · Dongguan R&amp;D · Qatar</small>
+        </div>
+      </section>
+      <section className="contact-form-section section-pad">
+        <div className="catalogue-heading">
+          <div>
+            <p className="section-label">
+              <Localized en="CONTACT US" tc="聯絡我們" sc="联系我们" ar="تواصل معنا" />
+            </p>
+            <h2>
+              <Localized en="A simple enquiry." tc="簡單告訴我們。" sc="简单告诉我们。" ar="استفسار بسيط." />
+            </h2>
+          </div>
+          <p>
+            <Localized
+              en="Leave your name, company, email or phone number, and a short message. Our team will get back to you."
+              tc="留下姓名、公司、電郵或電話，以及簡短內容，我們的團隊會與你聯絡。"
+              sc="留下姓名、公司、邮箱或电话，以及简短内容，我们的团队会与你联系。"
+              ar="اترك اسمك وشركتك وبريدك الإلكتروني أو رقم هاتفك ورسالة قصيرة، وسيتواصل معك فريقنا."
+            />
+          </p>
+        </div>
+        <ContactForm />
+      </section>
+      <section className="contact-route">
+        <p>
+          <Localized
+            en="For product specifications or consultant submissions, include the relevant product model in your message."
+            tc="如需產品規格或顧問提交文件，請在內容中列明相關產品型號。"
+            sc="如需产品规格或顾问提交文件，请在内容中注明相关产品型号。"
+            ar="لطلب مواصفات منتج أو مستندات استشارية، اذكر طراز المنتج المعني في رسالتك."
+          />
+        </p>
+      </section>
+      <SiteFooter />
+    </main>
+  );
+}

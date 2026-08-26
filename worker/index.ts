@@ -84,35 +84,28 @@ async function handleContact(request: Request, env: Env) {
   const fields = {
     name: cleanField(input.name, 120),
     company: cleanField(input.company, 160),
-    email: cleanField(input.email, 254).toLowerCase(),
-    role: cleanField(input.role, 160),
-    type: cleanField(input.type, 180),
-    location: cleanField(input.location, 180),
-    improve: cleanField(input.improve, 4_000),
-    timing: cleanField(input.timing, 300),
+    contact: cleanField(input.contact, 254),
+    message: cleanField(input.message, 4_000),
     language: cleanField(input.language, 20) || "en",
     page: cleanField(input.page, 500),
   };
 
-  if (!fields.name || !fields.company || !fields.email || !fields.type || !fields.location || !fields.improve) {
+  if (!fields.name || !fields.company || !fields.contact || !fields.message) {
     return jsonResponse({ success: false, error: "Please complete the required fields" }, 400);
-  }
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email)) {
-    return jsonResponse({ success: false, error: "Please enter a valid email address" }, 400);
   }
   if (!env.RESEND_API_KEY) {
     return jsonResponse({ success: false, error: "Email service is not configured" }, 503);
   }
 
+  const replyTo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.contact.toLowerCase())
+    ? fields.contact.toLowerCase()
+    : undefined;
+
   const rows = [
     ["Name", fields.name],
     ["Company", fields.company],
-    ["Work email", fields.email],
-    ["Role", fields.role || "—"],
-    ["Property / project type", fields.type],
-    ["Location", fields.location],
-    ["What they want to improve", fields.improve],
-    ["Project timing", fields.timing || "—"],
+    ["Email or phone", fields.contact],
+    ["Enquiry", fields.message],
     ["Website language", fields.language],
     ["Source page", fields.page || "—"],
   ] as const;
@@ -129,7 +122,7 @@ async function handleContact(request: Request, env: Env) {
       body: JSON.stringify({
         to: [contactRecipient],
         from: contactSender,
-        reply_to: fields.email,
+        ...(replyTo ? { reply_to: replyTo } : {}),
         subject: `Website enquiry — ${fields.company}`,
         text,
         html,

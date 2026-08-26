@@ -547,6 +547,7 @@ export default function Home() {
           <Link href={localePath("/software", lang)}>Blutech Halo & Core</Link>
           <Link href={localePath("/projects", lang)}>{t.nav[2]}</Link>
           <a href="mailto:enquiry@blutech.io">enquiry@blutech.io</a>
+          <a href="tel:+85221807157">2180 7157</a>
         </div>
         <div className="footer-meta">
           <span>© {new Date().getFullYear()} Blutech IoT Limited</span>

@@ -11,5 +11,8 @@
   "observability": {
     "enabled": true
   },
+  "secrets": {
+    "required": ["RESEND_API_KEY"]
+  },
   "preview_urls": true
 }
