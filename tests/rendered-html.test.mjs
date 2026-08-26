@@ -160,7 +160,11 @@ test("contact endpoint emails the fixed Blutech project address", async () => {
     }),
     {
       ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) },
-      EMAIL: { send: async (message) => { sent.push(message); return { messageId: "test-message" }; } },
+      RESEND_API_KEY: "test-key",
+      EMAIL_FETCH: async (url, init) => {
+        sent.push({ url, init, body: JSON.parse(String(init.body)) });
+        return Response.json({ id: "test-message" });
+      },
     },
     { waitUntil() {}, passThroughOnException() {} },
   );
@@ -168,9 +172,11 @@ test("contact endpoint emails the fixed Blutech project address", async () => {
   assert.equal(response.status, 201);
   assert.deepEqual(await response.json(), { success: true, messageId: "test-message" });
   assert.equal(sent.length, 1);
-  assert.equal(sent[0].to.email, "enquiry@blutech.io");
-  assert.equal(sent[0].from.email, "website@blutech.io");
-  assert.equal(sent[0].replyTo.email, "contact@example.com");
+  assert.equal(sent[0].url, "https://api.resend.com/emails");
+  assert.equal(sent[0].init.headers.Authorization, "Bearer test-key");
+  assert.deepEqual(sent[0].body.to, ["enquiry@blutech.io"]);
+  assert.equal(sent[0].body.from, "Blutech Website <website@contact.blutech.io>");
+  assert.equal(sent[0].body.reply_to, "contact@example.com");
 });
 
 test("every published page has valid internal links and structured data", async () => {
