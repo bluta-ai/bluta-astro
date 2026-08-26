@@ -131,13 +131,52 @@ test("software, technology, solutions, resources and contact are genuinely local
     ["/ar/technology", /ذكاء الحافة/],
     ["/zh-hans/solutions", /更好的运营/],
     ["/ar/resources", /معرفة عملية/],
-    ["/zh-hant/contact", /準備項目查詢/],
+    ["/zh-hant/contact", /提交項目查詢/],
   ];
   for (const [path, pattern] of checks) {
     const response = await fetchPath(path);
     assert.equal(response.status, 200, path);
     assert.match(await response.text(), pattern, path);
   }
+});
+
+test("contact endpoint emails the fixed Blutech project address", async () => {
+  const worker = await workerPromise;
+  const sent = [];
+  const response = await worker.fetch(
+    new Request("https://blutech.io/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Origin: "https://blutech.io" },
+      body: JSON.stringify({
+        name: "Test Contact",
+        company: "Example Property",
+        email: "contact@example.com",
+        type: "Commercial building",
+        location: "Hong Kong",
+        improve: "Improve operational visibility",
+        language: "en",
+        page: "https://blutech.io/contact",
+      }),
+    }),
+    {
+      ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) },
+      RESEND_API_KEY: "test-key",
+      EMAIL_FETCH: async (url, init) => {
+        sent.push({ url, init, body: JSON.parse(String(init.body)) });
+        return Response.json({ id: "test-message" });
+      },
+    },
+    { waitUntil() {}, passThroughOnException() {} },
+  );
+
+  assert.equal(response.status, 201);
+  assert.deepEqual(await response.json(), { success: true, messageId: "test-message" });
+  assert.equal(sent.length, 1);
+  assert.equal(sent[0].url, "https://api.resend.com/emails");
+  assert.equal(sent[0].init.headers.Authorization, "Bearer test-key");
+  assert.deepEqual(sent[0].body.to, ["enquiry@blutech.io"]);
+  assert.equal(sent[0].body.from, "Blutech Website <website@contact.blutech.io>");
+  assert.equal(sent[0].body.reply_to, "contact@example.com");
 });
 
 test("every published page has valid internal links and structured data", async () => {
