@@ -4,16 +4,8 @@ import handler from "vinext/server/app-router-entry";
 
 interface Env {
   ASSETS: Fetcher;
-  EMAIL?: {
-    send(message: {
-      to: string | { email: string; name?: string };
-      from: string | { email: string; name?: string };
-      subject: string;
-      html?: string;
-      text?: string;
-      replyTo?: string | { email: string; name?: string };
-    }): Promise<{ messageId: string }>;
-  };
+  RESEND_API_KEY?: string;
+  EMAIL_FETCH?: typeof fetch;
   DB: D1Database;
   IMAGES: {
     input(stream: ReadableStream): {
@@ -30,7 +22,7 @@ interface ExecutionContext {
 }
 
 const contactRecipient = "enquiry@blutech.io";
-const contactSender = "website@blutech.io";
+const contactSender = "Blutech Website <website@contact.blutech.io>";
 
 function jsonResponse(body: Record<string, unknown>, status = 200) {
   return Response.json(body, {
@@ -108,7 +100,7 @@ async function handleContact(request: Request, env: Env) {
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email)) {
     return jsonResponse({ success: false, error: "Please enter a valid email address" }, 400);
   }
-  if (!env.EMAIL) {
+  if (!env.RESEND_API_KEY) {
     return jsonResponse({ success: false, error: "Email service is not configured" }, 503);
   }
 
@@ -128,18 +120,30 @@ async function handleContact(request: Request, env: Env) {
   const html = `<h1 style="font:600 22px Arial,sans-serif;color:#0a1619">New Blutech project enquiry</h1><table style="border-collapse:collapse;width:100%;font:14px Arial,sans-serif;color:#233336">${rows.map(([label, value]) => `<tr><th style="width:190px;padding:12px 16px 12px 0;border-bottom:1px solid #dce2df;text-align:left;vertical-align:top;color:#287e7b">${escapeHtml(label)}</th><td style="padding:12px 0;border-bottom:1px solid #dce2df;white-space:pre-wrap">${escapeHtml(value)}</td></tr>`).join("")}</table>`;
 
   try {
-    const result = await env.EMAIL.send({
-      to: { email: contactRecipient, name: "Blutech Project Team" },
-      from: { email: contactSender, name: "Blutech Website" },
-      replyTo: { email: fields.email, name: fields.name },
-      subject: `Website enquiry — ${fields.company}`,
-      text,
-      html,
+    const emailResponse = await (env.EMAIL_FETCH || fetch)("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${env.RESEND_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        to: [contactRecipient],
+        from: contactSender,
+        reply_to: fields.email,
+        subject: `Website enquiry — ${fields.company}`,
+        text,
+        html,
+      }),
     });
-    return jsonResponse({ success: true, messageId: result.messageId }, 201);
+    const result = await emailResponse.json().catch(() => ({})) as { id?: string; message?: string };
+    if (!emailResponse.ok || !result.id) {
+      console.error("Contact email failed", { status: emailResponse.status, message: result.message || "unknown" });
+      return jsonResponse({ success: false, error: "We could not send your enquiry. Please email enquiry@blutech.io." }, 502);
+    }
+    return jsonResponse({ success: true, messageId: result.id }, 201);
   } catch (error) {
-    const code = error && typeof error === "object" && "code" in error ? String(error.code) : "unknown";
-    console.error("Contact email failed", { code });
+    const name = error instanceof Error ? error.name : "unknown";
+    console.error("Contact email failed", { name });
     return jsonResponse({ success: false, error: "We could not send your enquiry. Please email enquiry@blutech.io." }, 502);
   }
 }
