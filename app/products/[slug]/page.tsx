@@ -44,10 +44,30 @@ export default async function ProductPage({ params }: Props) {
   const productUrl = `${siteUrl}${localizedPath(`/products/${product.slug}`, routeLocale)}`;
   const productsUrl = `${siteUrl}${localizedPath("/products", routeLocale)}`;
   const homeUrl = `${siteUrl}${localizedPath("/", routeLocale)}`;
+  const language = routeLocale === "zh-hant" ? "zh-Hant" : routeLocale === "zh-hans" ? "zh-Hans" : routeLocale === "ar" ? "ar" : "en";
   const structuredData = {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "Product", "@id": `${productUrl}#product`, url: productUrl, name: `${product.model} ${product.name}`, sku: product.model, description: product.summary, category: product.category, image: product.image ? `${siteUrl}${product.image}` : undefined, award: product.award, brand: { "@type": "Brand", name: "Blutech" }, manufacturer: { "@type": "Organization", "@id": `${siteUrl}/#organization`, name: "Blutech" } },
+      {
+        "@type": "WebPage",
+        "@id": `${productUrl}#webpage`,
+        url: productUrl,
+        name: `${product.model} ${product.name} — Blutech`,
+        description: product.summary,
+        inLanguage: language,
+        isPartOf: { "@id": `${siteUrl}/#website` },
+        publisher: { "@id": `${siteUrl}/#organization` },
+        about: { "@id": `${productUrl}#equipment` },
+      },
+      {
+        "@type": "Thing",
+        "@id": `${productUrl}#equipment`,
+        url: productUrl,
+        name: `${product.model} ${product.name}`,
+        identifier: product.model,
+        description: product.summary,
+        image: product.image ? `${siteUrl}${product.image}` : undefined,
+      },
       { "@type": "BreadcrumbList", itemListElement: [
         { "@type": "ListItem", position: 1, name: "Home", item: homeUrl },
         { "@type": "ListItem", position: 2, name: "Products", item: productsUrl },
