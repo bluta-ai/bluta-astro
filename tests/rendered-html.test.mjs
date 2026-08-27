@@ -32,6 +32,25 @@ test("homepage renders the approved proposition and evidence hierarchy", async (
   assert.match(html, /Multiple international and Hong Kong awards/);
   assert.doesNotMatch(html, /74 monitored/i);
   assert.doesNotMatch(html, /codex-preview/i);
+  assert.match(html, /Contact Us/);
+  assert.match(html, /Hong Kong · China · Qatar/);
+  assert.doesNotMatch(html, /Plan a pilot|Dongguan R&amp;D/);
+});
+
+test("location and contact labels stay consistent across public pages", async () => {
+  for (const path of ["/contact", "/company", "/zh-hant/contact", "/zh-hans/company", "/ar/contact"]) {
+    const response = await fetchPath(path);
+    assert.equal(response.status, 200, path);
+    const html = await response.text();
+    assert.doesNotMatch(html, /Plan a pilot|Dongguan R&amp;D|規劃試點|规划试点|خطط لمشروع تجريبي/, path);
+  }
+
+  const contact = await fetchPath("/contact");
+  assert.match(await contact.text(), /Hong Kong · China · Qatar/);
+  const company = await fetchPath("/company");
+  const companyHtml = await company.text();
+  assert.match(companyHtml, />China</);
+  assert.doesNotMatch(companyHtml, />Dongguan</);
 });
 
 test("route-based Traditional Chinese and Arabic pages render", async () => {
