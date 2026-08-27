@@ -44,7 +44,7 @@ export default function ContactPage() {
             <a href="mailto:enquiry@blutech.io">enquiry@blutech.io <Arrow /></a>
             <a href="tel:+85221807157">2180 7157 <Arrow /></a>
           </div>
-          <small>Hong Kong · Dongguan R&amp;D · Qatar</small>
+          <small>Hong Kong · China · Qatar</small>
         </div>
       </section>
       <section className="contact-form-section section-pad">
