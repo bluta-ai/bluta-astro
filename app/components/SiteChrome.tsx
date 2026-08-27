@@ -36,7 +36,7 @@ export function SiteHeader({ active }: { active?: string }) {
         {links.map(([en, tc, sc, ar, href]) => <a key={href} className={active === en.toLowerCase() ? "active" : ""} href={localePath(href, language)} onClick={() => setOpen(false)}><Localized en={en} tc={tc} sc={sc} ar={ar} /></a>)}
         <LanguageSelector compact />
       </nav>
-      <div className="header-actions"><LanguageSelector /><a className="header-cta" href={localePath("/contact", language)}><Localized en="Plan a pilot" tc="規劃試點" sc="规划试点" ar="خطط لمشروع تجريبي" /></a></div>
+      <div className="header-actions"><LanguageSelector /><a className="header-cta" href={localePath("/contact", language)}><Localized en="Contact Us" tc="聯絡我們" sc="联系我们" ar="تواصل معنا" /></a></div>
     </header>
   );
 }
@@ -49,7 +49,7 @@ export function SiteFooter() {
       <div className="footer-links">
         <Link href={localePath("/solutions", language)}><Localized en="Solutions" tc="方案" sc="方案" ar="الحلول" /></Link><Link href={localePath("/software", language)}><Localized en="Software" tc="軟件" sc="软件" ar="البرمجيات" /></Link><Link href={localePath("/products", language)}><Localized en="Products" tc="產品" sc="产品" ar="المنتجات" /></Link><Link href={localePath("/projects", language)}><Localized en="Projects" tc="項目" sc="项目" ar="المشاريع" /></Link><Link href={localePath("/resources", language)}><Localized en="Resources" tc="資源" sc="资源" ar="الموارد" /></Link><Link href={localePath("/contact", language)}><Localized en="Contact" tc="聯絡" sc="联系" ar="تواصل معنا" /></Link><a href="tel:+85221807157">2180 7157</a>
       </div>
-      <div className="footer-meta"><span>© {new Date().getFullYear()} Blutech IoT Limited</span><span>Hong Kong · Dongguan R&amp;D · Qatar</span><span className="image-credits">Photography: <a href="https://commons.wikimedia.org/wiki/File:Olympian_City_Phase_2.jpg" target="_blank" rel="noopener noreferrer">Exploringlife / CC BY-SA 4.0</a> · <a href="https://commons.wikimedia.org/wiki/File:Metroplaza_(Hong_Kong).jpg" target="_blank" rel="noopener noreferrer">Mk2010 / CC BY-SA 3.0</a> · <a href="https://commons.wikimedia.org/wiki/File:%E4%B8%9C%E8%8E%9E%E6%9D%BE%E5%B1%B1%E6%B9%96_(45804269842).jpg" target="_blank" rel="noopener noreferrer">drnan tu / CC BY-SA 2.0</a></span></div>
+      <div className="footer-meta"><span>© {new Date().getFullYear()} Blutech IoT Limited</span><span>Hong Kong · China · Qatar</span><span className="image-credits">Photography: <a href="https://commons.wikimedia.org/wiki/File:Olympian_City_Phase_2.jpg" target="_blank" rel="noopener noreferrer">Exploringlife / CC BY-SA 4.0</a> · <a href="https://commons.wikimedia.org/wiki/File:Metroplaza_(Hong_Kong).jpg" target="_blank" rel="noopener noreferrer">Mk2010 / CC BY-SA 3.0</a> · <a href="https://commons.wikimedia.org/wiki/File:%E4%B8%9C%E8%8E%9E%E6%9D%BE%E5%B1%B1%E6%B9%96_(45804269842).jpg" target="_blank" rel="noopener noreferrer">drnan tu / CC BY-SA 2.0</a></span></div>
     </footer>
   );
 }

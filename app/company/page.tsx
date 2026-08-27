@@ -5,13 +5,13 @@ import { PageCta, SiteFooter, SiteHeader } from "../components/SiteChrome";
 
 export const metadata: Metadata = {
   title: "Company — Blutech Building AI and IoT",
-  description: "Blutech designs and delivers building AI and IoT hardware, software and integration from Hong Kong, with R&D in Dongguan and an office in Qatar.",
+  description: "Blutech designs and delivers building AI and IoT hardware, software and integration across Hong Kong, China and Qatar.",
   alternates: { canonical: "/company", languages: languageAlternates("/company") },
 };
 
 const offices = [
   { city: "Hong Kong", image: "/images/office-hong-kong.webp", role: ["Headquarters", "總部", "总部", "المقر الرئيسي"], body: ["Product strategy, project delivery, commercial leadership and customer support.", "產品策略、項目交付、商務領導與客戶支援。", "产品策略、项目交付、商务领导与客户支持。", "استراتيجية المنتجات وتنفيذ المشاريع والقيادة التجارية ودعم العملاء."] },
-  { city: "Dongguan", image: "/images/office-songshan-lake.webp", role: ["Songshan Lake R&D office", "松山湖研發辦公室", "松山湖研发办公室", "مكتب البحث والتطوير في بحيرة سونغشان"], body: ["Hardware engineering, firmware, prototyping, testing and product development in Dongguan's Songshan Lake technology district.", "於東莞松山湖科技園區進行硬件工程、韌體、原型製作、測試與產品開發。", "于东莞松山湖科技园区进行硬件工程、固件、原型制作、测试与产品开发。", "هندسة الأجهزة والبرمجيات الثابتة والنماذج الأولية والاختبار وتطوير المنتجات في منطقة بحيرة سونغشان التقنية في دونغقوان."] },
+  { city: "China", image: "/images/office-songshan-lake.webp", role: ["Engineering & product development", "工程與產品開發", "工程与产品开发", "الهندسة وتطوير المنتجات"], body: ["Hardware engineering, firmware, prototyping, testing and product development in China.", "在中國進行硬件工程、韌體、原型製作、測試與產品開發。", "在中国进行硬件工程、固件、原型制作、测试与产品开发。", "هندسة الأجهزة والبرمجيات الثابتة والنماذج الأولية والاختبار وتطوير المنتجات في الصين."] },
   { city: "Qatar", image: "/images/office-qatar.webp", role: ["Regional office", "區域辦公室", "区域办公室", "المكتب الإقليمي"], body: ["Regional project development and customer support for the Middle East.", "負責中東地區的項目發展與客戶支援。", "负责中东地区的项目发展与客户支持。", "تطوير المشاريع الإقليمية ودعم العملاء في الشرق الأوسط."] },
 ];
 
