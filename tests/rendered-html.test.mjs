@@ -192,7 +192,11 @@ test("every published page has valid internal links and structured data", async 
     assert.doesNotMatch(html, /BT102N/i, path);
 
     for (const match of html.matchAll(/<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi)) {
-      assert.doesNotThrow(() => JSON.parse(match[1]), `${path} has invalid JSON-LD`);
+      assert.doesNotThrow(() => {
+        const structuredData = JSON.parse(match[1]);
+        const serialized = JSON.stringify(structuredData);
+        assert.doesNotMatch(serialized, /"@type":"Product"/, `${path} must not opt into Google shopping product snippets`);
+      }, `${path} has invalid JSON-LD`);
     }
 
     for (const match of html.matchAll(/href="(\/[^"]*)"/g)) {
@@ -206,6 +210,17 @@ test("every published page has valid internal links and structured data", async 
     const response = await fetchPath(target);
     assert.ok(response.status === 200 || response.status === 308, `${target} returned ${response.status}`);
   }
+});
+
+test("product detail pages use quotation-appropriate semantic markup", async () => {
+  const response = await fetchPath("/products/bt338-heatmap-fusion");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /"@type":"WebPage"/);
+  assert.match(html, /"@type":"Thing"/);
+  assert.match(html, /"identifier":"BT338"/);
+  assert.doesNotMatch(html, /"@type":"Product"/);
+  assert.doesNotMatch(html, /"offers"|"review"|"aggregateRating"/);
 });
 
 test("localized product and project detail pages do not fall back to English interface copy", async () => {
