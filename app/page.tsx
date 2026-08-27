@@ -7,7 +7,7 @@ import { SiteHeader } from "./components/SiteChrome";
 const copy = {
   en: {
     nav: ["Solutions", "Software", "Projects", "Products"],
-    contact: "Plan a pilot",
+    contact: "Contact Us",
     eyebrow: "PHYSICAL AI FOR BUILDINGS",
     title: <>Intelligence,<br /><em>built into the building.</em></>,
     intro:
@@ -85,7 +85,7 @@ const copy = {
   },
   tc: {
     nav: ["方案", "軟件", "項目", "產品"],
-    contact: "規劃試點",
+    contact: "聯絡我們",
     eyebrow: "建築物理人工智能",
     title: <>讓智慧，<br /><em>成為建築的一部分。</em></>,
     intro: "Blutech 結合精準感測、邊緣智慧、聯網硬件與樓宇軟件，把現場狀況轉化為更安全的空間、更精簡的營運，以及表現更佳的資產。",
@@ -156,7 +156,7 @@ const copy = {
   },
   sc: {
     nav: ["方案", "软件", "项目", "产品"],
-    contact: "规划试点",
+    contact: "联系我们",
     eyebrow: "建筑物理人工智能",
     title: <>让智慧，<br /><em>成为建筑的一部分。</em></>,
     intro: "Blutech 结合精准感知、边缘智能、联网硬件与楼宇软件，把现场状况转化为更安全的空间、更精简的运营，以及表现更佳的资产。",
@@ -227,7 +227,7 @@ const copy = {
   },
   ar: {
     nav: ["الحلول", "البرمجيات", "المشاريع", "المنتجات"],
-    contact: "خطط لمشروع تجريبي",
+    contact: "تواصل معنا",
     eyebrow: "ذكاء مادي للمباني",
     title: <>ذكاء،<br /><em>مدمج في المبنى.</em></>,
     intro: "تجمع Blutech الاستشعار الدقيق وذكاء الحافة والأجهزة المتصلة وبرمجيات المباني لتحويل الظروف الحية إلى مساحات أكثر أماناً وعمليات أكثر كفاءة وأصول أفضل أداءً.",
@@ -551,7 +551,7 @@ export default function Home() {
         </div>
         <div className="footer-meta">
           <span>© {new Date().getFullYear()} Blutech IoT Limited</span>
-          <span>Hong Kong · Dongguan R&amp;D · Qatar</span>
+          <span>Hong Kong · China · Qatar</span>
         </div>
       </footer>
     </main>
