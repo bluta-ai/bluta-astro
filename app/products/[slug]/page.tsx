@@ -4,7 +4,7 @@ import { Arrow, PageCta, SiteFooter, SiteHeader } from "../../components/SiteChr
 import { Localized, LocalizedLink } from "../../components/LanguageContext";
 import { productBySlug, products } from "../../product-catalogue";
 import { localizeProduct } from "../../product-localization";
-import { isUrlLocale, languageAlternates, localizedPath } from "../../localized-metadata";
+import { isUrlLocale, languageAlternates, localizedPath, socialPreviewImage } from "../../localized-metadata";
 
 type Props = { params: Promise<{ slug: string; locale?: string }> };
 const siteUrl = "https://blutech.io";
@@ -19,13 +19,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!product) return {};
 
   const title = `${product.model} ${product.name} — Blutech`;
-  const image = product.image ? `${siteUrl}${product.image}` : undefined;
+  const image = `${siteUrl}${socialPreviewImage(product.image)}`;
+  const url = `${siteUrl}/products/${product.slug}`;
   return {
     title,
     description: product.summary,
     alternates: { canonical: `/products/${product.slug}`, languages: languageAlternates(`/products/${product.slug}`) },
-    openGraph: { title, description: product.summary, images: image ? [image] : undefined },
-    twitter: { card: "summary_large_image", title, description: product.summary, images: image ? [image] : undefined },
+    openGraph: { title, description: product.summary, url, type: "website", siteName: "Blutech", images: [image] },
+    twitter: { card: "summary_large_image", title, description: product.summary, images: [image] },
   };
 }
 

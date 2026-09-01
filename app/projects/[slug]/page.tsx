@@ -4,7 +4,7 @@ import { Arrow, PageCta, SiteFooter, SiteHeader } from "../../components/SiteChr
 import { Localized, LocalizedLink } from "../../components/LanguageContext";
 import { projectBySlug, projects } from "../../project-catalogue";
 import { localizeProject } from "../../project-localization";
-import { isUrlLocale, languageAlternates, localizedPath } from "../../localized-metadata";
+import { isUrlLocale, languageAlternates, localizedPath, socialPreviewImage } from "../../localized-metadata";
 import { productBySlug } from "../../product-catalogue";
 import { localizeProduct } from "../../product-localization";
 
@@ -17,7 +17,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const project = projectBySlug((await params).slug);
   if (!project) return {};
   const title = `${project.name} Building AI and IoT Case Study — Blutech`;
-  return { title, description: project.summary, alternates: { canonical: `/projects/${project.slug}`, languages: languageAlternates(`/projects/${project.slug}`) }, openGraph: { title, description: project.summary, images: [`${siteUrl}${project.image}`] }, twitter: { card: "summary_large_image", title, description: project.summary, images: [`${siteUrl}${project.image}`] } };
+  const image = `${siteUrl}${socialPreviewImage(project.image)}`;
+  const url = `${siteUrl}/projects/${project.slug}`;
+  return { title, description: project.summary, alternates: { canonical: `/projects/${project.slug}`, languages: languageAlternates(`/projects/${project.slug}`) }, openGraph: { title, description: project.summary, url, type: "article", siteName: "Blutech", images: [image] }, twitter: { card: "summary_large_image", title, description: project.summary, images: [image] } };
 }
 
 export default async function ProjectPage({ params }: Props) {
