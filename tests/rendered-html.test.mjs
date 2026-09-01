@@ -35,6 +35,12 @@ test("homepage renders the approved proposition and evidence hierarchy", async (
   assert.match(html, /Contact Us/);
   assert.match(html, /Hong Kong · China · Qatar/);
   assert.doesNotMatch(html, /Plan a pilot|Dongguan R&amp;D/);
+  assert.match(html, /property="og:image" content="https:\/\/blutech\.io\/og-blutech-v2\.jpg"/);
+  assert.match(html, /property="og:image:width" content="1200"/);
+  assert.match(html, /property="og:image:height" content="630"/);
+  assert.match(html, /property="og:image:type" content="image\/jpeg"/);
+  assert.match(html, /name="twitter:card" content="summary_large_image"/);
+  assert.match(html, /name="twitter:image" content="https:\/\/blutech\.io\/og-blutech-v2\.jpg"/);
 });
 
 test("location and contact labels stay consistent across public pages", async () => {
@@ -240,6 +246,16 @@ test("product detail pages use quotation-appropriate semantic markup", async () 
   assert.match(html, /"identifier":"BT338"/);
   assert.doesNotMatch(html, /"@type":"Product"/);
   assert.doesNotMatch(html, /"offers"|"review"|"aggregateRating"/);
+  assert.match(html, /property="og:image" content="https:\/\/blutech\.io\/og-blutech-v2\.jpg"/);
+});
+
+test("project links use a messenger-compatible social preview", async () => {
+  const response = await fetchPath("/projects/olympian-city");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /property="og:type" content="article"/);
+  assert.match(html, /property="og:image" content="https:\/\/blutech\.io\/og-blutech-v2\.jpg"/);
+  assert.match(html, /name="twitter:card" content="summary_large_image"/);
 });
 
 test("localized product and project detail pages do not fall back to English interface copy", async () => {

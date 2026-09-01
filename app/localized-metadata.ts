@@ -34,12 +34,17 @@ export function languageAlternates(path: string) {
   };
 }
 
+export function socialPreviewImage(image?: string) {
+  const path = image?.split("?")[0] || "";
+  return /\.(?:jpe?g|png)$/i.test(path) ? image! : "/og-blutech-v2.jpg";
+}
+
 export function pageMetadata({
   locale,
   path,
   title,
   description,
-  image = "/og.png",
+  image = "/og-blutech-v2.jpg",
 }: {
   locale: UrlLocale;
   path: string;
@@ -48,11 +53,12 @@ export function pageMetadata({
   image?: string;
 }): Metadata {
   const canonical = localizedPath(path, locale);
+  const previewImage = socialPreviewImage(image);
   return {
     title,
     description,
     alternates: { canonical, languages: languageAlternates(path) },
-    openGraph: { title, description, url: canonical, images: [image], locale: localeToHtml[locale].replace("-", "_") },
-    twitter: { card: "summary_large_image", title, description, images: [image] },
+    openGraph: { title, description, url: canonical, type: "website", siteName: "Blutech", images: [previewImage], locale: localeToHtml[locale].replace("-", "_") },
+    twitter: { card: "summary_large_image", title, description, images: [previewImage] },
   };
 }
