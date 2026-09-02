@@ -36,7 +36,7 @@ export function languageAlternates(path: string) {
 
 export function socialPreviewImage(image?: string) {
   const path = image?.split("?")[0] || "";
-  return /\.(?:jpe?g|png)$/i.test(path) ? image! : "/og-blutech-v2.jpg";
+  return /\.(?:jpe?g|png)$/i.test(path) ? image! : "/og-blutech-v3.jpg";
 }
 
 export function pageMetadata({
@@ -44,7 +44,7 @@ export function pageMetadata({
   path,
   title,
   description,
-  image = "/og-blutech-v2.jpg",
+  image = "/og-blutech-v3.jpg",
 }: {
   locale: UrlLocale;
   path: string;
