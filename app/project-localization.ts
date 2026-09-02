@@ -166,6 +166,67 @@ const ar: Record<string, ProjectTranslation> = Object.fromEntries(Object.entries
   } as Record<string, string>)[fact.label] || fact.label })),
 }])) as Record<string, ProjectTranslation>;
 
+const es: Record<string, ProjectTranslation> = Object.fromEntries(Object.entries(tc).map(([slug, item]) => [slug, {
+  ...item,
+  name: ({
+    "three-garden-road": "Three Garden Road", "hong-kong-international-airport": "Aeropuerto Internacional de Hong Kong", metroplaza: "Metroplaza", "hong-kong-west-kowloon-station": "Estación Hong Kong West Kowloon", "olympian-city": "Olympian City", "ifc-mall": "IFC Mall", "immigration-department-queue-monitoring": "Sede del Departamento de Inmigración", "hospital-patient-safety": "Seguridad de pacientes en hospitales", "emsd-headquarters": "Sede de EMSD",
+  } as Record<string, string>)[slug],
+  sector: ({
+    "three-garden-road": "Oficinas de categoría A", "hong-kong-international-airport": "Aviación", metroplaza: "Comercial y retail", "hong-kong-west-kowloon-station": "Transporte", "olympian-city": "Comercial y retail", "ifc-mall": "Comercial", "immigration-department-queue-monitoring": "Administración pública", "hospital-patient-safety": "Sanidad", "emsd-headquarters": "Administración pública",
+  } as Record<string, string>)[slug],
+  location: ({ "three-garden-road": "Central", "hong-kong-international-airport": "Hong Kong", metroplaza: "Kwai Fong", "hong-kong-west-kowloon-station": "West Kowloon", "olympian-city": "West Kowloon", "ifc-mall": "Central", "immigration-department-queue-monitoring": "Tseung Kwan O", "hospital-patient-safety": "Hong Kong", "emsd-headquarters": "Kowloon Bay" } as Record<string, string>)[slug],
+  summary: ({
+    "three-garden-road": "Más de 1.000 dispositivos conectados respaldan baños inteligentes, detección de fugas, calidad del aire, coordinación HVAC según ocupación e integración de informes ESG.",
+    "hong-kong-international-airport": "Detección de seguridad para baños inteligentes y accesibles en una infraestructura pública de gran afluencia.",
+    metroplaza: "Más de 300 dispositivos conectados respaldan baños inteligentes y la coordinación de ventilación según datos de ocupación y ambiente.",
+    "hong-kong-west-kowloon-station": "Sistema de baños inteligentes para pasajeros y operadores que conecta consumibles, fugas, ocupación, iluminación y calidad del aire.",
+    "olympian-city": "Implantación en tres fases que cubre agua, ruido, humo, tabaquismo, ocupación y ambiente con integración BMS y HVAC.",
+    "ifc-mall": "Información inteligente de instalaciones y tecnología para baños integrada en un importante destino comercial y de oficinas.",
+    "immigration-department-queue-monitoring": "Monitorización conectada de colas e información mediante Smart Display para máquinas de servicios públicos distribuidas.",
+    "hospital-patient-safety": "Detección de caídas e incidentes sin cámaras en baños accesibles, implantada en entornos hospitalarios como PMH y QMH.",
+    "emsd-headquarters": "Baños inteligentes en todo el edificio, con 230 cabinas conectadas desde B1 hasta 6/F, visibilidad de ocupación e integración con la red pública.",
+  } as Record<string, string>)[slug],
+  challenge: ({
+    "three-garden-road": "Crear una capa operativa fiable en un inmueble comercial activo, con sensores discretos, privacidad en espacios sensibles e integración de datos en los flujos existentes.",
+    "hong-kong-international-airport": "Proporcionar señales fiables de ocupación y seguridad en instalaciones públicas de gran afluencia, donde la privacidad es esencial y la operación requiere una visión clara.",
+    metroplaza: "Conectar una amplia red de baños y coordinar los datos de ocupación, temperatura y humedad con los flujos de ventilación y HVAC.",
+    "hong-kong-west-kowloon-station": "Ofrecer información clara a los pasajeros y reunir múltiples señales de los baños en un flujo fiable para operadores.",
+    "olympian-city": "Coordinar varios sistemas IoT en las tres fases, diferenciando claramente la monitorización independiente de humo del sistema reglamentario de alarma contra incendios.",
+    "ifc-mall": "Facilitar información en tiempo real a los visitantes y ofrecer al equipo una visión conectada de ocupación y servicio.",
+    "immigration-department-queue-monitoring": "Convertir el uso de muchas máquinas de servicio en información clara sobre colas y disponibilidad sin complicar la interfaz ni la operación.",
+    "hospital-patient-safety": "Respaldar flujos de seguridad sensibles al tiempo en espacios muy privados sin cámaras convencionales ni imágenes identificables.",
+    "emsd-headquarters": "Crear una visibilidad uniforme de las instalaciones en varias plantas, coordinando cobertura, integración y restricciones de un edificio activo.",
+  } as Record<string, string>)[slug],
+  delivery: ({
+    "three-garden-road": ["Detección para baños inteligentes que protege la privacidad", "Monitorización de calidad del aire y fugas", "Datos de ocupación integrados en el flujo HVAC activo", "Visibilidad en Halo y Core con integración de informes ESG"],
+    "hong-kong-international-airport": ["Detección térmica y mmWave sin cámaras para espacios accesibles", "Estado de cabinas y flujos para estancias prolongadas o falta de movimiento", "Visualización sobre planos y alertas operativas", "Recogida de datos LoRaWAN mediante gateways coordinadas"],
+    metroplaza: ["Más de 300 dispositivos conectados", "Ocupación conectada para 180 cabinas", "Monitorización de temperatura y humedad", "Coordinación de ventilación y HVAC mediante Halo y Core"],
+    "hong-kong-west-kowloon-station": ["BT107 Smart Display para información a pasajeros", "Monitorización de papel higiénico y jabón", "Detección de fugas y Heatmap", "Iluminación y calidad del aire conectadas mediante Halo y Core"],
+    "olympian-city": ["Monitorización de fugas, ruido, temperatura y humedad", "Heatmap y detección de tabaquismo", "Monitorización IoT de humo independiente del sistema reglamentario de alarma contra incendios", "Integración BMS y optimización HVAC en las tres fases"],
+    "ifc-mall": ["Interfaces arquitectónicas para datos en tiempo real", "Detección de ocupación que protege la privacidad", "Disponibilidad de cabinas y estado de baños conectados", "Jerarquía de información coordinada para público y operadores"],
+    "immigration-department-queue-monitoring": ["Monitorización de colas y uso de máquinas", "Información pública mediante Smart Display", "Estado conectado a través de Blutech Core", "Vista operativa para equipos autorizados"],
+    "hospital-patient-safety": ["Detección de caídas e incidentes sin cámaras", "Alarma local en el punto de respuesta", "Aviso a enfermería y panel operativo", "Arquitectura LoRaWAN y Bluetooth para flujos conectados y locales"],
+    "emsd-headquarters": ["Detección conectada en 230 cabinas desde B1 hasta 6/F", "Cobertura interior mediante gateways LoRaWAN", "Estado de ocupación e información operativa", "Experiencia de integración con Government-Wide IoT Network"],
+  } as Record<string, string[]>)[slug],
+  outcome: ({
+    "three-garden-road": "Una gran red conectada ofrece condiciones más claras, coordina ocupación y HVAC y aporta datos utilizables para informes ESG continuos.",
+    "hong-kong-international-airport": "Una capa de instalaciones que protege la privacidad convierte eventos de campo en estado, alertas y seguimiento operativo claros.",
+    metroplaza: "La implantación comercial convierte condiciones distribuidas en una vista operativa clara y en entradas útiles para coordinar la ventilación.",
+    "hong-kong-west-kowloon-station": "Los pasajeros reciben información más clara y los operadores obtienen una visión conectada de consumibles, seguridad, ambiente y estado.",
+    "olympian-city": "Una capa multisensor aporta visibilidad uniforme en las tres fases y mantiene explícita la función de la monitorización independiente de humo.",
+    "ifc-mall": "Una experiencia pública más sencilla respaldada por una capa operativa conectada detrás de la interfaz.",
+    "immigration-department-queue-monitoring": "La disponibilidad y las colas son más fáciles de comprender para visitantes y de gestionar para equipos autorizados.",
+    "hospital-patient-safety": "Los eventos de seguridad útiles llegan al equipo responsable mediante una detección apropiada para espacios especialmente sensibles.",
+    "emsd-headquarters": "Una capa conectada para todo el edificio con cobertura inalámbrica coordinada y una vista operativa uniforme.",
+  } as Record<string, string>)[slug],
+  benefits: item.benefits.map((_, index) => ({
+    title: ["Visibilidad operativa más clara", "Mejor respuesta y coordinación", "Integración práctica"][index],
+    body: ["Las señales conectadas se reúnen en una vista clara para los equipos autorizados.", "Los eventos de campo se convierten en una respuesta más rápida y enfocada.", "El sistema conecta dispositivos, software y flujos existentes con funciones claras."][index],
+  })),
+  flow: ["Señales del emplazamiento", "Red LoRaWAN", "Blutech Core", "Halo y operaciones"],
+  facts: item.facts.map((fact) => ({ label: ({ "連接設備":"Dispositivos conectados", "HVAC 協調":"Coordinación HVAC", "ESG 報告":"Informes ESG", "傳統攝影機":"Cámaras convencionales", "安全事件類型":"Tipos de evento de seguridad", "營運視圖":"Vista operativa", "連接廁格":"Cabinas conectadas", "樓層覆蓋":"Cobertura del edificio", "整合":"Integración", "軟件層":"Capas de software", "主要顯示器":"Pantalla principal", "營運層":"Capas operativas", "系統視圖":"Vista del sistema", "物業期數":"Fases del inmueble", "BMS 整合":"Integración BMS", "煙霧監測":"Monitorización de humo", "資訊狀態":"Estado de la información", "公眾及營運視圖":"Vistas pública y operativa", "介面方式":"Enfoque de interfaz", "服務機器網絡":"Red de máquinas de servicio", "輪候視圖":"Vista de colas", "資訊層":"Capa de información", "已列名醫院":"Hospitales mencionados", "警報路徑":"Ruta de alerta" } as Record<string,string>)[fact.label] || fact.label, value: ({ "已運行":"Activa", "已整合":"Integrado", "即時":"En tiempo real", "乘客 + 營運":"Pasajeros + operadores", "1、2、3":"1, 2 y 3", "獨立 IoT":"IoT independiente", "已連接":"Conectada", "本地 + 護士":"Local + enfermería" } as Record<string,string>)[fact.value] || fact.value })),
+}])) as Record<string, ProjectTranslation>;
+
 const simplifiedCharacters: Record<string, string> = {
   園:"园",號:"号",級:"级",廈:"厦",環:"环",過:"过",連:"连",設:"设",備:"备",援:"援",監:"监",測:"测",內:"内",氣:"气",質:"质",佔:"占",協:"协",調:"调",報:"报",統:"统",營:"营",運:"运",層:"层",時:"时",覺:"觉",護:"护",隱:"隐",據:"据",網:"网",絡:"络",團:"团",隊:"队",動:"动",訊:"讯",樓:"楼",築:"筑",為:"为",個:"个",實:"实",際:"际",視:"视",與:"与",場:"场",國:"国",機:"机",熱:"热",廁:"厕",態:"态",顯:"显",類:"类",廣:"广",濕:"湿",軟:"软",將:"将",務:"务",處:"处",輪:"轮",候:"候",醫:"医",療:"疗",瑪:"玛",麗:"丽",傳:"传",識:"识",攝:"摄",影:"影",警:"警",徑:"径",電:"电",總:"总",棟:"栋",線:"线",蓋:"盖",經:"经",驗:"验",獨:"独",煙:"烟",霧:"雾",優:"优",開:"开",應:"应",資:"资",現:"现",況:"况",離:"离",減:"减",從:"从",選:"选",擇:"择",讓:"让",較:"较",間:"间",業:"业",續:"续",錄:"录",無:"无",狀:"状",並:"并",獲:"获",則:"则",偵:"侦",體:"体",聲:"声",數:"数",點:"点",適:"适",項:"项",產:"产",檔:"档",啟:"启",權:"权",導:"导",細:"细",維:"维",圖:"图",簡:"简",標:"标",準:"准",確:"确",認:"认",發:"发",佈:"布",輸:"输",寫:"写",讀:"读",雲:"云",遠:"远",檢:"检",擴:"扩",觸:"触",門:"门",節:"节",約:"约",驟:"骤",顧:"顾",戶:"户",貫:"贯",徹:"彻",眾:"众",萬:"万",頁:"页",種:"种",關:"关",聯:"联",區:"区",別:"别",屬:"属",極:"极",帶:"带",華:"华",這:"这",麼:"么",甚:"什",聰:"聪",夠:"够",見:"见",問:"问",圍:"围",繞:"绕",決:"决",庫:"库",價:"价",組:"组",來:"来",順:"顺",暢:"畅",員:"员",礙:"碍",義:"义",轉:"转",趨:"趋",檻:"槛",專:"专",廣:"广",達:"达",還:"还",僅:"仅",參:"参",議:"议",較:"较",線:"线",據:"据",終:"终",訊:"讯",區:"区",辦:"办",責:"责",負:"负",階:"阶",劃:"划",劃:"划",試:"试",詢:"询",儲:"储",儀:"仪",補:"补",劑:"剂",佈:"布",構:"构",飾:"饰",屬:"属",劃:"划",擁:"拥",態:"态",寫:"写",審:"审",計:"计",歷:"历",遙:"遥",距:"距",電:"电",池:"池",瀏覽:"浏览",
 };
@@ -178,8 +239,9 @@ export function toSimplified<T>(value: T): T {
 }
 
 export function localizeProject(project: Project, locale?: string): Project {
-  if (locale === "zh-hant") return { ...project, ...tc[project.slug] };
-  if (locale === "zh-hans") return { ...project, ...toSimplified(tc[project.slug]) };
-  if (locale === "ar") return { ...project, ...ar[project.slug] };
+  if (locale === "zh-hant") return { ...project, ...tc[project.slug], imageAlt: `${tc[project.slug].name} 項目圖片` };
+  if (locale === "zh-hans") { const item = toSimplified(tc[project.slug]); return { ...project, ...item, imageAlt: `${item.name} 项目图片` }; }
+  if (locale === "ar") return { ...project, ...ar[project.slug], imageAlt: `صورة مشروع ${ar[project.slug].name}` };
+  if (locale === "es") return { ...project, ...es[project.slug], imageAlt: `Imagen del proyecto ${es[project.slug].name}` };
   return project;
 }

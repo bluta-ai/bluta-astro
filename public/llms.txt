@@ -1,6 +1,6 @@
 # Blutech
 
-> Blutech designs and delivers building AI and IoT hardware, software, integration and deployment for owners and property operations. Founded in Hong Kong in 2019, with an R&D office in Dongguan and an office in Qatar.
+> Blutech designs and delivers building AI and IoT hardware, software, integration and deployment for owners and property operations. Founded in Hong Kong in 2019, with teams in Hong Kong, China and Qatar.
 
 ## Core proposition
 
@@ -17,6 +17,14 @@
 - Edge and cloud technology: https://blutech.io/technology
 - Case studies: https://blutech.io/projects
 - Company and deployment network: https://blutech.io/company
+
+## Languages
+
+- English: https://blutech.io/
+- Traditional Chinese: https://blutech.io/zh-hant/
+- Simplified Chinese: https://blutech.io/zh-hans/
+- Arabic: https://blutech.io/ar/
+- Spanish: https://blutech.io/es/
 
 ## Confirmed scale and selected deployments
 

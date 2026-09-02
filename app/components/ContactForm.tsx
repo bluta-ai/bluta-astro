@@ -52,6 +52,18 @@ const copy = {
     note: "سنستخدم بيانات الاتصال فقط للرد على هذا الاستفسار.",
     placeholder: "أخبرنا باختصار بما تحتاج إليه…",
   },
+  es: {
+    name: "Nombre",
+    company: "Empresa",
+    contact: "Correo electrónico o teléfono",
+    message: "¿Cómo podemos ayudarle?",
+    send: "Enviar consulta",
+    sending: "Enviando…",
+    success: "Gracias. Su consulta se ha enviado al equipo de Blutech.",
+    error: "No hemos podido enviar su consulta. Llame al 2180 7157 o escriba a enquiry@blutech.io.",
+    note: "Utilizaremos sus datos de contacto únicamente para responder a esta consulta.",
+    placeholder: "Cuéntenos brevemente qué necesita…",
+  },
 };
 
 export function ContactForm() {

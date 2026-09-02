@@ -1,18 +1,20 @@
 import type { Metadata } from "next";
 
-export const supportedLocales = ["zh-hant", "zh-hans", "ar"] as const;
+export const supportedLocales = ["zh-hant", "zh-hans", "ar", "es"] as const;
 export type UrlLocale = (typeof supportedLocales)[number];
 
 export const localeToLanguage = {
   "zh-hant": "tc",
   "zh-hans": "sc",
   ar: "ar",
+  es: "es",
 } as const;
 
 export const localeToHtml = {
   "zh-hant": "zh-Hant",
   "zh-hans": "zh-Hans",
   ar: "ar",
+  es: "es",
 } as const;
 
 export function isUrlLocale(value: string): value is UrlLocale {
@@ -30,6 +32,7 @@ export function languageAlternates(path: string) {
     "zh-Hant": localizedPath(path, "zh-hant"),
     "zh-Hans": localizedPath(path, "zh-hans"),
     ar: localizedPath(path, "ar"),
+    es: localizedPath(path, "es"),
     "x-default": localizedPath(path),
   };
 }
