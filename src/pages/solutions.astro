@@ -1,9 +1,0 @@
----
-import BaseLayout from "../layouts/BaseLayout.astro";
-import { solutions } from "../data/site";
----
-<BaseLayout title="Solutions | Blutech Building AI and IoT" description="Explore Blutech smart washroom, privacy-preserving occupancy, safety sensing, smart lighting, IAQ, water leakage, smart waste and building IoT retrofit solutions." canonicalPath="/solutions">
-  <section class="page-hero"><div class="shell"><div class="breadcrumb"><a href="/">Home</a><span>›</span><span>Solutions</span></div><div class="kicker">Operational solutions</div><h1>Start with what the building needs to know or do.</h1><p>Each Blutech solution combines field sensing, connectivity, local logic, software and integration according to the real operating environment.</p></div></section>
-  <section><div class="shell"><div class="grid grid-2">{solutions.map((s) => <a class="card" href={`/solutions/${s.slug}`}><div class="meta">Search intent · {s.search}</div><h2 style="font-size:32px;margin:8px 0 12px">{s.title}</h2><p>{s.summary}</p><ul class="feature-list">{s.bullets.map((b) => <li>{b}</li>)}</ul><span class="card-link">Explore solution →</span></a>)}</div></div></section>
-  <section style="background:var(--bg-2)"><div class="shell panel"><div class="section-head" style="margin-bottom:0"><div><div class="kicker">Not sure which product?</div><h2>Describe the problem, not the SKU.</h2><p>Tell us the space, current system, operational pain point and what response you want. We can work backwards to the sensing and architecture.</p></div><a class="button" href="/contact">Discuss a project</a></div></div></section>
-</BaseLayout>

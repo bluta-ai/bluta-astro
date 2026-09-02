@@ -1,10 +1,18 @@
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "blutech-website-preview",
-  "compatibility_date": "2026-08-22",
-  "main": "src/worker.js",
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "bluta-astro",
+  "main": "./dist/server/index.js",
+  "compatibility_date": "2026-05-15",
+  "compatibility_flags": ["nodejs_compat"],
   "assets": {
-    "binding": "ASSETS",
-    "directory": "./dist"
-  }
+    "directory": "./dist/client",
+    "binding": "ASSETS"
+  },
+  "observability": {
+    "enabled": true
+  },
+  "secrets": {
+    "required": ["RESEND_API_KEY"]
+  },
+  "preview_urls": true
 }

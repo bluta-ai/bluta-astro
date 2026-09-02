@@ -1,1 +1,0 @@
-Product assets in this folder are curated for the Blutech website. Hero and featured imagery should use approved product photography/renders only.
