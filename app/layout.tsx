@@ -18,13 +18,13 @@ export const metadata: Metadata = {
     url: "/",
     siteName: "Blutech",
     locale: "en_HK",
-    images: [{ url: "/og-blutech-v3.jpg", width: 1200, height: 630, type: "image/jpeg", alt: "Blutech — Intelligence, built into the building" }],
+    images: [{ url: "/og-blutech-v4.jpg", width: 1200, height: 630, type: "image/jpeg", alt: "Blutech — Intelligence, built into the building" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Blutech — Building AI and IoT for Better Buildings",
     description: "Intelligence, built into the building.",
-    images: ["/og-blutech-v3.jpg"],
+    images: ["/og-blutech-v4.jpg"],
   },
 };
 
