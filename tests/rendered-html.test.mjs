@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { readFile } from "node:fs/promises";
 
 const workerPromise = (async () => {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
@@ -44,7 +45,7 @@ test("homepage renders the approved proposition and evidence hierarchy", async (
 });
 
 test("location and contact labels stay consistent across public pages", async () => {
-  for (const path of ["/contact", "/company", "/zh-hant/contact", "/zh-hans/company", "/ar/contact"]) {
+  for (const path of ["/contact", "/company", "/zh-hant/contact", "/zh-hans/company", "/ar/contact", "/es/contact"]) {
     const response = await fetchPath(path);
     assert.equal(response.status, 200, path);
     const html = await response.text();
@@ -59,7 +60,7 @@ test("location and contact labels stay consistent across public pages", async ()
   assert.doesNotMatch(companyHtml, />Dongguan</);
 });
 
-test("route-based Traditional Chinese and Arabic pages render", async () => {
+test("route-based Traditional Chinese, Arabic and Spanish pages render", async () => {
   const traditionalChinese = await fetchPath("/zh-hant");
   assert.equal(traditionalChinese.status, 200);
   assert.match(await traditionalChinese.text(), /讓智慧/);
@@ -73,6 +74,16 @@ test("route-based Traditional Chinese and Arabic pages render", async () => {
 
   const arabicProduct = await fetchPath("/ar/products/bt338-heatmap-fusion");
   assert.match(await arabicProduct.text(), /دمج حراري وموجات مليمترية/);
+
+  const spanish = await fetchPath("/es");
+  assert.equal(spanish.status, 200);
+  assert.match(await spanish.text(), /Inteligencia/);
+
+  const spanishCase = await fetchPath("/es/projects/olympian-city");
+  assert.match(await spanishCase.text(), /Monitorización IoT de humo independiente/);
+
+  const spanishProduct = await fetchPath("/es/products/bt338-heatmap-fusion");
+  assert.match(await spanishProduct.text(), /Combina detección térmica y mmWave/);
 });
 
 test("confirmed flagship project routes are available", async () => {
@@ -130,11 +141,13 @@ test("sitemap publishes every English and localized public route", async () => {
   assert.equal(sitemap.status, 200);
   const xml = await sitemap.text();
   const urls = [...xml.matchAll(/<loc>https:\/\/blutech\.io([^<]*)<\/loc>/g)].map((match) => match[1] || "/");
-  assert.equal(urls.length, 168);
+  assert.equal(urls.length, 210);
   for (const path of [
     "/zh-hant/products/bt107-smart-display",
     "/zh-hans/projects/olympian-city",
     "/ar/projects/hospital-patient-safety",
+    "/es/products/bt107-smart-display",
+    "/es/projects/immigration-department-queue-monitoring",
   ]) assert.ok(urls.includes(path), path);
   for (const path of urls) {
     const response = await fetchPath(path);
@@ -147,6 +160,7 @@ test("localized pages expose canonical and hreflang links", async () => {
   const html = await response.text();
   assert.match(html, /rel="canonical" href="https:\/\/blutech\.io\/zh-hant\/projects\/three-garden-road"/);
   assert.match(html, /hrefLang="zh-Hans" href="https:\/\/blutech\.io\/zh-hans\/projects\/three-garden-road"/);
+  assert.match(html, /hrefLang="es" href="https:\/\/blutech\.io\/es\/projects\/three-garden-road"/);
   assert.match(html, /hrefLang="x-default" href="https:\/\/blutech\.io\/projects\/three-garden-road"/);
 });
 
@@ -157,6 +171,11 @@ test("software, technology, solutions, resources and contact are genuinely local
     ["/zh-hans/solutions", /更好的运营/],
     ["/ar/resources", /معرفة عملية/],
     ["/zh-hant/contact", /提交查詢/],
+    ["/es/software", /Halo para las operaciones/],
+    ["/es/technology", /Inteligencia en el edge/],
+    ["/es/solutions", /Una mejor operación/],
+    ["/es/resources", /CONOCIMIENTO PRÁCTICO/],
+    ["/es/contact", /Enviar consulta/],
   ];
   for (const [path, pattern] of checks) {
     const response = await fetchPath(path);
@@ -262,7 +281,7 @@ test("localized product and project detail pages do not fall back to English int
   const sitemap = await fetchPath("/sitemap.xml");
   const xml = await sitemap.text();
   const paths = [...xml.matchAll(/<loc>https:\/\/blutech\.io([^<]*)<\/loc>/g)].map((match) => match[1] || "/");
-  const localizedDetails = paths.filter((path) => /^\/(zh-hant|zh-hans|ar)\/(products|projects)\//.test(path));
+  const localizedDetails = paths.filter((path) => /^\/(zh-hant|zh-hans|ar|es)\/(products|projects)\//.test(path));
   const forbiddenInterfaceCopy = /Functional diagram|What this product improves|Outcome for the property|Value for operations|How it fits the project|Installation approach|Best suited to|Built for a specific building outcome|Confirmed product facts|The operational challenge|A coordinated solution, explained clearly|Better outcomes for owners|Scope and outcomes at a glance|Continue exploring|View case study/;
 
   for (const path of localizedDetails) {
@@ -272,6 +291,53 @@ test("localized product and project detail pages do not fall back to English int
     const visibleHtml = html.replace(/<script[\s\S]*?<\/script>/gi, "");
     assert.doesNotMatch(visibleHtml, forbiddenInterfaceCopy, path);
     if (path.startsWith("/ar/")) assert.match(visibleHtml, /[\u0600-\u06ff]/, path);
+    else if (path.startsWith("/es/")) assert.match(visibleHtml, /(?:á|é|í|ó|ú|ñ|ción|para|del|una)/i, path);
     else assert.match(visibleHtml, /[\u3400-\u9fff]/, path);
   }
+});
+
+test("every Spanish route has Spanish metadata, canonical links and same-language navigation", async () => {
+  const sitemap = await fetchPath("/sitemap.xml");
+  const xml = await sitemap.text();
+  const paths = [...xml.matchAll(/<loc>https:\/\/blutech\.io(\/es(?:\/[^<]*)?)<\/loc>/g)].map((match) => match[1]);
+  assert.equal(paths.length, 42);
+
+  for (const path of paths) {
+    const response = await fetchPath(path);
+    assert.equal(response.status, 200, path);
+    const html = await response.text();
+    assert.match(html, /lang="es"/, path);
+    assert.match(html, new RegExp(`rel="canonical" href="https:\\/\\/blutech\\.io${path.replaceAll("/", "\\/")}`), path);
+    assert.match(html, /hrefLang="es" href="https:\/\/blutech\.io\/es/, path);
+    assert.match(html, /Contacto/, path);
+    assert.match(html, /Productos/, path);
+    assert.match(html, /href="\/es\/products"/, `${path} must keep primary navigation in Spanish`);
+  }
+});
+
+test("all five languages publish the same complete route set", async () => {
+  const sitemap = await fetchPath("/sitemap.xml");
+  const xml = await sitemap.text();
+  const paths = [...xml.matchAll(/<loc>https:\/\/blutech\.io([^<]*)<\/loc>/g)].map((match) => match[1] || "/");
+  const groups = { en: [], "zh-hant": [], "zh-hans": [], ar: [], es: [] };
+
+  for (const path of paths) {
+    const match = path.match(/^\/(zh-hant|zh-hans|ar|es)(?=\/|$)/);
+    const locale = match?.[1] || "en";
+    const logicalPath = match ? path.slice(match[0].length) || "/" : path;
+    groups[locale].push(logicalPath);
+  }
+
+  const english = [...groups.en].sort();
+  assert.equal(english.length, 42);
+  for (const [locale, logicalPaths] of Object.entries(groups)) {
+    assert.deepEqual([...logicalPaths].sort(), english, `${locale} route set differs from English`);
+  }
+});
+
+test("GEO guidance lists all public languages without outdated office wording", async () => {
+  const text = await readFile(new URL("../public/llms.txt", import.meta.url), "utf8");
+  assert.match(text, /Spanish: https:\/\/blutech\.io\/es\//);
+  assert.match(text, /Hong Kong, China and Qatar/);
+  assert.doesNotMatch(text, /Dongguan R&D/);
 });
